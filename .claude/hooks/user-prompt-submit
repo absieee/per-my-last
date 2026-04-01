@@ -1,0 +1,17 @@
+#!/bin/bash
+# Claude Code Hook: user-prompt-submit
+# This hook runs when the user submits a prompt
+# Use it to add reminders or context to user messages
+
+USER_MESSAGE="$1"
+
+# Check if user is asking to commit or push
+if echo "$USER_MESSAGE" | grep -iE "(commit|push|git add)" > /dev/null; then
+  echo "
+<system-reminder>
+The user sent the following message:
+Always remember to update CLAUDE.md and README.md when making changes
+
+Please address this message and continue with your tasks.
+</system-reminder>"
+fi
