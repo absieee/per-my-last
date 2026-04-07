@@ -505,11 +505,14 @@ export function gameReducer(state, action) {
         })
       }
 
+      const nextWeekdayIndex = shouldAdvance ? 0 : ((state.weekdayIndex ?? 0) + 1) % 5
+
       return {
         ...state,
         cast: nextCast,
         completedDialogues: completed,
         week: nextWeek,
+        weekdayIndex: nextWeekdayIndex,
         unlockedCharacters: nextUnlocked,
         showWeekBriefing: shouldAdvance,
         weekBriefingWeek: shouldAdvance ? state.week : state.weekBriefingWeek,

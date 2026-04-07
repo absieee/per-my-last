@@ -55,11 +55,22 @@ export default function ControlsOverlay({ onDismiss }) {
         fontSize: '13px',
         letterSpacing: '0.08em',
         color: '#4a6080',
-        marginBottom: 40,
+        marginBottom: 16,
         textAlign: 'center',
         maxWidth: 'min(100%, 420px)',
       }}>
         Walk to Petra to begin.
+      </div>
+
+      <div style={{
+        fontFamily: 'VT323, monospace',
+        fontSize: '14px',
+        letterSpacing: '3px',
+        color: '#3d5266',
+        marginBottom: 40,
+        textAlign: 'center',
+      }}>
+        PRESS C FOR YOUR DESK TERMINAL — STAKEHOLDER OPTICS & NOTES
       </div>
 
       {/* Dismiss hint */}

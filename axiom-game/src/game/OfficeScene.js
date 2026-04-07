@@ -3,6 +3,10 @@ import { WATERCOOLER_NPCS } from '../data/watercooler.js'
 import { SFX } from '../audio/soundEngine.js'
 import { buildOfficeTilemap, MAP_COLS, MAP_ROWS, ROOM_BOUNDS, TILE_IDS, TILE_SIZE } from './officeTilemap.js'
 
+function isSolidStructureTile(tileId) {
+  return tileId === TILE_IDS.wall || tileId === TILE_IDS.divider
+}
+
 const FRAME_W = 24
 const FRAME_H = 32
 const FRAME_COLS = 4
@@ -685,6 +689,7 @@ export default class OfficeScene extends Phaser.Scene {
 
   drawOffice() {
     const { base, structure, accents } = buildOfficeTilemap()
+    this.collisionStructure = structure
     const tilesetKey = 'office-tileset'
     const createLayer = (data, depth, alpha = 1) => {
       const map = this.make.tilemap({ data, tileWidth: TILE_SIZE, tileHeight: TILE_SIZE })
@@ -1104,6 +1109,24 @@ export default class OfficeScene extends Phaser.Scene {
     return dy > 0 ? 'down' : 'up'
   }
 
+  worldXYToTile(wx, wy) {
+    return {
+      col: Phaser.Math.Clamp(Math.floor(wx / TILE_SIZE), 0, MAP_COLS - 1),
+      row: Phaser.Math.Clamp(Math.floor(wy / TILE_SIZE), 0, MAP_ROWS - 1),
+    }
+  }
+
+  isWorldXYBlocked(wx, wy) {
+    if (!this.collisionStructure) return false
+    const { col, row } = this.worldXYToTile(wx, wy)
+    return isSolidStructureTile(this.collisionStructure[row][col])
+  }
+
+  canPlayerStandAt(x, y) {
+    const pts = [[x - 9, y], [x + 9, y], [x, y - 12], [x, y + 6]]
+    return pts.every(([px, py]) => !this.isWorldXYBlocked(px, py))
+  }
+
   update(time, delta) {
     if (this.isPaused) return
 
@@ -1130,8 +1153,10 @@ export default class OfficeScene extends Phaser.Scene {
       vy *= 0.707
     }
 
-    this.playerX = clamp(this.playerX + vx * dt, 16, 1264)
-    this.playerY = clamp(this.playerY + vy * dt, 16, 704)
+    const tryX = clamp(this.playerX + vx * dt, 16, 1264)
+    const tryY = clamp(this.playerY + vy * dt, 16, 704)
+    if (this.canPlayerStandAt(tryX, this.playerY)) this.playerX = tryX
+    if (this.canPlayerStandAt(this.playerX, tryY)) this.playerY = tryY
     this.playerSprite.setPosition(this.playerX, this.playerY)
     this.playerGlow.setPosition(this.playerX, this.playerY + 15)
     this.playerText.setPosition(this.playerX, this.playerY + 22)
@@ -1186,10 +1211,10 @@ export default class OfficeScene extends Phaser.Scene {
       if (npc.hidden) return
       const dist = Phaser.Math.Distance.Between(npc.x, npc.y, this.playerX, this.playerY)
       npc.ring.clear()
-      if (dist < npc.radius * 1.5) {
+      if (npc.isWatercooler && dist < npc.radius * 1.5) {
         const alpha = Math.max(0, 0.3 - (dist / (npc.radius * 1.5)) * 0.3)
         npc.ring.lineStyle(1, npc.color, alpha)
-        npc.ring.strokeCircle(npc.x, npc.y + (npc.isWatercooler ? 0 : 2), npc.radius)
+        npc.ring.strokeCircle(npc.x, npc.y, npc.radius)
       }
       if (dist < npc.radius && dist < closestDist) {
         closestDist = dist
@@ -1234,7 +1259,6 @@ export default class OfficeScene extends Phaser.Scene {
       const distToPlayer = Phaser.Math.Distance.Between(npc.x, npc.y, this.playerX, this.playerY)
       if (npc.behavior.avoidPlayer && distToPlayer < npc.behavior.avoidRadius) {
         npc.patrolTimer = 0
-        npc.patrolIndex = (npc.patrolIndex + 1) % npc.activeRoute.length
       } else if (distToPlayer < npc.radius + 16) {
         this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
         return

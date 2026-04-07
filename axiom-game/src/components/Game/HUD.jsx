@@ -1,56 +1,81 @@
-const LABELS = {
-  trust:   ['HOSTILE', 'WARY', 'NEUTRAL', 'OPEN', 'TRUSTING'],
-  respect: ['DISMISSIVE', 'SKEPTICAL', 'NEUTRAL', 'RESPECTFUL', 'DEFERENTIAL'],
-  wariness:['RELAXED', 'ATTENTIVE', 'CAUTIOUS', 'GUARDED', 'SUSPICIOUS'],
-  loyalty: ['OPPOSED', 'INDIFFERENT', 'NEUTRAL', 'ALIGNED', 'COMMITTED'],
-}
+const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI']
 
-function label(axis, value) {
-  return LABELS[axis]?.[Math.min(4, Math.floor(value / 25))] ?? '—'
-}
+export default function HUD({
+  week,
+  weekdayIndex,
+  nearbyCharacter,
+  scenarioPending,
+  onOpenScenario,
+  onOpenComputer,
+}) {
+  const wd = Math.min(4, Math.max(0, weekdayIndex ?? 0))
 
-function Bar({ axis, value, accent }) {
-  return (
-    <div style={{ marginBottom: 9 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-        <span style={{ fontFamily: 'VT323', fontSize: '11px', letterSpacing: '1px', color: '#2a3a4e' }}>
-          {axis.toUpperCase()}
-        </span>
-        <span style={{ fontFamily: 'VT323', fontSize: '11px', letterSpacing: '1px', color: accent, opacity: 0.7 }}>
-          {label(axis, value)}
-        </span>
-      </div>
-      <div style={{ height: 2, background: '#111822', position: 'relative', overflow: 'hidden' }}>
-        <div style={{
-          position: 'absolute', inset: 0, right: `${100 - value}%`,
-          background: accent, opacity: 0.55,
-          transition: 'right 0.6s ease',
-        }} />
-      </div>
-    </div>
-  )
-}
-
-export default function HUD({ week, nearbyCharacter, scenarioPending, onOpenScenario }) {
   return (
     <>
-      {/* Top-right panel */}
       <div className="hud-shell">
-        {/* Wordmark + week */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'baseline',
+          alignItems: 'flex-start',
           gap: 12,
           borderBottom: '1px solid #111822',
           paddingBottom: 8,
           marginBottom: 10,
         }}>
-          <span style={{ fontFamily: 'VT323', fontSize: '20px', letterSpacing: '5px', color: '#ff9f43', minWidth: 0 }}>AXIOM</span>
-          <span style={{ fontFamily: 'VT323', fontSize: '12px', letterSpacing: '2px', color: '#2a3a4e', flexShrink: 0 }}>WK {week}</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'VT323', fontSize: '20px', letterSpacing: '5px', color: '#ff9f43' }}>AXIOM</span>
+              <span style={{ fontFamily: 'VT323', fontSize: '12px', letterSpacing: '2px', color: '#2a3a4e', flexShrink: 0 }}>
+                WEEK {week}
+              </span>
+            </div>
+            <div style={{ fontFamily: 'VT323', fontSize: '11px', letterSpacing: '2px', color: '#3d5266' }}>
+              {WEEKDAY_LABELS.map((label, i) => (
+                <span
+                  key={label}
+                  style={{
+                    marginRight: 8,
+                    color: i === wd ? '#ff9f43' : '#2a3a4e',
+                    opacity: i === wd ? 1 : 0.45,
+                  }}
+                >
+                  {label}
+                  {i === wd ? ' ·' : ''}
+                </span>
+              ))}
+            </div>
+            {week === 2 && wd === 3 && (
+              <div style={{
+                fontFamily: 'VT323',
+                fontSize: '10px',
+                letterSpacing: '1px',
+                color: '#ff9f43',
+                opacity: 0.85,
+                lineHeight: 1.3,
+              }}>
+                Product alignment review today — Petra is running the session.
+              </div>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={onOpenComputer}
+            style={{
+              flexShrink: 0,
+              fontFamily: 'VT323',
+              fontSize: '11px',
+              letterSpacing: '2px',
+              color: '#4a6080',
+              background: 'transparent',
+              border: '1px solid #1a2535',
+              padding: '6px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            DESK [C]
+          </button>
         </div>
 
-        {/* Nearby character card */}
         {nearbyCharacter && (
           <div style={{
             border: `1px solid ${nearbyCharacter.accentColor}33`,
@@ -73,19 +98,24 @@ export default function HUD({ week, nearbyCharacter, scenarioPending, onOpenScen
               fontSize: '11px',
               letterSpacing: '1px',
               color: '#2a3a4e',
-              marginBottom: 12,
               overflowWrap: 'anywhere',
             }}>
               {nearbyCharacter.title?.toUpperCase()}
             </div>
-            {Object.entries(nearbyCharacter.emotion).map(([axis, val]) => (
-              <Bar key={axis} axis={axis} value={val} accent={nearbyCharacter.accentColor} />
-            ))}
+            <div style={{
+              fontFamily: 'VT323',
+              fontSize: '9px',
+              letterSpacing: '1px',
+              color: '#3d5266',
+              marginTop: 8,
+              lineHeight: 1.35,
+            }}>
+              Open your desk (C) to see trust, wariness, and other optics.
+            </div>
           </div>
         )}
       </div>
 
-      {/* Scenario alert — bottom right */}
       {scenarioPending && (
         <div style={{
           position: 'fixed',

@@ -16,6 +16,7 @@ export function getOrCreateSessionId() {
 export function buildSaveBundle(state) {
   return {
     week:                  state.week,
+    weekdayIndex:          state.weekdayIndex ?? 0,
     cast:                  state.cast,
     completedDialogues:    state.completedDialogues,
     completedScenarios:    state.completedScenarios,
@@ -57,6 +58,7 @@ function mergeOverInitial(bundle) {
   return {
     ...initialState,
     ...bundle,
+    weekdayIndex: bundle.weekdayIndex ?? 0,
     // Reset transient UI state
     activeCharacterId:       null,
     activeScenario:          null,

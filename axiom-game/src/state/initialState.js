@@ -29,6 +29,8 @@ export const initialState = {
   completedScenarios: [],
   activeScenario: null,
   week: 1,
+  /** 0 = Monday … 4 = Friday; advances with each completed dialogue, resets when the story week advances */
+  weekdayIndex: 0,
   outcomeNotice: null,
   opticsReport: null,
   showingStakeholderResponse: false,

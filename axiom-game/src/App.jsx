@@ -16,6 +16,7 @@ import IntroScreen from './components/Game/IntroScreen.jsx'
 import ControlsOverlay from './components/Game/ControlsOverlay.jsx'
 import PauseMenu from './components/Game/PauseMenu.jsx'
 import HUD from './components/Game/HUD.jsx'
+import PlayerComputer from './components/Game/PlayerComputer.jsx'
 import WatercoolerPanel from './components/Game/WatercoolerPanel.jsx'
 import WatercoolerOverhear from './components/Game/WatercoolerOverhear.jsx'
 import WeekBriefing from './components/Game/WeekBriefing.jsx'
@@ -82,6 +83,7 @@ export default function App() {
   const [activeWatercooler, setActiveWatercooler] = useState(null) // { npc, conversation }
   const [lockedNotice, setLockedNotice] = useState(null) // { attempts }
   const [activeDossier, setActiveDossier] = useState(null) // character object
+  const [activeComputer, setActiveComputer] = useState(false)
   const [gamePaused, setGamePaused] = useState(false)
   const gameRef = useRef(null)
   const stateRef = useRef(state)
@@ -342,7 +344,8 @@ export default function App() {
   const anyPanelOpen = !!(
     activeDialogue || activeDossier || activeWatercooler || lockedNotice ||
     state.activeScenario || state.showingStakeholderResponse ||
-    state.showWeekBriefing || state.opticsReport || !state.hasSeenControls
+    state.showWeekBriefing || state.opticsReport || !state.hasSeenControls ||
+    activeComputer
   )
 
   const showGameplayOverlay = (
@@ -373,8 +376,36 @@ export default function App() {
     window.dispatchEvent(new CustomEvent('phaser:resume'))
   }, [])
 
+  const handleComputerDismiss = useCallback(() => {
+    setActiveComputer(false)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+  }, [])
+
+  useEffect(() => {
+    if (screen !== 'game') return
+    const onKey = (e) => {
+      if (e.key !== 'c' && e.key !== 'C') return
+      if (gamePaused) return
+      if (activeComputer) {
+        handleComputerDismiss()
+        return
+      }
+      const blocked =
+        activeDialogue || activeDossier || activeWatercooler || lockedNotice ||
+        stateRef.current.activeScenario || stateRef.current.showingStakeholderResponse ||
+        stateRef.current.showWeekBriefing || stateRef.current.opticsReport ||
+        !stateRef.current.hasSeenControls
+      if (blocked) return
+      setActiveComputer(true)
+      window.dispatchEvent(new CustomEvent('phaser:pause'))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [screen, gamePaused, activeComputer, activeDialogue, activeDossier, activeWatercooler, lockedNotice, handleComputerDismiss])
+
   const handleMainMenu = useCallback(() => {
     setGamePaused(false)
+    setActiveComputer(false)
     window.dispatchEvent(new CustomEvent('phaser:resume'))
     setScreen('title')
   }, [])
@@ -529,10 +560,22 @@ export default function App() {
       {showGameplayOverlay && (
         <HUD
           week={state.week}
+          weekdayIndex={state.weekdayIndex ?? 0}
           nearbyCharacter={nearbyFull}
           scenarioPending={scenarioPending}
           onOpenScenario={() => dispatch({ type: 'SET_ACTIVE_SCENARIO', scenario: pendingScenario })}
+          onOpenComputer={() => {
+            if (activeDialogue || activeDossier || activeWatercooler || lockedNotice ||
+              state.activeScenario || state.showingStakeholderResponse ||
+              state.showWeekBriefing || state.opticsReport || !state.hasSeenControls) return
+            setActiveComputer(true)
+            window.dispatchEvent(new CustomEvent('phaser:pause'))
+          }}
         />
+      )}
+
+      {activeComputer && (
+        <PlayerComputer cast={state.cast} onDismiss={handleComputerDismiss} />
       )}
 
 
