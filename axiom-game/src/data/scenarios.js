@@ -1,3 +1,5 @@
+import { week2Scenario1PrimersComplete } from './dialogues.js'
+
 export const SCENARIOS = [
   {
     id: 'scenario_1',
@@ -5,7 +7,15 @@ export const SCENARIOS = [
     from: 'petra',
     tag: 'URGENT',
     week: 2,
-    brief: 'Three Meridian features — rest cycle management, grievance logging, task load balancing for synthetic colleagues — have been flagged for reclassification as "non-core" before the Q3 stakeholder review. Petra is driving the reclassification. She has called a Product Alignment Review for Thursday. The features you approve or cut here will still be on the board\'s radar in Week 8.',
+    unlockCondition: (state) =>
+      state.week >= 2 &&
+      state.completedDialogues.includes('petra_q3_context') &&
+      state.completedDialogues.includes('petra_roadmap_prioritization') &&
+      week2Scenario1PrimersComplete(state) &&
+      Boolean(state.deskRead?.q3StrategyBrief) &&
+      state.completedDialogues.includes('petra_preread') &&
+      (state.week > 2 || state.weekdayIndex === 3),
+    brief: 'Same three capabilities as on your desk Q3 strategy brief (Q3_STRATEGY_BRIEF.PDF) — rest cycle management, grievance logging, task load balancing for synthetic colleagues — are flagged for reclassification as "non-core" before the Q3 stakeholder review. Petra is driving the reclassification. Product Alignment Review: Thursday, week two — you\'re on the list as PM. The features you approve or cut here will still be on the board\'s radar in Week 8.',
     subtext: 'Kill the features. Frame it as strategic focus.',
     prePressure: [
       { from: 'petra', text: 'Just checking you\'ve had a chance to look at the Q3 brief, love? We want everyone arriving at the review with the same strategic picture.' },

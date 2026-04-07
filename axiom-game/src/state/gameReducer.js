@@ -532,6 +532,16 @@ export function gameReducer(state, action) {
     case 'MARK_CONTROLS_SEEN':
       return { ...state, hasSeenControls: true }
 
+    case 'MARK_DESK_DOC_READ': {
+      const { docId } = action
+      if (!docId || !state.deskRead || state.deskRead[docId]) return state
+      if (!(docId in state.deskRead)) return state
+      return {
+        ...state,
+        deskRead: { ...state.deskRead, [docId]: true },
+      }
+    }
+
     case 'SET_PLAYER_NAME':
       return { ...state, playerName: action.name }
 

@@ -61,6 +61,34 @@ export default function ScenarioModal({ scenario, onChoice }) {
           {scenario.title}
         </h2>
 
+        {Array.isArray(scenario.prePressure) && scenario.prePressure.length > 0 && (
+          <div style={{
+            marginBottom: 20,
+            padding: '12px 14px',
+            background: 'var(--surface-up)',
+            border: '1px solid var(--border)',
+            borderRadius: 2,
+          }}>
+            <div className="font-vt323" style={{ fontSize: 10, letterSpacing: '0.12em', color: 'var(--text-sec)', marginBottom: 10 }}>
+              INCOMING
+            </div>
+            {scenario.prePressure.map((ping, idx) => {
+              const sender = CAST.find(c => c.id === ping.from)
+              const color = sender?.accentColor || 'var(--text-sec)'
+              return (
+                <div key={idx} style={{ marginBottom: idx < scenario.prePressure.length - 1 ? 12 : 0 }}>
+                  <span className="font-vt323" style={{ fontSize: 11, color, letterSpacing: '0.06em' }}>
+                    {(sender?.name || ping.from || '?').toUpperCase()}
+                  </span>
+                  <p style={{ fontSize: 12, lineHeight: 1.55, color: 'var(--text)', margin: '4px 0 0', fontStyle: 'italic' }}>
+                    {ping.text}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
         <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text)', marginBottom: 12 }}>
           {scenario.brief}
         </p>

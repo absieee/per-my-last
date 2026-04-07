@@ -53,3 +53,7 @@ npm run server    # Gemini proxy (port 3001) — required for Optics Report
 - **Dialogue system**: pre-written trees in `src/data/dialogues.js`. `getAvailableDialogue(characterId, state)` + `resolveReply(response, emotion)`. No AI during gameplay.
 - **State**: `useReducer` with `gameReducer`. All emotion deltas go through `applyEmotionDelta` (clamped 0–100).
 - **Sound**: `SFX.startAmbient()` must be called after a user gesture (browser autoplay policy). Called on first `phaser:interact` event.
+
+## Narrative authoring (scenarios)
+
+After a scenario resolves, **post-scenario** dialogues (reactions tied to `decisionLog` / `completedScenarios`) should unlock **before** other same-week content that exists mainly to tee the **next** scenario. Use explicit `available` predicates (and comment blocks in `dialogues.js` grouping post-scenario beats) rather than a shared helper until the pattern is stable. **Scenario 2+** should be migrated to this ordering in a follow-up once scenario 1’s pacing is validated; do not reorder later weeks ad hoc without checking this rule.

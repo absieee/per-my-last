@@ -6,7 +6,7 @@ import { loadGame, saveGame, clearSave } from './api/saveGame.js'
 const { hasSave, gameState: savedGameState } = loadGame()
 import { generateOpticsReport } from './api/opticsReport.js'
 import { generatePressureScenario } from './api/pressureScenario.js'
-import { getAvailableDialogue, resolveReply } from './data/dialogues.js'
+import { getAvailableDialogue, resolveReply, week2Scenario1PrimersComplete } from './data/dialogues.js'
 import { createGame } from './game/index.js'
 import { WATERCOOLER_NPCS, getWatercoolerConversation } from './data/watercooler.js'
 import { CRISIS_SCENARIOS } from './data/crisisScenarios.js'
@@ -247,10 +247,14 @@ export default function App() {
     })
   }, [crisisSig]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const pendingScenario = state.scenarioQueue.find(s => {
-    if (typeof s.unlockCondition === 'function') return s.unlockCondition(state)
-    return s.week <= state.week
-  }) || null
+  const pendingScenario = (() => {
+    const q = state.scenarioQueue
+    if (!q.length) return null
+    const s = q[0]
+    if (s.week > state.week) return null
+    if (typeof s.unlockCondition === 'function' && !s.unlockCondition(state)) return null
+    return s
+  })()
 
   const handleScenarioChoice = useCallback((choiceIndex, choice) => {
     dispatch({ type: 'RESOLVE_SCENARIO', scenarioId: state.activeScenario.id, choiceIndex, choice })
@@ -306,7 +310,7 @@ export default function App() {
     if (state.completedDialogues.length > 0 || state.completedScenarios.length > 0 || state.week > 1) {
       saveGame(state)
     }
-  }, [state.completedDialogues.length, state.completedScenarios.length, state.week])
+  }, [state.completedDialogues.length, state.completedScenarios.length, state.week, state.deskRead?.q3StrategyBrief])
 
   const handleNewGame = useCallback(async () => {
     await clearSave()
@@ -320,6 +324,14 @@ export default function App() {
   // Derive current objective from state
   const currentObjective = (() => {
     if (!state.completedDialogues.includes('petra_intro')) return 'SPEAK TO PETRA'
+    if (state.week >= 2 && !state.completedScenarios.includes('scenario_1')) {
+      if (!state.completedDialogues.includes('petra_q3_context')) return 'PETRA — WEEK TWO CONTEXT'
+      if (!state.completedDialogues.includes('petra_roadmap_prioritization')) return 'PETRA — ROADMAP (THURSDAY PREP)'
+      if (!week2Scenario1PrimersComplete(state)) return 'ALIGN WITH TEAM — BEFORE THE BRIEF'
+      if (!state.deskRead?.q3StrategyBrief) return 'READ Q3 BRIEF — DESK [C]'
+      if (!state.completedDialogues.includes('petra_preread')) return 'PETRA — BEFORE THE REVIEW'
+      if (state.week === 2 && state.weekdayIndex !== 3) return 'WAIT FOR THURSDAY — PRODUCT ALIGNMENT REVIEW'
+    }
     if (pendingScenario) return 'REVIEW PENDING SCENARIO'
     const teamIntros = ['callum_intro', 'simone_intro', 'marcus_intro']
     const unmet = teamIntros.filter(d => !state.completedDialogues.includes(d))
@@ -575,7 +587,12 @@ export default function App() {
       )}
 
       {activeComputer && (
-        <PlayerComputer cast={state.cast} onDismiss={handleComputerDismiss} />
+        <PlayerComputer
+          cast={state.cast}
+          deskRead={state.deskRead}
+          onDismiss={handleComputerDismiss}
+          onMarkDeskDocRead={(docId) => dispatch({ type: 'MARK_DESK_DOC_READ', docId })}
+        />
       )}
 
 

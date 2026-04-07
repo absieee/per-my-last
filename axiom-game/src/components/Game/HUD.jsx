@@ -53,7 +53,7 @@ export default function HUD({
                 opacity: 0.85,
                 lineHeight: 1.3,
               }}>
-                Product alignment review today — Petra is running the session.
+                {'Product Alignment Review today — Petra\'s session.'}
               </div>
             )}
           </div>

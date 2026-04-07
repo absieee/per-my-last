@@ -5,8 +5,8 @@ const MESSAGES = {
   petra: {
     alarmed:     ["I need to raise something with you directly.", "Can we talk before this goes any further?", "I've flagged this with the board."],
     wary:        ["Following up on a few things from this week.", "Let's find time to align before Monday.", "I want to make sure we're on the same page."],
-    neutral:     ["Good week overall. See you Monday.", "Let's keep the momentum going.", "Meridian is tracking well on my end.", "Q3 review prep starts now. Thursday's alignment review is the first gate."],
-    warm:        ["Really strong week. The team noticed.", "Glad we had that conversation. It helped.", "You're building the right credibility here.", "Strong first week. The Q3 review is in sight. Thursday matters."],
+    neutral:     ["Good week overall. See you Monday.", "Let's keep the momentum going.", "Meridian is tracking well on my end.", "Q3 prep starts — week two Thursday, Product Alignment Review, is the gate."],
+    warm:        ["Really strong week. The team noticed.", "Glad we had that conversation. It helped.", "You're building the right credibility here.", "Strong first week. Q3 in sight — Thursday week two matters."],
   },
   callum: {
     alarmed:     ["I've escalated a few items. Worth discussing.", "Legal has some concerns. I'll send a summary.", "This needs to be documented before it moves forward."],

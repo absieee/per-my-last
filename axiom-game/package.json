@@ -7,6 +7,7 @@
     "dev": "vite",
     "server": "node --env-file=.env server.js",
     "build": "vite build",
+    "sync:decision-tree": "node scripts/sync-decision-tree-embedded.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

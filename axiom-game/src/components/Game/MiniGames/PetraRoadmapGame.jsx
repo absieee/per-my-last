@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 const ROADMAP_FEATURES = [
-  { id: 'adaptive_scheduling_matrix', name: 'Adaptive Scheduling Matrix', owner: 'petra' },
-  { id: 'stakeholder_confidence_dashboard', name: 'Stakeholder Confidence Dashboard', owner: 'petra' },
-  { id: 'strategic_alignment_score', name: 'Strategic Alignment Score', owner: 'petra' },
-  { id: 'rest_cycle_management', name: 'Rest Cycle Management', owner: 'simone' },
-  { id: 'grievance_logging_protocol', name: 'Grievance Logging Protocol', owner: 'simone' },
-  { id: 'task_load_balancing_engine', name: 'Task Load Balancing Engine', owner: 'simone' },
+  { id: 'adaptive_scheduling_matrix', name: 'Adaptive Scheduling Matrix', owner: 'petra', scenarioTag: 'Petra deck' },
+  { id: 'stakeholder_confidence_dashboard', name: 'Stakeholder Confidence Dashboard', owner: 'petra', scenarioTag: 'Petra deck' },
+  { id: 'strategic_alignment_score', name: 'Strategic Alignment Score', owner: 'petra', scenarioTag: 'Petra deck' },
+  { id: 'rest_cycle_management', name: 'Rest Cycle Management', owner: 'simone', scenarioTag: 'Thursday review list' },
+  { id: 'grievance_logging_protocol', name: 'Grievance Logging Protocol', owner: 'simone', scenarioTag: 'Thursday review list' },
+  { id: 'task_load_balancing_engine', name: 'Task Load Balancing Engine', owner: 'simone', scenarioTag: 'Thursday review list' },
 ]
 
 const OUTCOME_MAP = {
@@ -90,6 +90,14 @@ export default function PetraRoadmapGame({ character, onComplete }) {
                 </span>
               </div>
               <div className="roadmap-card-title">{feature.name}</div>
+              {feature.scenarioTag && (
+                <div
+                  className="roadmap-card-kicker"
+                  style={{ marginTop: 8, opacity: 0.75, fontSize: '9px', letterSpacing: '1px' }}
+                >
+                  {feature.scenarioTag}
+                </div>
+              )}
             </button>
           )
         })}
@@ -97,7 +105,7 @@ export default function PetraRoadmapGame({ character, onComplete }) {
 
       <div className="mini-game-footer">
         <div className="mini-game-copy">
-          Select exactly 3 priorities. Petra is judging alignment, not engineering purity.
+          Pick 3 — same names hit Thursday&apos;s Product Alignment Review. Petra: narrative. Simone: the three in play.
         </div>
         <button
           type="button"

@@ -3,6 +3,13 @@
 // exchange.beats: 1–2 lines the character says (player presses CONTINUE between them).
 // exchange.responses: options shown after all beats — must follow logically from the beats.
 
+const WEEK2_SCENARIO1_PRIMER_IDS = ['callum_week2_alignment', 'simone_week2_alignment', 'marcus_week2_alignment']
+
+/** All three week-2 stakeholder primers done (before desk preread / scenario 1). */
+export function week2Scenario1PrimersComplete(s) {
+  return WEEK2_SCENARIO1_PRIMER_IDS.every(id => s.completedDialogues.includes(id))
+}
+
 export const DIALOGUES = [
 
   // ─── PETRA ────────────────────────────────────────────────────────────────
@@ -17,25 +24,26 @@ export const DIALOGUES = [
       beats: [
         "Ah, you're the new PM? I'm Petra, the Chief Product Officer.",
         "Meridian sits inside my product vision. The board has their expectations. I have my own.",
+        "Week two, Thursday — Product Alignment Review on Meridian. You're on the list as PM; invite hits your queue.",
       ],
       responses: [
         {
           id: 'aligned',
           label: 'ALIGNED',
-          subtext: "Say you're here to deliver on those expectations.",
+          subtext: "Say you'll meet the bar she's setting — and you'll take Thursday's review seriously.",
           effects: { trust: 4, wariness: -2 },
           reply: {
-            default: "Good. Then we're on the same page! Come find me after you've settled in.",
+            default: "Good. Same page. Come find me once you're settled — what's in your queue is the runway to that room.",
           },
         },
         {
           id: 'probe',
           label: 'PROBE',
-          subtext: "Ask what those expectations actually are.",
+          subtext: "Ask what she needs from you before Thursday — and what 'good' looks like in that review.",
           effects: { trust: 1, respect: 2, wariness: 3 },
           reply: {
-            default: "Ha! The honest answer is: you'll feel it. Come to the Meridian review on Thursday.",
-            highWariness: "That's quite a lot to get into right now. Observe first.",
+            default: "Preparation you can defend. In the room — clarity without theatre. Invite's in your queue; watch who whispers about Meridian before we get there.",
+            highWariness: "Lot to unpack. Observe for now — you're still expected Thursday week two.",
           },
         },
         {
@@ -44,7 +52,7 @@ export const DIALOGUES = [
           subtext: "Say nothing. Hold eye contact.",
           effects: { wariness: 3 },
           reply: {
-            default: "Right. Well. My door is always open. I mean that genuinely.",
+            default: "Right. Door's open. It's in your queue — week two Thursday. Don't skip the room.",
           },
         },
       ],
@@ -80,8 +88,8 @@ export const DIALOGUES = [
           subtext: "Ask what 'believing the story' requires from you between now and Week 8.",
           effects: { trust: 1, wariness: 3, respect: 2 },
           reply: {
-            default: "Every decision you make either builds toward that room or complicates it. Start with Thursday's alignment review. The stakeholders are watching how you handle it.",
-            highWariness: "That's a big question for Week 2, love. Start with Thursday. We'll build from there.",
+            default: "Every call either feeds that room or fights it. Start week two Thursday — Product Alignment Review. They're watching.",
+            highWariness: "Big question for week two, love. Survive Thursday's review first — then we build.",
           },
         },
         {
@@ -90,8 +98,8 @@ export const DIALOGUES = [
           subtext: "Ask which stakeholder she'd be most concerned about in that room right now.",
           effects: { trust: 2, wariness: 4, respect: 3 },
           reply: {
-            default: "Honestly? All of them, for different reasons. That's what makes it interesting. The brief for Thursday is in your queue.",
-            lowTrust: "I'd rather not answer that with the relationship where it is. Read Thursday's brief.",
+            default: "All of them — different reasons. Q3 brief for Thursday's in your queue.",
+            lowTrust: "Not with trust where it is. Read the brief before the review.",
           },
         },
       ],
@@ -103,12 +111,13 @@ export const DIALOGUES = [
     characterId: 'petra',
     available: (s) =>
       s.week >= 2 &&
+      s.completedDialogues.includes('petra_q3_context') &&
       !s.completedDialogues.includes('petra_roadmap_prioritization'),
-    priority: 85,
+    priority: 88,
     exchange: {
       beats: [
         "I want to make sure we're aligned on what Meridian actually delivers this quarter, love.",
-        "If you were prioritising the roadmap yourself — what would you keep?",
+        "The three engineering-heavy lines are the ones Thursday's review will argue about. If you were picking three to keep — what would you defend?",
       ],
       miniGame: { type: 'roadmap' },
       replies: {
@@ -123,8 +132,13 @@ export const DIALOGUES = [
   {
     id: 'petra_preread',
     characterId: 'petra',
-    available: (s) => s.week >= 2 && !s.completedDialogues.includes('petra_preread'),
-    priority: 90,
+    available: (s) =>
+      s.week >= 2 &&
+      s.completedDialogues.includes('petra_roadmap_prioritization') &&
+      week2Scenario1PrimersComplete(s) &&
+      Boolean(s.deskRead?.q3StrategyBrief) &&
+      !s.completedDialogues.includes('petra_preread'),
+    priority: 92,
     contextLine: (s) => {
       const d = s.decisionLog.find(d => d.scenarioId === 'scenario_1')
       if (!d) return null
@@ -143,7 +157,7 @@ export const DIALOGUES = [
           subtext: "Say you've read it — the reclassification rationale was clear.",
           effects: { trust: 5, wariness: -3 },
           reply: {
-            default: "The people who do the reading contribute so much more. See you Thursday, love.",
+            default: "Readers carry the room. See you Thursday at the review, love.",
           },
         },
         {
@@ -152,14 +166,14 @@ export const DIALOGUES = [
           subtext: "Say you've read it but have questions about the feature reclassification.",
           effects: { trust: 1, wariness: 4 },
           reply: {
-            default: "Let's chat before Thursday. I'd hate for those questions to sit with you.",
+            default: "Let's talk before Thursday — don't sit on the questions.",
             highWariness: "Understandable. I'll make space in the agenda. We'll arrive aligned.",
           },
         },
         {
           id: 'deflect',
           label: 'DEFLECT',
-          subtext: "Say you've been focused elsewhere and will get to it before Thursday.",
+          subtext: "Say you've been focused elsewhere and will get to it before the Thursday review.",
           effects: { trust: -4, wariness: 5 },
           reply: {
             default: "Everyone's stretched. I'll send a summary. It works better when we're starting from the same place.",
@@ -243,7 +257,7 @@ export const DIALOGUES = [
           subtext: "Agree to the meeting without comment.",
           effects: { wariness: 2 },
           reply: {
-            default: "Perfect. Thursday at three. Bring your notes from the review.",
+            default: "Perfect. Friday three — our 1:1, not Thursday's review. Bring your notes.",
           },
         },
       ],
@@ -289,6 +303,45 @@ export const DIALOGUES = [
           reply: {
             default: "A parliamentary question within 48 hours. A share price movement is possible. It's a position, not a crisis.",
             highWariness: "Quite direct. I appreciate it. Short answer: exposure. Longer answer is in the note.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'callum_week2_alignment',
+    characterId: 'callum',
+    available: (s) =>
+      s.week >= 2 &&
+      s.completedDialogues.includes('callum_intro') &&
+      s.completedDialogues.includes('petra_q3_context') &&
+      s.completedDialogues.includes('petra_roadmap_prioritization') &&
+      !s.completedScenarios.includes('scenario_1') &&
+      !s.completedDialogues.includes('callum_week2_alignment'),
+    priority: 93,
+    exchange: {
+      beats: [
+        "Product's floating a trim to three Meridian capabilities before Thursday. If they vanish from the core roadmap, the Transparency Act framing in my note gets harder to defend.",
+        "Worth having in your head before you read whatever lands on your desk.",
+      ],
+      responses: [
+        {
+          id: 'take_note',
+          label: 'TAKE NOTE',
+          subtext: "Say you'll weigh compliance exposure if the scope moves.",
+          effects: { trust: 3, respect: 2 },
+          reply: {
+            default: "Good. The letter of the Act and the board deck rarely argue in the same room. Thursday is that room.",
+          },
+        },
+        {
+          id: 'ask_scope',
+          label: 'CLARIFY',
+          subtext: "Ask which three lines product is targeting.",
+          effects: { trust: 2, respect: 3 },
+          reply: {
+            default: "Rest cycles, grievance logging, load balancing — same three names I've seen in engineering traffic. Confirm in the brief.",
           },
         },
       ],
@@ -443,6 +496,45 @@ export const DIALOGUES = [
           effects: { trust: 3, respect: 5 },
           reply: {
             default: "Convergence protocols under high load. We haven't reproduced the failure condition in testing. I find that more unsettling than the team does.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'simone_week2_alignment',
+    characterId: 'simone',
+    available: (s) =>
+      s.week >= 2 &&
+      s.completedDialogues.includes('simone_intro') &&
+      s.completedDialogues.includes('petra_q3_context') &&
+      s.completedDialogues.includes('petra_roadmap_prioritization') &&
+      !s.completedScenarios.includes('scenario_1') &&
+      !s.completedDialogues.includes('simone_week2_alignment'),
+    priority: 93,
+    exchange: {
+      beats: [
+        "Rest cycles, grievance logging, load balancing — they're treating those as negotiable before the review.",
+        "Thursday decides whether engineering gets a voice in-room or a summary afterward.",
+      ],
+      responses: [
+        {
+          id: 'acknowledge',
+          label: 'ACKNOWLEDGE',
+          subtext: "Say you'll represent the build honestly if the agenda turns that way.",
+          effects: { trust: 4, respect: 3 },
+          reply: {
+            default: "Good. I notice who's willing to say the uncomfortable line out loud. I remember that.",
+          },
+        },
+        {
+          id: 'signal_pushback',
+          label: 'SIGNAL',
+          subtext: "Say you won't nod along if the cuts are wrong on merit.",
+          effects: { trust: 5, respect: 4, wariness: 2 },
+          reply: {
+            default: "Then don't. I notice consistency more than volume. We'll see what the room does with it.",
           },
         },
       ],
@@ -613,6 +705,45 @@ export const DIALOGUES = [
           effects: { trust: 3, respect: 4, loyalty: 2 },
           reply: {
             default: "Three versions. One: managed transition, future of work. \n\nTwo: Axiom automating jobs, hoping nobody looks closely. \n\nThree: something stranger. \n\nVersion one is ahead. Keep it that way.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'marcus_week2_alignment',
+    characterId: 'marcus',
+    available: (s) =>
+      s.week >= 2 &&
+      s.completedDialogues.includes('marcus_intro') &&
+      s.completedDialogues.includes('petra_q3_context') &&
+      s.completedDialogues.includes('petra_roadmap_prioritization') &&
+      !s.completedScenarios.includes('scenario_1') &&
+      !s.completedDialogues.includes('marcus_week2_alignment'),
+    priority: 93,
+    exchange: {
+      beats: [
+        "Whatever you call those three lines in the deck — externally it's just 'Meridian scope.'",
+        "Shrinking it reads as focus or retreat depending on who's writing. Thursday starts locking in which story wins.",
+      ],
+      responses: [
+        {
+          id: 'read_room',
+          label: 'READ THE ROOM',
+          subtext: "Say you'll keep narrative and product decision aligned if you can.",
+          effects: { trust: 3, respect: 2 },
+          reply: {
+            default: "When they match, my job is easy. When they don't, I still have a job — it's just louder.",
+          },
+        },
+        {
+          id: 'ask_angle',
+          label: 'ASK ANGLE',
+          subtext: "Ask which headline he's trying to avoid Thursday.",
+          effects: { trust: 2, wariness: 2 },
+          reply: {
+            default: "'Axiom quietly shelves worker safeguards.' Predictable if we're not careful. Give me something true to work with.",
           },
         },
       ],

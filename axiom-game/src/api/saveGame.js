@@ -30,6 +30,7 @@ export function buildSaveBundle(state) {
     opticsReport:          state.opticsReport,
     playerName:            state.playerName,
     officeRumors:          state.officeRumors,
+    deskRead:              state.deskRead ?? { q3StrategyBrief: false },
   }
 }
 
@@ -59,6 +60,7 @@ function mergeOverInitial(bundle) {
     ...initialState,
     ...bundle,
     weekdayIndex: bundle.weekdayIndex ?? 0,
+    deskRead: bundle.deskRead ?? { q3StrategyBrief: false },
     // Reset transient UI state
     activeCharacterId:       null,
     activeScenario:          null,

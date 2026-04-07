@@ -59,4 +59,8 @@ export const initialState = {
     clueLog: [],
     hiddenEndingUnlocked: false,
   },
+  /** Terminal / desk: which docs the PM has opened (counts as "read") */
+  deskRead: {
+    q3StrategyBrief: false,
+  },
 }

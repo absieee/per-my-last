@@ -18,6 +18,8 @@ const SPOTTED_RADIUS = 110
 const PLAYER_SPEED = 160
 const MIN_PLAYER_SPEED_MULTIPLIER = 0.68
 const PATROL_SPEED = 34
+/** If an NPC cannot get closer to its patrol target for this long, skip ahead (e.g. player blocking the waypoint). */
+const PATROL_STUCK_MS = 2800
 const PLAYER_AVOID_RADIUS = 126
 const ALLIANCE_ROUTE_DURATION = 9000
 const WATERCOOLER_X = 640
@@ -1088,6 +1090,8 @@ export default class OfficeScene extends Phaser.Scene {
     npc.activeRoute = nextRoute
     npc.patrolIndex = this.getNearestRouteIndex(npc, nextRoute)
     npc.patrolTimer = Phaser.Math.Between(200, 700)
+    npc.patrolStuckMs = 0
+    npc._patrolPrevTargetDist = undefined
   }
 
   getNearestRouteIndex(npc, route) {
@@ -1260,6 +1264,8 @@ export default class OfficeScene extends Phaser.Scene {
       if (npc.behavior.avoidPlayer && distToPlayer < npc.behavior.avoidRadius) {
         npc.patrolTimer = 0
       } else if (distToPlayer < npc.radius + 16) {
+        npc.patrolStuckMs = 0
+        npc._patrolPrevTargetDist = undefined
         this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
         return
       }
@@ -1279,6 +1285,25 @@ export default class OfficeScene extends Phaser.Scene {
       if (dist < 2) {
         npc.patrolIndex = nextIndex
         npc.patrolTimer = Phaser.Math.Between(700, 1600) * npc.behavior.idleMultiplier
+        npc.patrolStuckMs = 0
+        npc._patrolPrevTargetDist = undefined
+        this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
+        return
+      }
+
+      const prevTargetDist = npc._patrolPrevTargetDist
+      if (prevTargetDist != null && dist >= prevTargetDist - 0.2) {
+        npc.patrolStuckMs = (npc.patrolStuckMs || 0) + dt * 1000
+      } else {
+        npc.patrolStuckMs = 0
+      }
+      npc._patrolPrevTargetDist = dist
+
+      if (npc.patrolStuckMs > PATROL_STUCK_MS) {
+        npc.patrolIndex = nextIndex
+        npc.patrolTimer = Phaser.Math.Between(400, 900) * npc.behavior.idleMultiplier
+        npc.patrolStuckMs = 0
+        npc._patrolPrevTargetDist = undefined
         this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
         return
       }

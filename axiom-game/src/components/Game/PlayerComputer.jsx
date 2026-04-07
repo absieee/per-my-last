@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
+import { DESK_DOCS } from '../../data/deskContent.js'
 
 const LABELS = {
   trust:   ['HOSTILE', 'WARY', 'NEUTRAL', 'OPEN', 'TRUSTING'],
@@ -35,16 +36,29 @@ function Bar({ axis, value, accent }) {
 
 const STAKEHOLDER_ORDER = ['petra', 'callum', 'simone', 'marcus']
 
-export default function PlayerComputer({ cast, onDismiss }) {
+export default function PlayerComputer({ cast, deskRead, onDismiss, onMarkDeskDocRead }) {
+  const [openDocId, setOpenDocId] = useState(null)
+
+  const openDoc = useCallback((doc) => {
+    setOpenDocId(doc.id)
+    if (!deskRead?.[doc.id]) {
+      onMarkDeskDocRead(doc.id)
+    }
+  }, [deskRead, onMarkDeskDocRead])
+
   useEffect(() => {
     const esc = (e) => {
-      if (e.key === 'Escape') onDismiss()
+      if (e.key === 'Escape') {
+        if (openDocId) setOpenDocId(null)
+        else onDismiss()
+      }
     }
     window.addEventListener('keydown', esc)
     return () => window.removeEventListener('keydown', esc)
-  }, [onDismiss])
+  }, [onDismiss, openDocId])
 
   const ordered = STAKEHOLDER_ORDER.map(id => cast.find(c => c.id === id)).filter(Boolean)
+  const activeDoc = DESK_DOCS.find(d => d.id === openDocId)
 
   return (
     <div
@@ -62,7 +76,7 @@ export default function PlayerComputer({ cast, onDismiss }) {
         pointerEvents: 'none',
       }} />
 
-      <div className="overlay-safe-center" style={{ maxWidth: 520, alignItems: 'stretch' }}>
+      <div className="overlay-safe-center" style={{ maxWidth: 560, alignItems: 'stretch' }}>
         <div className="overlay-header-row" style={{ borderBottom: '1px solid #1a2535', paddingBottom: 10, marginBottom: 14 }}>
           <div className="overlay-header-title" style={{ fontFamily: 'VT323', letterSpacing: '4px', color: '#ff9f43' }}>
             YOUR DESK — SECURE TERMINAL
@@ -77,42 +91,148 @@ export default function PlayerComputer({ cast, onDismiss }) {
           </button>
         </div>
 
-        <p style={{
-          fontFamily: 'Josefin Sans, sans-serif',
-          fontSize: 12,
-          color: '#4a6080',
-          letterSpacing: '0.04em',
-          margin: '0 0 18px',
-          lineHeight: 1.45,
-        }}>
-          Stakeholder optics (trust, respect, wariness, loyalty) — pulled from your private notes. Not shown on the map.
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxHeight: 'min(58vh, 520px)', overflowY: 'auto' }}>
-          {ordered.map(c => (
-            <div
-              key={c.id}
+        {activeDoc ? (
+          <div style={{ marginBottom: 18 }}>
+            <button
+              type="button"
+              onClick={() => setOpenDocId(null)}
               style={{
-                border: `1px solid ${c.accentColor}28`,
-                padding: '12px 14px',
-                background: `${c.accentColor}08`,
+                fontFamily: 'VT323',
+                fontSize: 11,
+                letterSpacing: '2px',
+                color: '#4a6080',
+                background: 'transparent',
+                border: '1px solid #1a2535',
+                padding: '6px 12px',
+                cursor: 'pointer',
+                marginBottom: 12,
               }}
             >
-              <div style={{ fontFamily: 'VT323', fontSize: 15, letterSpacing: '2px', color: c.accentColor, marginBottom: 2 }}>
-                {(c.shortName || c.name).toUpperCase()}
-              </div>
-              <div style={{ fontFamily: 'VT323', fontSize: 10, letterSpacing: '1px', color: '#2a3a4e', marginBottom: 10 }}>
-                {(c.title || '').toUpperCase()}
-              </div>
-              {Object.entries(c.emotion).map(([axis, val]) => (
-                <Bar key={axis} axis={axis} value={val} accent={c.accentColor} />
+              ← FILES
+            </button>
+            <div style={{
+              fontFamily: 'VT323',
+              fontSize: 11,
+              letterSpacing: '2px',
+              color: '#2a3a4e',
+              marginBottom: 4,
+            }}>
+              {activeDoc.kicker}
+            </div>
+            <div style={{
+              fontFamily: 'VT323',
+              fontSize: 16,
+              letterSpacing: '2px',
+              color: '#ff9f43',
+              marginBottom: 14,
+            }}>
+              {activeDoc.label}
+            </div>
+            <div style={{
+              maxHeight: 'min(42vh, 320px)',
+              overflowY: 'auto',
+              padding: '12px 14px',
+              border: '1px solid #1a2535',
+              background: 'rgba(6,10,18,0.85)',
+            }}>
+              {activeDoc.body.map((para, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontFamily: 'Josefin Sans, sans-serif',
+                    fontSize: 13,
+                    lineHeight: 1.5,
+                    color: '#9aacbf',
+                    margin: i === 0 ? 0 : '12px 0 0',
+                  }}
+                >
+                  {para}
+                </p>
               ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <>
+            <div style={{
+              fontFamily: 'VT323',
+              fontSize: 12,
+              letterSpacing: '3px',
+              color: '#3d5266',
+              marginBottom: 10,
+            }}>
+              FILES
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 22 }}>
+              {DESK_DOCS.map(doc => (
+                <button
+                  key={doc.id}
+                  type="button"
+                  onClick={() => openDoc(doc)}
+                  style={{
+                    textAlign: 'left',
+                    fontFamily: 'VT323',
+                    fontSize: 14,
+                    letterSpacing: '2px',
+                    color: deskRead?.[doc.id] ? '#5a7090' : '#c4d4e4',
+                    background: 'rgba(6,10,18,0.75)',
+                    border: '1px solid #1a2535',
+                    padding: '10px 14px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {doc.label}
+                  {deskRead?.[doc.id] ? ' · READ' : ''}
+                </button>
+              ))}
+            </div>
+
+            <div style={{
+              fontFamily: 'VT323',
+              fontSize: 12,
+              letterSpacing: '3px',
+              color: '#3d5266',
+              marginBottom: 10,
+            }}>
+              STAKEHOLDER NOTES
+            </div>
+            <p style={{
+              fontFamily: 'Josefin Sans, sans-serif',
+              fontSize: 11,
+              color: '#4a6080',
+              letterSpacing: '0.04em',
+              margin: '0 0 14px',
+              lineHeight: 1.4,
+            }}>
+              Private optics — not shown on the map.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxHeight: 'min(40vh, 400px)', overflowY: 'auto' }}>
+              {ordered.map(c => (
+                <div
+                  key={c.id}
+                  style={{
+                    border: `1px solid ${c.accentColor}28`,
+                    padding: '12px 14px',
+                    background: `${c.accentColor}08`,
+                  }}
+                >
+                  <div style={{ fontFamily: 'VT323', fontSize: 15, letterSpacing: '2px', color: c.accentColor, marginBottom: 2 }}>
+                    {(c.shortName || c.name).toUpperCase()}
+                  </div>
+                  <div style={{ fontFamily: 'VT323', fontSize: 10, letterSpacing: '1px', color: '#2a3a4e', marginBottom: 10 }}>
+                    {(c.title || '').toUpperCase()}
+                  </div>
+                  {Object.entries(c.emotion).map(([axis, val]) => (
+                    <Bar key={axis} axis={axis} value={val} accent={c.accentColor} />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         <div className="overlay-footer-copy" style={{ marginTop: 18, textAlign: 'center' }}>
-          [ ESC TO CLOSE ] · [ C TO TOGGLE ]
+          [ ESC BACK / CLOSE ] · [ C TOGGLE ]
         </div>
       </div>
     </div>
