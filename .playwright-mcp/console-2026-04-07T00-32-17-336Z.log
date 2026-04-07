@@ -1,0 +1,11 @@
+[    1615ms] [LOG] Suspense boundary mounted. @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    1931ms] [ERROR] WebSocket connection to 'ws://127.0.0.1:27060/clientsocket/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ https://store.akamai.steamstatic.com/public/javascript/applications/store/openindesktopclient.js?contenthash=acfce14b5864ac05fc45:13
+[    2378ms] [ERROR] Couldn't find localization key #TrailerPlayer_Pause_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2381ms] [ERROR] Couldn't find localization key #TrailerPlayer_Mute_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2383ms] [ERROR] Couldn't find localization key #TrailerPlayer_Settings_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2383ms] [ERROR] Couldn't find localization key #TrailerPlayer_EnterTheater_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2384ms] [ERROR] Couldn't find localization key #TrailerPlayer_FullScreen_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2384ms] [ERROR] Couldn't find localization key #StoreTrailer_Title_Category_Gameplay @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2385ms] [ERROR] Couldn't find localization key #TrailerPlayer_EnterTheater_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2385ms] [ERROR] Couldn't find localization key #TrailerPlayer_FullScreen_Tooltip @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13
+[    2557ms] [LOG] Suspense boundary unmounted. @ https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=kCc76C9lDmeU&l=english&_cdn=akamai:13

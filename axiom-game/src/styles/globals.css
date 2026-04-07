@@ -1,0 +1,479 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Josefin+Sans:wght@300;400;600&family=Syne:wght@400;700;800&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --bg:           #04060e;
+  --surface:      #080c18;
+  --surface-up:   #0d1220;
+  --border:       #1a1f2e;
+  --text:         #d4c9b0;
+  --text-sec:     #6b7a99;
+  --text-muted:   #2d3550;
+  --accent-warm:  #ff9f43;
+  --alert:        #ff6b6b;
+
+  --petra:   #FF6B6B;
+  --callum:  #4ECDC4;
+  --simone:  #FFE66D;
+  --marcus:  #A29BFE;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+/* ── CRT Atmosphere ── */
+#atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#atmosphere::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+}
+
+#atmosphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 159, 67, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+/* ── Typography ── */
+.font-vt323  { font-family: 'VT323', monospace; }
+.font-syne   { font-family: 'Syne', sans-serif; }
+.font-josefin { font-family: 'Josefin Sans', sans-serif; }
+
+/* ── Borders — no border-radius on structural elements ── */
+.panel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.panel-raised {
+  border: 1px solid var(--border);
+  background: var(--surface-up);
+}
+
+/* ── Layout ── */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.main-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Gameplay overlay ── */
+.top-objective {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: min(56vw, 560px);
+  max-width: calc(100vw - 32px);
+  text-align: center;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.top-objective-label {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--accent-warm);
+  opacity: 0.4;
+}
+
+.top-objective-text {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  letter-spacing: 3px;
+  line-height: 1.05;
+  color: var(--accent-warm);
+  opacity: 0.85;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.hud-shell {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: min(224px, calc(100vw - 40px));
+  z-index: 50;
+  pointer-events: none;
+}
+
+.overlay-safe {
+  position: fixed;
+  inset: 0;
+  padding: clamp(24px, 5vw, 60px) clamp(16px, 6vw, 80px);
+  overflow-y: auto;
+}
+
+.overlay-safe-center {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.overlay-header-row {
+  width: min(100%, 920px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.overlay-header-title {
+  grid-column: 2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.overlay-header-action {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.overlay-footer-copy {
+  width: min(100%, 820px);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .top-objective {
+    width: min(72vw, 480px);
+  }
+
+  .hud-shell {
+    top: 82px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(320px, calc(100vw - 32px));
+  }
+
+  .overlay-header-row {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .overlay-header-title,
+  .overlay-header-action {
+    grid-column: 1;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-objective {
+    width: calc(100vw - 24px);
+  }
+
+  .overlay-safe {
+    padding: 20px 12px;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes scanFlicker {
+  0%   { opacity: 1; }
+  92%  { opacity: 1; }
+  93%  { opacity: 0.85; }
+  95%  { opacity: 1; }
+  97%  { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.fade-up    { animation: fadeUp 0.25s ease forwards; }
+.pulse-anim { animation: pulse 2s ease-in-out infinite; }
+.flicker    { animation: scanFlicker 8s ease-in-out infinite; }
+
+/* ── Emotion bar pulse ── */
+@keyframes barPulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+.bar-pulse { animation: barPulse 0.6s ease 2; }
+
+/* ── Cursor blink (used in DialoguePanel typewriter) ── */
+@keyframes bar-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes composureAlert {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 rgba(255, 107, 107, 0); }
+  50% { opacity: 0.7; box-shadow: 0 0 12px rgba(255, 107, 107, 0.22); }
+}
+
+/* ── Buttons ── */
+.btn-crt {
+  background: transparent;
+  border: 1px solid var(--text-sec);
+  color: var(--text);
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  padding: 6px 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-crt:hover {
+  border-color: var(--accent-warm);
+  color: var(--accent-warm);
+}
+.btn-crt:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-choice {
+  width: 100%;
+  background: var(--surface-up);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  line-height: 1.5;
+}
+.btn-choice:hover {
+  border-color: var(--accent-warm);
+  background: rgba(255,159,67,0.05);
+}
+.btn-choice .choice-label {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  color: var(--accent-warm);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── Warning flash ── */
+.political-warning {
+  color: var(--alert);
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  animation: fadeUp 0.1s ease forwards;
+}
+
+/* ── Dot indicators ── */
+.dot {
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  display: inline-block;
+}
+.dot.filled { background: currentColor; }
+
+.composure-bar-container {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 12, 20, 0.92);
+  padding: 4px;
+}
+
+.composure-bar {
+  height: 3px;
+  transition: width 1s linear;
+}
+
+.composure-bar.is-low {
+  animation: composureAlert 0.9s ease-in-out infinite;
+}
+
+.mini-game-shell {
+  border: 1px solid var(--border);
+  background: rgba(8, 12, 20, 0.97);
+  padding: 20px;
+}
+
+.mini-game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.roadmap-card {
+  background: rgba(13, 18, 32, 0.9);
+  border: 1px solid #263247;
+  color: var(--text);
+  text-align: left;
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.roadmap-card:hover {
+  border-color: var(--accent-warm);
+  transform: translateY(-1px);
+}
+
+.roadmap-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.roadmap-card-kicker {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: #5c6c87;
+}
+
+.roadmap-card-check {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+}
+
+.roadmap-card-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #c9d1d9;
+}
+
+.mini-game-footer {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.mini-game-copy {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: #7a8a9e;
+  line-height: 1.5;
+}
+
+.overhear-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: min(280px, calc(100vw - 32px));
+  padding: 14px 16px;
+  background: rgba(8, 12, 20, 0.9);
+  border: 1px solid rgba(122, 138, 158, 0.18);
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: fadeUp 0.24s ease forwards;
+  z-index: 140;
+  pointer-events: none;
+}
+
+.overhear-panel-title {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.overhear-panel-text {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #a7b5c6;
+  font-style: italic;
+  white-space: pre-line;
+}
+
+@media (max-width: 720px) {
+  .mini-game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mini-game-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .overhear-panel {
+    top: auto;
+    bottom: 20px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}

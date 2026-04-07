@@ -1,0 +1,191 @@
+- generic [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e9]:
+        - link "ninewiki" [ref=e15] [cursor=pointer]:
+          - /url: https://ninewiki.com/
+        - search [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]: "Search for:"
+            - searchbox "Search for:" [ref=e22]
+          - button "Search" [ref=e23] [cursor=pointer]:
+            - img [ref=e27]
+    - navigation "breadcrumbs" [ref=e33]:
+      - paragraph [ref=e34]:
+        - link "Home" [ref=e35] [cursor=pointer]:
+          - /url: https://ninewiki.com
+        - text: •
+        - link "Guide" [ref=e36] [cursor=pointer]:
+          - /url: https://ninewiki.com/category/guide/
+        - text: "• Dale and Dawson Stationery Supplies: Guide and Maps"
+    - generic [ref=e38]:
+      - main [ref=e40]:
+        - article [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - 'heading "Dale and Dawson Stationery Supplies: Guide and Maps" [level=1] [ref=e45]'
+              - generic [ref=e46]:
+                - text: By
+                - link "Editorial" [ref=e48] [cursor=pointer]:
+                  - /url: https://ninewiki.com/author/editorial/
+                - text: /
+                - generic [ref=e49]: September 5, 2024
+                - text: /
+                - link "Guide" [ref=e51] [cursor=pointer]:
+                  - /url: https://ninewiki.com/category/guide/
+                - text: /
+                - link "Dale and Dawson Stationery Supplies" [ref=e53] [cursor=pointer]:
+                  - /url: https://ninewiki.com/tag/dale-and-dawson-stationery-supplies/
+                - text: / 5 minutes of reading
+            - generic [ref=e54]:
+              - paragraph [ref=e55]: You can find all the tips, maps, game modes, roles and many more details about Dale and Dawson in this guide.
+              - generic [ref=e56]:
+                - generic [ref=e57]: Dale and Dawson Stationery Supplies Guides
+                - link "Surviving the Meeting Dale and Dawson Slacker Guide" [ref=e59] [cursor=pointer]:
+                  - /url: https://ninewiki.com/guide/dale-and-dawson-slacker-guide/
+                  - img "Surviving the Meeting" [ref=e61]
+                  - heading "Dale and Dawson Slacker Guide" [level=4] [ref=e62]
+              - heading "Dale and Dawson Guide" [level=2] [ref=e63]
+              - paragraph [ref=e64]: Details and tips for beginners from the Dale and Dawson Stationery Supplies Guide.
+              - heading "Roles" [level=3] [ref=e65]
+              - paragraph [ref=e66]: "Here are all roles:"
+              - heading "Manager" [level=4] [ref=e67]
+              - paragraph [ref=e68]:
+                - text: The manager is responsible for curating all the employees and sussing out potential slackers. They have their own private office with master keys in the office for the whole building. They are the only employee that is “Special” and can call meetings, fire people, etc.
+                - text: The manager can be voted out- or fired… in which they become a janitor if there isnt one, and a spectator if there is. The manager is always a “Specialist”
+              - heading "Assistant" [level=4] [ref=e69]
+              - paragraph [ref=e70]: Contrary to popular belief- the assistant is not a given position- or eliminates their previous tasks… as the assistants are appointed by the manager. The assistant can be a slacker or specialist…
+              - heading "Specialist" [level=4] [ref=e71]
+              - paragraph [ref=e72]: The specialist is the hard worker all managers want- they are mainly tasked to do productive tasks but can also be assigned slacker tasks based on lobby settings[see Gamemode].
+              - heading "Slackers" [level=4] [ref=e73]
+              - paragraph [ref=e74]:
+                - text: The slackers are the pretend hard workers… their goal- is to keep their job and do minimum work. They will not be assigned any specialist tasks but can fake doing them to appear as a non slacker. These workers have various tasks to complete in order to slack, and shouldnt be caught doing them… similar to specialists doing them. See Tasks and check out our
+                - link "slacker guide" [ref=e75] [cursor=pointer]:
+                  - /url: https://ninewiki.com/guide/dale-and-dawson-slacker-guide/
+                - text: .
+              - heading "Janitor" [level=4] [ref=e76]
+              - paragraph [ref=e77]: Once somebody has been “fired” they are first demoted to a Janitor if there is not a janitor already. The janitor can be fired again if they refuse to fulfill their job. They will then become the next, final role.
+              - heading "Spectator (Fired)" [level=4] [ref=e78]
+              - paragraph [ref=e79]: Once fired you enter a spectator cam, where you can use E and Q to go up and down. They can see everybodys roles but cant speak to anybody. This is losing… unless your previously assigned team wins.
+              - heading "Gameplay Loop" [level=3] [ref=e80]
+              - paragraph [ref=e81]: Dale & Dawson Stationery Supplies plunges you into the heart of an early 2000s office drama where your role, be it a Manager, a Specialist, or a Slacker, is randomly assigned at the game’s outset. Set within the confines of a seemingly typical stationery company, players are thrust into a covert battle of productivity versus procrastination. Specialists strive to propel the company forward through task completion, while Slackers, blending in under the guise of diligence, aim to shirk their duties without raising suspicion. The Manager, caught in the middle, must unravel this facade to weed out the Slackers, with only their judgment and the whispers of their employees to guide them.
+              - paragraph [ref=e82]: This section will be fleshed out to include a bunch of the nuances not mentioned in any of the other sections.
+              - heading "Tasks" [level=3] [ref=e83]
+              - figure [ref=e84]:
+                - img "Tasks" [ref=e85]
+                - button "Enlarge" [ref=e86]:
+                  - img [ref=e87]
+              - paragraph [ref=e89]: Here we can see all the tasks in the game… in blue is specialist only tasks… people doing these are not slacking, and are considered productive… due note- feeding the cats shouldnt be confusing with petting the cats.
+              - paragraph [ref=e90]: "In Red are slacker tasks- they can be assigned to anybody: in regards to lobby settings. Seeing people do these tasks is considered slacking, but not a slacker… if you see any one person doing these tasks back to back to back- they are a slacker and should be fired."
+              - paragraph [ref=e91]: In black are slacker only tasks- only assigned to slackers, and cant be done by specialists. Seeing these tasks be done guarantees they are a slacker and is safe to fire. Due note- trash bin and servers have delay… around 5ish (will confirm another time) seconds… the action will be done in order for them to flee the area. However; infecting a computer is instant.
+              - paragraph [ref=e92]: Tasks not mentioned are also important such as; emailing employees, calling people, and/or setting up your workstation/prepping, etc. There may be more detail added to this in particular later.
+              - heading "Maps" [level=3] [ref=e93]
+              - figure [ref=e94]:
+                - figure [ref=e95]:
+                  - img "Maps" [ref=e96]
+                  - button "Enlarge" [ref=e97]:
+                    - img [ref=e98]
+                - figure [ref=e100]:
+                  - img "Maps" [ref=e101]
+                  - button "Enlarge" [ref=e102]:
+                    - img [ref=e103]
+                - figure [ref=e105]:
+                  - img "Maps" [ref=e106]
+                  - button "Enlarge" [ref=e107]:
+                    - img [ref=e108]
+              - paragraph [ref=e110]: Here are all the maps in order as they appear in game. The floor plans are each map are below
+              - paragraph [ref=e111]:
+                - strong [ref=e112]: Springfield, OH – The Compact Office 4-18 Players
+              - figure [ref=e113]:
+                - img "Springfield, OH - The Compact Office" [ref=e114]
+                - button "Enlarge" [ref=e115]:
+                  - img [ref=e116]
+              - paragraph [ref=e118]:
+                - strong [ref=e119]: Stanton, MI – The Office Office (From The Office closely replicated/inspired) 4-18 Players
+              - figure [ref=e120]:
+                - img "Stanton, MI - The Office Office" [ref=e121]
+                - button "Enlarge" [ref=e122]:
+                  - img [ref=e123]
+              - paragraph [ref=e125]:
+                - strong [ref=e126]: New York, NY – The Biggest Office (Tutorial Takes place here) 4-21 Players
+              - paragraph [ref=e127]: Floor 10 (Office)
+              - figure [ref=e128]:
+                - img "New York, NY - The Biggest Floor 10" [ref=e129]
+              - paragraph [ref=e130]: Floor -2 (Basement)
+              - figure [ref=e131]:
+                - img "New York, NY - The Biggest Floor 2" [ref=e132]
+                - button "Enlarge" [ref=e133]:
+                  - img [ref=e134]
+              - heading "Gamemodes" [level=3] [ref=e136]
+              - paragraph [ref=e137]:
+                - strong [ref=e138]: Default/Normal
+              - list [ref=e139]:
+                - listitem [ref=e140]: Under the default settings- or slightly modified in a public lobby… its generally as described from Gameplay Loop- Slackers can see other slackers, around 30% of all employees will become slackers, slacker difficulty is at 50% which roughly translates to how much the bar moves when a slacker slacks, The manager can be replaced, and one single person and their tasks generally dont contribute MUCH to the bar, it takes a lot of people to make progress in any one direction. Sprinting is off, and assistants and janitors exist.
+              - paragraph [ref=e141]: In this mode it is pure vanilla, and up to the kind of lobby and manager you get
+              - paragraph [ref=e142]:
+                - strong [ref=e143]: Fast
+              - list [ref=e144]:
+                - listitem [ref=e145]: Like default/normal- but meetings are shorter, and slackers have it a bit easier/faster
+              - paragraph [ref=e146]:
+                - strong [ref=e147]: Custom
+                - text: ":"
+              - list [ref=e148]:
+                - listitem [ref=e149]: In custom, you can apply your own personal settings to make your own lobby style.
+                - listitem [ref=e150]: Some food for thought is doing something like this-
+                - listitem [ref=e151]: making the tasks vital to be done (higher productivity, lower slack difficulty) except you as the manager use crazy tactics such as locking bathroom and breakroom… and assigning employees desks… and require them to call or email you to leave their offices to do things…
+                - listitem [ref=e152]: Theres more you can do… but this is just a placeholder to get you thinking while we invent our own.
+      - complementary [ref=e155]:
+        - heading "Featured Game Walkthroughs" [level=3] [ref=e156]
+        - list [ref=e157]:
+          - listitem [ref=e158]:
+            - link "Amanda the Adventurer 3 Walkthrough" [ref=e159] [cursor=pointer]:
+              - /url: https://ninewiki.com/walkthrough/amanda-the-adventurer-3-walkthrough/
+          - listitem [ref=e160]:
+            - link "Leaf it Alone Walkthrough" [ref=e161] [cursor=pointer]:
+              - /url: https://ninewiki.com/walkthrough/leaf-it-alone-walkthrough-achievements-guide/
+          - listitem [ref=e162]:
+            - link "Subliminal All Puzzle Solutions" [ref=e163] [cursor=pointer]:
+              - /url: https://ninewiki.com/walkthrough/subliminal-walkthrough-all-puzzle-solutions/
+          - listitem [ref=e164]:
+            - link "Crime Scene Cleaner Act 2 Walkthrough Guide" [ref=e165] [cursor=pointer]:
+              - /url: https://ninewiki.com/walkthrough/crime-scene-cleaner-act-2-walkthrough-guide/
+    - contentinfo [ref=e166]:
+      - 'navigation "Site Navigation: Footer" [ref=e173]':
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "Privacy Policy" [ref=e177] [cursor=pointer]:
+              - /url: https://ninewiki.com/privacy-policy/
+          - listitem [ref=e178]:
+            - link "Contact" [ref=e179] [cursor=pointer]:
+              - /url: https://ninewiki.com/contact/
+      - paragraph [ref=e186]: Copyright © 2026 ninewiki
+  - dialog "ninewiki asks for your consent to use your personal data to:" [active] [ref=e190]:
+    - generic [ref=e192]:
+      - generic [ref=e193]:
+        - paragraph [ref=e195]: Welcome to ninewiki
+        - heading "ninewiki asks for your consent to use your personal data to:" [level=1] [ref=e196]
+      - list [ref=e198]:
+        - listitem [ref=e199]:
+          - img [ref=e202]
+          - generic [ref=e204]: Personalised advertising and content, advertising and content measurement, audience research and services development
+        - listitem [ref=e205]:
+          - img [ref=e208]
+          - generic [ref=e210]: Store and/or access information on a device
+      - button "Learn more" [ref=e211] [cursor=pointer]:
+        - img [ref=e214]
+        - generic [ref=e216]: Learn more
+      - generic [ref=e217]:
+        - paragraph [ref=e218]:
+          - text: Your personal data will be processed and information from your device (cookies, unique identifiers, and other device data) may be stored by, accessed by and shared with 647 partners, or used specifically by this site. We and our partners may use precise geolocation data.
+          - button "List of partners." [ref=e219] [cursor=pointer]
+        - paragraph [ref=e220]: Some vendors may process your personal data on the basis of legitimate interest, which you can object to by managing your options below. Look for a link at the bottom of this page or in the site menu to manage or withdraw consent in privacy and cookie settings.
+    - generic [ref=e221]:
+      - generic [ref=e223]:
+        - button "Consent" [ref=e224] [cursor=pointer]:
+          - paragraph [ref=e226]: Consent
+        - button "Do not consent" [ref=e227] [cursor=pointer]:
+          - paragraph [ref=e229]: Do not consent
+      - button "Manage options" [ref=e230] [cursor=pointer]:
+        - paragraph [ref=e231]: Manage options

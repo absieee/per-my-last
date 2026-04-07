@@ -1,0 +1,10 @@
+[    1300ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.pcgamer.com/games/social-deduction/heres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work/:0
+[    1331ms] [LOG] fep ga exc Cannot read properties of undefined (reading 'adTags') @ https://www.pcgamer.com/games/social-deduction/heres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work/:348
+[    1437ms] [LOG] [Kiosq] Subscription Gates API available: window.FUTR.Kiosq.Gates @ https://www.pcgamer.com/games/social-deduction/heres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work/:4278
+[    1755ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.pcgamer.com/.events-handler/future.adtech.freyr.v1.PageViewEvent:0
+[    1780ms] [WARNING] %c FTE  background: #9306F9; color: #ffffff No archive filter present @ https://vanilla.futurecdn.net/pcgamer/1595218/media/shared/js/main.DcB9tpsv.bundle.js:9
+[    1828ms] [LOG] %c CONNECT  background: #00FBFF;color: #000000; AuthEvent From Auth0 @ https://vanilla.futurecdn.net/pcgamer/1595218/media/shared/js/bundle.connect.js:1
+[    1833ms] [LOG] %c CONNECT  background: #00FBFF;color: #000000; useEffect triggered: {pathname: /games/social-deduction/heres-a-little-social-dedu…ame-about-figuring-out-whos-slacking-off-at-work/, connectType: addEvent, connectTarget: auth-in-nav-header, userExists: false} @ https://vanilla.futurecdn.net/pcgamer/1595218/media/shared/js/bundle.connect.js:1
+[    1833ms] [LOG] %c CONNECT  background: #00FBFF;color: #000000; Calling handleAuthByAddEvent from useEffect @ https://vanilla.futurecdn.net/pcgamer/1595218/media/shared/js/bundle.connect.js:1
+[    1888ms] [LOG] %cKIOSQ color: #ffffff; background-color: #7F00FF; padding: 2px 6px; hasBarrier resolved: false from: default (false) @ https://www.pcgamer.com/games/social-deduction/heres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work/:623
+[    2004ms] [LOG] Messaging without detection successfully executed. @ https://cdn.privacy-mgmt.com/unified/wrapperMessagingWithoutDetection.js:0

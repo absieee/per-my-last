@@ -1,0 +1,476 @@
+- generic [active] [ref=e1]:
+  - link "Jump to content" [ref=e2] [cursor=pointer]:
+    - /url: "#bodyContent"
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - navigation "Site" [ref=e6]:
+        - generic "Main menu" [ref=e7]:
+          - button "Main menu" [ref=e8] [cursor=pointer]
+          - generic [ref=e11]: Main menu
+      - link "Wikipedia The Free Encyclopedia" [ref=e12] [cursor=pointer]:
+        - /url: /wiki/Main_Page
+        - generic [ref=e13]:
+          - img "Wikipedia" [ref=e14]
+          - img "The Free Encyclopedia" [ref=e15]
+    - generic [ref=e16]:
+      - search [ref=e17]:
+        - generic [ref=e20]:
+          - searchbox "Search Wikipedia" [ref=e23]
+          - button "Search" [ref=e25]
+      - navigation "Personal tools" [ref=e26]:
+        - list [ref=e30]:
+          - listitem [ref=e31]:
+            - link "Donate" [ref=e32] [cursor=pointer]:
+              - /url: https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en
+          - listitem [ref=e33]:
+            - link "Create account" [ref=e34] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:CreateAccount&returnto=Dale+%26+Dawson+Stationery+Supplies
+          - listitem [ref=e35]:
+            - link "Log in" [ref=e36] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:UserLogin&returnto=Dale+%26+Dawson+Stationery+Supplies
+  - generic [ref=e38]:
+    - navigation "Contents" [ref=e42]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "Contents" [level=2] [ref=e46]
+          - button "hide" [ref=e47] [cursor=pointer]
+        - list [ref=e48]:
+          - listitem [ref=e49]:
+            - link "(Top)" [ref=e50] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e51]: (Top)
+          - listitem [ref=e52]:
+            - link "Development" [ref=e53] [cursor=pointer]:
+              - /url: "#Development"
+              - generic [ref=e54]: Development
+            - list
+          - listitem [ref=e55]:
+            - link "Gameplay" [ref=e56] [cursor=pointer]:
+              - /url: "#Gameplay"
+              - generic [ref=e57]: Gameplay
+            - list
+          - listitem [ref=e58]:
+            - link "Reception" [ref=e59] [cursor=pointer]:
+              - /url: "#Reception"
+              - generic [ref=e60]: Reception
+            - list
+          - listitem [ref=e61]:
+            - link "References" [ref=e62] [cursor=pointer]:
+              - /url: "#References"
+              - generic [ref=e63]: References
+            - list
+    - main [ref=e65]:
+      - generic [ref=e66]:
+        - heading "Dale & Dawson Stationery Supplies" [level=1] [ref=e67]
+        - generic [ref=e68]:
+          - button "This article is only available in this language. Add the article for other languages" [ref=e69] [cursor=pointer]
+          - generic [ref=e72]: Add languages
+      - generic [ref=e74]:
+        - navigation "Namespaces" [ref=e76]:
+          - generic [ref=e77]:
+            - generic:
+              - list:
+                - listitem [ref=e78]:
+                  - link "Article" [ref=e79] [cursor=pointer]:
+                    - /url: /wiki/Dale_%26_Dawson_Stationery_Supplies
+                    - generic [ref=e80]: Article
+                - listitem [ref=e81]:
+                  - link "Talk" [ref=e82] [cursor=pointer]:
+                    - /url: /wiki/Talk:Dale_%26_Dawson_Stationery_Supplies
+                    - generic [ref=e83]: Talk
+        - generic [ref=e84]:
+          - navigation "Views" [ref=e85]:
+            - generic [ref=e86]:
+              - generic:
+                - list:
+                  - listitem [ref=e87]:
+                    - link "Read" [ref=e88] [cursor=pointer]:
+                      - /url: /wiki/Dale_%26_Dawson_Stationery_Supplies
+                      - generic [ref=e89]: Read
+                  - listitem [ref=e90]:
+                    - link "Edit" [ref=e91] [cursor=pointer]:
+                      - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=edit
+                      - generic [ref=e92]: Edit
+                  - listitem [ref=e93]:
+                    - link "View history" [ref=e94] [cursor=pointer]:
+                      - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=history
+                      - generic [ref=e95]: View history
+          - navigation "Page tools" [ref=e96]:
+            - generic [ref=e97]:
+              - button "Tools" [ref=e98] [cursor=pointer]
+              - generic [ref=e100] [cursor=pointer]: Tools
+      - navigation "Appearance" [ref=e103]:
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - generic [ref=e107]: Appearance
+            - button "hide" [ref=e108] [cursor=pointer]
+          - generic [ref=e109]:
+            - generic [ref=e110]: Birthday mode (Baby Globe)
+            - list [ref=e112]:
+              - listitem [ref=e113]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]:
+                    - generic [ref=e116]:
+                      - radio "Disabled" [ref=e117]
+                      - generic [ref=e120]: Disabled
+                    - generic [ref=e121]:
+                      - radio "Enabled" [checked] [ref=e122]
+                      - generic [ref=e125]: Enabled
+                  - link "Learn more about Birthday mode" [ref=e127] [cursor=pointer]:
+                    - /url: https://wikimediafoundation.org/wikipedia25/wikipedia-mascot/?utm_campaign=wpam&utm_source=wpam&utm_medium=wpamen
+          - generic [ref=e128]:
+            - generic [ref=e129]: Text
+            - list [ref=e131]:
+              - listitem [ref=e132]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]:
+                    - radio "Small" [ref=e136]
+                    - generic [ref=e139]: Small
+                  - generic [ref=e140]:
+                    - radio "Standard" [checked] [ref=e141]
+                    - generic [ref=e144]: Standard
+                  - generic [ref=e145]:
+                    - radio "Large" [ref=e146]
+                    - generic [ref=e149]: Large
+          - generic [ref=e150]:
+            - generic [ref=e151]: Width
+            - list [ref=e153]:
+              - listitem [ref=e154]:
+                - generic [ref=e156]:
+                  - generic [ref=e157]:
+                    - radio "Standard" [checked] [ref=e158]
+                    - generic [ref=e161]: Standard
+                  - generic [ref=e162]:
+                    - radio "Wide" [ref=e163]
+                    - generic [ref=e166]: Wide
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - text: Color
+              - generic [ref=e169]: (beta)
+            - list [ref=e171]:
+              - listitem [ref=e172]:
+                - generic [ref=e174]:
+                  - generic [ref=e175]:
+                    - radio "Automatic" [ref=e176]
+                    - generic [ref=e179]: Automatic
+                  - generic [ref=e180]:
+                    - radio "Light" [checked] [ref=e181]
+                    - generic [ref=e184]: Light
+                  - generic [ref=e185]:
+                    - radio "Dark" [ref=e186]
+                    - generic [ref=e189]: Dark
+      - generic "Dale & Dawson Stationery Supplies" [ref=e190]:
+        - generic [ref=e192]: From Wikipedia, the free encyclopedia
+        - generic [ref=e194]:
+          - table [ref=e195]:
+            - rowgroup [ref=e196]:
+              - row "Dale & Dawson Stationery Supplies" [ref=e197]:
+                - columnheader "Dale & Dawson Stationery Supplies" [ref=e198]
+              - row [ref=e199]:
+                - cell [ref=e200]:
+                  - link [ref=e202] [cursor=pointer]:
+                    - /url: /wiki/File:Dale_%26_Dawson_cover_image.jpg
+                    - img [ref=e203]
+              - row "Developer Striped Panda Studios" [ref=e204]:
+                - rowheader "Developer" [ref=e205]:
+                  - link "Developer" [ref=e206] [cursor=pointer]:
+                    - /url: /wiki/Video_game_developer
+                - cell "Striped Panda Studios" [ref=e207]
+              - row "Publisher Striped Panda Studios" [ref=e208]:
+                - rowheader "Publisher" [ref=e209]:
+                  - link "Publisher" [ref=e210] [cursor=pointer]:
+                    - /url: /wiki/Video_game_publisher
+                - cell "Striped Panda Studios" [ref=e211]
+              - row "Engine Unity[1]" [ref=e212]:
+                - rowheader "Engine" [ref=e213]:
+                  - link "Engine" [ref=e214] [cursor=pointer]:
+                    - /url: /wiki/Game_engine
+                - cell "Unity[1]" [ref=e215]:
+                  - link "Unity" [ref=e216] [cursor=pointer]:
+                    - /url: /wiki/Unity_(game_engine)
+                  - superscript [ref=e217]:
+                    - link "[1]" [ref=e218] [cursor=pointer]:
+                      - /url: "#cite_note-1"
+              - row "Platform Windows" [ref=e219]:
+                - rowheader "Platform" [ref=e220]:
+                  - link "Platform" [ref=e221] [cursor=pointer]:
+                    - /url: /wiki/Computing_platform
+                - cell "Windows" [ref=e222]:
+                  - link "Windows" [ref=e223] [cursor=pointer]:
+                    - /url: /wiki/Windows
+              - row "Release 30 August 2024" [ref=e224]:
+                - rowheader "Release" [ref=e225]
+                - cell "30 August 2024" [ref=e226]
+              - row "Genre Social deduction" [ref=e227]:
+                - rowheader "Genre" [ref=e228]:
+                  - link "Genre" [ref=e229] [cursor=pointer]:
+                    - /url: /wiki/Video_game_genre
+                - cell "Social deduction" [ref=e230]:
+                  - link "Social deduction" [ref=e231] [cursor=pointer]:
+                    - /url: /wiki/Social_deduction_game
+              - row "Mode Multiplayer" [ref=e232]:
+                - rowheader "Mode" [ref=e233]
+                - cell "Multiplayer" [ref=e234]:
+                  - link "Multiplayer" [ref=e235] [cursor=pointer]:
+                    - /url: /wiki/Multiplayer_video_game
+          - paragraph [ref=e236]:
+            - generic [ref=e237]: Dale & Dawson Stationery Supplies
+            - text: is a
+            - link "multiplayer" [ref=e238] [cursor=pointer]:
+              - /url: /wiki/Multiplayer_video_game
+            - link "social deduction" [ref=e239] [cursor=pointer]:
+              - /url: /wiki/Social_deduction_game
+            - link "video game" [ref=e240] [cursor=pointer]:
+              - /url: /wiki/Video_game
+            - text: developed and published by Striped Panda Studios for
+            - link "Windows" [ref=e241] [cursor=pointer]:
+              - /url: /wiki/Windows
+            - text: .
+          - generic [ref=e242]:
+            - heading "Development" [level=2] [ref=e243]
+            - generic [ref=e244]:
+              - text: "["
+              - link "edit" [ref=e245] [cursor=pointer]:
+                - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=edit&section=1
+              - text: "]"
+          - paragraph [ref=e246]:
+            - text: The game was released on 30 August 2024 through
+            - link "Steam" [ref=e247] [cursor=pointer]:
+              - /url: /wiki/Steam_(service)
+            - text: .
+            - superscript [ref=e248]:
+              - link "[2]" [ref=e249] [cursor=pointer]:
+                - /url: "#cite_note-PCN-2"
+          - generic [ref=e250]:
+            - heading "Gameplay" [level=2] [ref=e251]
+            - generic [ref=e252]:
+              - text: "["
+              - link "edit" [ref=e253] [cursor=pointer]:
+                - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=edit&section=2
+              - text: "]"
+          - paragraph [ref=e254]:
+            - text: Players perform tasks in an office space and can be assigned one of three roles at the beginning of a round. Specialists perform positive tasks, while slackers perform negative tasks. The goal of the specialists is for the manager to fire all of the slackers. The slackers can win a round if enough specialists are fired, or if they perform enough tasks to outperform the specialists.
+            - superscript [ref=e255]:
+              - link "[3]" [ref=e256] [cursor=pointer]:
+                - /url: "#cite_note-PCG-3"
+          - paragraph [ref=e257]:
+            - text: If a manager does not fire an employee in a certain timeframe, then they are automatically fired and replaced by another player.
+            - superscript [ref=e258]:
+              - link "[4]" [ref=e259] [cursor=pointer]:
+                - /url: "#cite_note-4"
+            - superscript [ref=e260]:
+              - link "[5]" [ref=e261] [cursor=pointer]:
+                - /url: "#cite_note-5"
+          - generic [ref=e262]:
+            - heading "Reception" [level=2] [ref=e263]
+            - generic [ref=e264]:
+              - text: "["
+              - link "edit" [ref=e265] [cursor=pointer]:
+                - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=edit&section=3
+              - text: "]"
+          - paragraph [ref=e266]:
+            - text: The game gained popularity through the social media platforms
+            - link "YouTube" [ref=e267] [cursor=pointer]:
+              - /url: /wiki/YouTube
+            - text: and
+            - link "Twitch" [ref=e268] [cursor=pointer]:
+              - /url: /wiki/Twitch_(service)
+            - text: .
+            - superscript [ref=e269]:
+              - link "[2]" [ref=e270] [cursor=pointer]:
+                - /url: "#cite_note-PCN-2"
+            - text: Trevor Ford of
+            - link "TheGamer" [ref=e271] [cursor=pointer]:
+              - /url: /wiki/TheGamer
+            - text: selected it as a nominee for the website's game of the year award.
+            - superscript [ref=e272]:
+              - link "[6]" [ref=e273] [cursor=pointer]:
+                - /url: "#cite_note-6"
+          - generic [ref=e274]:
+            - heading "References" [level=2] [ref=e275]
+            - generic [ref=e276]:
+              - text: "["
+              - link "edit" [ref=e277] [cursor=pointer]:
+                - /url: /w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&action=edit&section=4
+              - text: "]"
+          - list [ref=e280]:
+            - listitem [ref=e281]:
+              - link "Jump up" [ref=e284] [cursor=pointer]:
+                - /url: "#cite_ref-1"
+                - text: ^
+              - generic [ref=e285]:
+                - generic [ref=e286]:
+                  - link "\"Dale & Dawson Stationery Supplies\"" [ref=e287] [cursor=pointer]:
+                    - /url: https://steamdb.info/app/2920570/
+                  - text: . SteamDB
+                  - generic [ref=e288]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=SteamDB&rft.atitle=Dale+%26+Dawson+Stationery+Supplies&rft_id=https%3A%2F%2Fsteamdb.info%2Fapp%2F2920570%2F&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+            - listitem [ref=e289]:
+              - generic [ref=e290]:
+                - text: ^
+                - 'link "Jump up to: a" [ref=e291] [cursor=pointer]':
+                  - /url: "#cite_ref-PCN_2-0"
+                  - generic [ref=e292]: "Jump up to:"
+                  - superscript [ref=e293]:
+                    - generic [ref=e294]: a
+                - link "b" [ref=e295] [cursor=pointer]:
+                  - /url: "#cite_ref-PCN_2-1"
+                  - superscript [ref=e296]:
+                    - generic [ref=e297]: b
+              - generic [ref=e298]:
+                - generic [ref=e299]:
+                  - text: Allsop, Ken (28 September 2024).
+                  - link "\"Viral multiplayer hit Dale and Dawson heads outdoors in new update\"" [ref=e300] [cursor=pointer]:
+                    - /url: https://www.pcgamesn.com/dale-and-dawson/update-stockholm-map
+                  - text: .
+                  - link "PCGamesN" [ref=e302] [cursor=pointer]:
+                    - /url: /wiki/PCGamesN
+                  - generic [ref=e303]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=PCGamesN&rft.atitle=Viral+multiplayer+hit+Dale+and+Dawson+heads+outdoors+in+new+update&rft.date=2024-09-28&rft.aulast=Allsop&rft.aufirst=Ken&rft_id=https%3A%2F%2Fwww.pcgamesn.com%2Fdale-and-dawson%2Fupdate-stockholm-map&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+            - listitem [ref=e304]:
+              - link "Jump up" [ref=e307] [cursor=pointer]:
+                - /url: "#cite_ref-PCG_3-0"
+                - text: ^
+              - generic [ref=e308]:
+                - generic [ref=e309]:
+                  - text: Bolding, Jonathan (7 September 2024).
+                  - link "\"Here's a little social deduction game about figuring out who's slacking off at work\"" [ref=e310] [cursor=pointer]:
+                    - /url: https://www.pcgamer.com/games/heres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work/
+                  - text: .
+                  - link "PC Gamer" [ref=e312] [cursor=pointer]:
+                    - /url: /wiki/PC_Gamer
+                  - generic [ref=e313]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=PC+Gamer&rft.atitle=Here%27s+a+little+social+deduction+game+about+figuring+out+who%27s+slacking+off+at+work&rft.date=2024-09-07&rft.aulast=Bolding&rft.aufirst=Jonathan&rft_id=https%3A%2F%2Fwww.pcgamer.com%2Fgames%2Fheres-a-little-social-deduction-game-about-figuring-out-whos-slacking-off-at-work%2F&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+            - listitem [ref=e314]:
+              - link "Jump up" [ref=e317] [cursor=pointer]:
+                - /url: "#cite_ref-4"
+                - text: ^
+              - generic [ref=e318]:
+                - generic [ref=e319]:
+                  - text: Valens, Ana (11 April 2025).
+                  - link "\"You Definitely Missed This Incredible 'Among Us' Clone. And It's Perfect For 'The Office' Fans\"" [ref=e320] [cursor=pointer]:
+                    - /url: https://www.vice.com/en/article/you-definitely-missed-this-incredible-among-us-clone-and-its-perfect-for-the-office-fans/
+                  - text: .
+                  - link "Vice" [ref=e322] [cursor=pointer]:
+                    - /url: /wiki/Vice_(magazine)
+                  - generic [ref=e323]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=Vice&rft.atitle=You+Definitely+Missed+This+Incredible+%E2%80%98Among+Us%E2%80%99+Clone.+And+It%E2%80%99s+Perfect+For+%E2%80%98The+Office%E2%80%99+Fans&rft.date=2025-04-11&rft.aulast=Valens&rft.aufirst=Ana&rft_id=https%3A%2F%2Fwww.vice.com%2Fen%2Farticle%2Fyou-definitely-missed-this-incredible-among-us-clone-and-its-perfect-for-the-office-fans%2F&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+            - listitem [ref=e324]:
+              - link "Jump up" [ref=e327] [cursor=pointer]:
+                - /url: "#cite_ref-5"
+                - text: ^
+              - generic [ref=e328]:
+                - generic [ref=e329]:
+                  - text: Kelly, Paul (13 February 2025).
+                  - link "\"The 11 best imposter games on PC\"" [ref=e330] [cursor=pointer]:
+                    - /url: https://www.pcgamesn.com/social-deduction-games-like-among-us
+                  - text: .
+                  - link "PCGamesN" [ref=e332] [cursor=pointer]:
+                    - /url: /wiki/PCGamesN
+                  - generic [ref=e333]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=PCGamesN&rft.atitle=The+11+best+imposter+games+on+PC&rft.date=2025-02-13&rft.aulast=Kelly&rft.aufirst=Paul&rft_id=https%3A%2F%2Fwww.pcgamesn.com%2Fsocial-deduction-games-like-among-us&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+            - listitem [ref=e334]:
+              - link "Jump up" [ref=e337] [cursor=pointer]:
+                - /url: "#cite_ref-6"
+                - text: ^
+              - generic [ref=e338]:
+                - generic [ref=e339]:
+                  - text: Ford, Trevor (9 December 2024).
+                  - link "\"Game of the Year Social Media Manager's Pick, 2024 -Trevor Ford\"" [ref=e340] [cursor=pointer]:
+                    - /url: https://www.thegamer.com/social-media-managers-game-of-the-year-2024/
+                  - text: .
+                  - link "TheGamer" [ref=e342] [cursor=pointer]:
+                    - /url: /wiki/TheGamer
+                  - generic [ref=e343]: . Retrieved 9 August 2025
+                  - text: .
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown&rft.jtitle=TheGamer&rft.atitle=Game+of+the+Year+Social+Media+Manager%27s+Pick%2C+2024+-Trevor+Ford&rft.date=2024-12-09&rft.aulast=Ford&rft.aufirst=Trevor&rft_id=https%3A%2F%2Fwww.thegamer.com%2Fsocial-media-managers-game-of-the-year-2024%2F&rfr_id=info%3Asid%2Fen.wikipedia.org%3ADale+%26+Dawson+Stationery+Supplies"
+        - generic [ref=e345]:
+          - link "Categories" [ref=e346] [cursor=pointer]:
+            - /url: /wiki/Help:Category
+          - text: ":"
+          - list [ref=e347]:
+            - listitem [ref=e348]:
+              - link "Social deduction video games" [ref=e349] [cursor=pointer]:
+                - /url: /wiki/Category:Social_deduction_video_games
+            - listitem [ref=e350]:
+              - link "Multiplayer video games" [ref=e351] [cursor=pointer]:
+                - /url: /wiki/Category:Multiplayer_video_games
+            - listitem [ref=e352]:
+              - link "Windows games" [ref=e353] [cursor=pointer]:
+                - /url: /wiki/Category:Windows_games
+            - listitem [ref=e354]:
+              - link "Office work in popular culture" [ref=e355] [cursor=pointer]:
+                - /url: /wiki/Category:Office_work_in_popular_culture
+            - listitem [ref=e356]:
+              - link "Role-playing video games" [ref=e357] [cursor=pointer]:
+                - /url: /wiki/Category:Role-playing_video_games
+            - listitem [ref=e358]:
+              - link "Windows-only games" [ref=e359] [cursor=pointer]:
+                - /url: /wiki/Category:Windows-only_games
+            - listitem [ref=e360]:
+              - link "2024 video games" [ref=e361] [cursor=pointer]:
+                - /url: /wiki/Category:2024_video_games
+    - contentinfo [ref=e363]:
+      - list [ref=e364]:
+        - listitem [ref=e365]: This page was last edited on 4 February 2026, at 04:35 (UTC).
+        - listitem [ref=e366]:
+          - text: Text is available under the
+          - link "Creative Commons Attribution-ShareAlike 4.0 License" [ref=e367] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License
+          - text: ; additional terms may apply. By using this site, you agree to the
+          - link "Terms of Use" [ref=e368] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use
+          - text: and
+          - link "Privacy Policy" [ref=e369] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+          - text: . Wikipedia® is a registered trademark of the
+          - link "Wikimedia Foundation, Inc." [ref=e370] [cursor=pointer]:
+            - /url: https://wikimediafoundation.org/
+          - text: ", a non-profit organization."
+      - list:
+        - listitem [ref=e371]:
+          - link "Privacy policy" [ref=e372] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+        - listitem [ref=e373]:
+          - link "About Wikipedia" [ref=e374] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:About
+        - listitem [ref=e375]:
+          - link "Disclaimers" [ref=e376] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:General_disclaimer
+        - listitem [ref=e377]:
+          - link "Contact Wikipedia" [ref=e378] [cursor=pointer]:
+            - /url: //en.wikipedia.org/wiki/Wikipedia:Contact_us
+        - listitem [ref=e379]:
+          - link "Legal & safety contacts" [ref=e380] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Legal:Wikimedia_Foundation_Legal_and_Safety_Contact_Information
+        - listitem [ref=e381]:
+          - link "Code of Conduct" [ref=e382] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct
+        - listitem [ref=e383]:
+          - link "Developers" [ref=e384] [cursor=pointer]:
+            - /url: https://developer.wikimedia.org
+        - listitem [ref=e385]:
+          - link "Statistics" [ref=e386] [cursor=pointer]:
+            - /url: https://stats.wikimedia.org/#/en.wikipedia.org
+        - listitem [ref=e387]:
+          - link "Cookie statement" [ref=e388] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement
+        - listitem [ref=e389]:
+          - link "Mobile view" [ref=e390] [cursor=pointer]:
+            - /url: //en.wikipedia.org/w/index.php?title=Dale_%26_Dawson_Stationery_Supplies&mobileaction=toggle_view_mobile
+      - list [ref=e391]:
+        - listitem [ref=e392]:
+          - link "Wikimedia Foundation" [ref=e393] [cursor=pointer]:
+            - /url: https://www.wikimedia.org/
+            - img "Wikimedia Foundation" [ref=e395]
+        - listitem [ref=e396]:
+          - link "Powered by MediaWiki" [ref=e397] [cursor=pointer]:
+            - /url: https://www.mediawiki.org/
+            - img "Powered by MediaWiki" [ref=e399]
+  - generic [ref=e400]:
+    - list

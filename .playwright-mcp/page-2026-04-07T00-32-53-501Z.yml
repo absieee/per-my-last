@@ -1,0 +1,226 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - list [ref=e5]:
+        - listitem [ref=e6]:
+          - link "mobygames logo" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img "mobygames logo" [ref=e8]
+        - listitem [ref=e9]:
+          - searchbox "Search" [ref=e14]
+        - listitem [ref=e15]:
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Moby Plus" [ref=e20] [cursor=pointer]:
+                - /url: /mobyplus/
+                - img "Moby Plus" [ref=e21]
+            - listitem [ref=e22]:
+              - link "API" [ref=e25] [cursor=pointer]:
+                - /url: /api/subscribe/
+            - listitem [ref=e26]:
+              - generic [ref=e28]: Browse
+              - list [ref=e29]:
+                - listitem [ref=e30]:
+                  - link "Random" [ref=e31] [cursor=pointer]:
+                    - /url: /random/
+                - listitem [ref=e32]:
+                  - link "Platforms" [ref=e33] [cursor=pointer]:
+                    - /url: /platform/
+                - listitem [ref=e34]:
+                  - link "Games" [ref=e35] [cursor=pointer]:
+                    - /url: /game/
+                - listitem [ref=e36]:
+                  - link "Companies" [ref=e37] [cursor=pointer]:
+                    - /url: /company/
+                - listitem [ref=e38]:
+                  - link "People" [ref=e39] [cursor=pointer]:
+                    - /url: /person/
+                - listitem [ref=e40]:
+                  - link "Groups" [ref=e41] [cursor=pointer]:
+                    - /url: /group/
+                - listitem [ref=e42]:
+                  - link "Genres" [ref=e43] [cursor=pointer]:
+                    - /url: /genre/
+                - listitem [ref=e44]:
+                  - link "Attributes" [ref=e45] [cursor=pointer]:
+                    - /url: /attributes/tech-specs/
+                - listitem [ref=e46]:
+                  - link "Critics" [ref=e47] [cursor=pointer]:
+                    - /url: /critic/
+                - listitem [ref=e48]:
+                  - link "This Day" [ref=e49] [cursor=pointer]:
+                    - /url: /this-day-in-gaming/
+                - listitem [ref=e50]:
+                  - link "Stats" [ref=e51] [cursor=pointer]:
+                    - /url: /stats/
+            - listitem [ref=e52]:
+              - generic [ref=e54]: Contribute
+              - list [ref=e55]:
+                - listitem [ref=e56]:
+                  - link "Most Wanted" [ref=e57] [cursor=pointer]:
+                    - /url: /most-wanted/
+                - listitem [ref=e58]:
+                  - link "Missing Games" [ref=e59] [cursor=pointer]:
+                    - /url: /contribute/missing-games/
+                - listitem [ref=e60]:
+                  - link "Add Game" [ref=e61] [cursor=pointer]:
+                    - /url: /contribute/game/
+                - listitem [ref=e62]:
+                  - link "Instructions" [ref=e63] [cursor=pointer]:
+                    - /url: /info/contribute/
+                - listitem [ref=e64]:
+                  - link "Standards" [ref=e65] [cursor=pointer]:
+                    - /url: /info/standards/
+                - listitem [ref=e66]:
+                  - link "Style Guide" [ref=e67] [cursor=pointer]:
+                    - /url: /info/style-guide/
+                - listitem [ref=e68]
+                - listitem [ref=e69]:
+                  - link "Moby Plus Get MobyPlus Free" [ref=e70] [cursor=pointer]:
+                    - /url: /mobyplus/
+                    - img "Moby Plus" [ref=e71]
+                    - text: Get MobyPlus Free
+            - listitem [ref=e72]:
+              - generic [ref=e74]: Community
+              - list [ref=e75]:
+                - listitem [ref=e76]:
+                  - link "Contributors" [ref=e77] [cursor=pointer]:
+                    - /url: /leaderboard/
+                - listitem [ref=e78]:
+                  - link "Forums" [ref=e79] [cursor=pointer]:
+                    - /url: /forum/
+                - listitem [ref=e80]:
+                  - link "Reviews" [ref=e81] [cursor=pointer]:
+                    - /url: /feed/player-reviews/
+                - listitem [ref=e82]:
+                  - link "Discord" [ref=e83] [cursor=pointer]:
+                    - /url: https://discord.gg/8zWGTQp
+                - listitem [ref=e84]:
+                  - link "Twitter" [ref=e85] [cursor=pointer]:
+                    - /url: https://twitter.com/MobyGames
+                - listitem [ref=e86]:
+                  - link "Bluesky" [ref=e87] [cursor=pointer]:
+                    - /url: https://bsky.app/profile/mobygames.com
+            - listitem [ref=e88]:
+              - link [ref=e89] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e91]:
+              - generic [ref=e93]:
+                - img "user avatar" [ref=e94]
+                - text: Login
+              - list [ref=e95]:
+                - listitem [ref=e96]:
+                  - link "Login" [ref=e97] [cursor=pointer]:
+                    - /url: /user/login/
+                - listitem [ref=e98]:
+                  - link "Register" [ref=e99] [cursor=pointer]:
+                    - /url: /user/register/
+      - text: ×
+  - main [ref=e102]:
+    - generic [ref=e103]:
+      - generic [ref=e104]:
+        - heading "Dale & Dawson Stationery Supplies" [level=1] [ref=e105]
+        - generic [ref=e106]: "Moby ID: 231497"
+      - generic [ref=e109]:
+        - generic [ref=e111]:
+          - text: Review
+          - generic:
+            - link "★" [ref=e112] [cursor=pointer]:
+              - /url: "#"
+            - link "★" [ref=e113] [cursor=pointer]:
+              - /url: "#"
+            - link "★" [ref=e114] [cursor=pointer]:
+              - /url: "#"
+            - link "★" [ref=e115] [cursor=pointer]:
+              - /url: "#"
+            - link "★" [ref=e116] [cursor=pointer]:
+              - /url: "#"
+        - generic [ref=e118]:
+          - text: Add To
+          - link "Collection" [ref=e119] [cursor=pointer]:
+            - /url: "#"
+    - list [ref=e120]:
+      - listitem [ref=e121]:
+        - link "Overview" [ref=e122] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/
+      - listitem [ref=e123]:
+        - link "Credits":
+          - /url: /game/231497/dale-dawson-stationery-supplies/credits/
+      - listitem [ref=e124]:
+        - link "Reviews" [ref=e125] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/reviews/
+      - listitem [ref=e126]:
+        - link "Covers" [ref=e127] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/covers/
+      - listitem [ref=e128]:
+        - link "Screenshots":
+          - /url: /game/231497/dale-dawson-stationery-supplies/screenshots/
+      - listitem [ref=e129]:
+        - link "Media" [ref=e130] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/media/
+      - listitem [ref=e131]:
+        - link "Promos" [ref=e132] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/promo/
+      - listitem [ref=e133]:
+        - link "Trivia":
+          - /url: /game/231497/dale-dawson-stationery-supplies/trivia/
+      - listitem [ref=e134]:
+        - link "Specs":
+          - /url: /game/231497/dale-dawson-stationery-supplies/specs/
+      - listitem [ref=e135]:
+        - link "Releases" [ref=e136] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/releases/
+      - listitem [ref=e137]:
+        - link "Patches":
+          - /url: /game/231497/dale-dawson-stationery-supplies/patches/
+      - listitem [ref=e138]:
+        - link "Prices" [ref=e139] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/stores/
+      - listitem [ref=e140]:
+        - link "Forum" [ref=e141] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/forum/
+      - listitem [ref=e142]:
+        - link "Contribute" [ref=e143] [cursor=pointer]:
+          - /url: /game/231497/dale-dawson-stationery-supplies/contribute/
+    - generic [ref=e144]:
+      - text: We don't have any screenshots for this game yet.
+      - link "Contribute" [ref=e145] [cursor=pointer]:
+        - /url: /contribute/game-shots/231497/
+      - text: .
+  - separator [ref=e146]
+  - contentinfo [ref=e147]:
+    - paragraph [ref=e148]:
+      - link "About" [ref=e149] [cursor=pointer]:
+        - /url: /info/about/
+      - text: ·
+      - link "FAQ" [ref=e150] [cursor=pointer]:
+        - /url: /info/faq/
+      - text: ·
+      - link "MobyPlus" [ref=e151] [cursor=pointer]:
+        - /url: /mobyplus/
+      - text: ·
+      - link "Stats" [ref=e152] [cursor=pointer]:
+        - /url: /stats/
+      - text: ·
+      - link "Standards" [ref=e153] [cursor=pointer]:
+        - /url: /info/standards/
+      - text: ·
+      - link "Style Guide" [ref=e154] [cursor=pointer]:
+        - /url: /info/style-guide/
+      - text: ·
+      - link "API" [ref=e155] [cursor=pointer]:
+        - /url: /api/subscribe/
+      - text: ·
+      - link "Contact" [ref=e156] [cursor=pointer]:
+        - /url: /info/contact/
+      - text: ·
+      - link "Change Log" [ref=e157] [cursor=pointer]:
+        - /url: /changelog/
+      - text: ·
+      - link "Privacy Policy" [ref=e158] [cursor=pointer]:
+        - /url: /info/privacy/
+      - text: ·
+      - link "Terms of Use" [ref=e159] [cursor=pointer]:
+        - /url: /info/terms/
+    - paragraph [ref=e160]: © 1999–2026 MobyGames ™
+    - paragraph [ref=e161]: v20260403a

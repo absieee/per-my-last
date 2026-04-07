@@ -1,0 +1,585 @@
+import { useReducer, useState, useCallback, useEffect, useRef } from 'react'
+import { gameReducer } from './state/gameReducer.js'
+import { initialState } from './state/initialState.js'
+import { loadGame, saveGame, clearSave } from './api/saveGame.js'
+
+const { hasSave, gameState: savedGameState } = loadGame()
+import { generateOpticsReport } from './api/opticsReport.js'
+import { generatePressureScenario } from './api/pressureScenario.js'
+import { getAvailableDialogue, resolveReply } from './data/dialogues.js'
+import { createGame } from './game/index.js'
+import { WATERCOOLER_NPCS, getWatercoolerConversation } from './data/watercooler.js'
+import { CRISIS_SCENARIOS } from './data/crisisScenarios.js'
+import Atmosphere from './components/Layout/Atmosphere.jsx'
+import TitleScreen from './components/Game/TitleScreen.jsx'
+import IntroScreen from './components/Game/IntroScreen.jsx'
+import ControlsOverlay from './components/Game/ControlsOverlay.jsx'
+import PauseMenu from './components/Game/PauseMenu.jsx'
+import HUD from './components/Game/HUD.jsx'
+import WatercoolerPanel from './components/Game/WatercoolerPanel.jsx'
+import WatercoolerOverhear from './components/Game/WatercoolerOverhear.jsx'
+import WeekBriefing from './components/Game/WeekBriefing.jsx'
+import { getBriefingMessages } from './data/weekBriefing.js'
+import LockedNotice from './components/Game/LockedNotice.jsx'
+import InteractionPrompt from './components/Game/InteractionPrompt.jsx'
+import DialoguePanel from './components/Game/DialoguePanel.jsx'
+import ScenarioModal from './components/Scenario/ScenarioModal.jsx'
+import StakeholderResponseScreen from './components/Scenario/StakeholderResponseScreen.jsx'
+import OpticsReport from './components/OpticsReport/OpticsReport.jsx'
+import CharacterDossier from './components/Game/CharacterDossier.jsx'
+import './styles/globals.css'
+
+function getPlayerSpeedMultiplier(week) {
+  const fatiguePenalty = Math.max(0, week - 1) * 0.065
+  return Math.max(0.68, 1 - fatiguePenalty)
+}
+
+function normalizeDialogueEffects(effects, characterId, castIds) {
+  if (!effects) return {}
+  const effectKeys = Object.keys(effects)
+  const isMultiCharacterMap = effectKeys.some(key => castIds.includes(key))
+  if (isMultiCharacterMap) return effects
+  return { [characterId]: effects }
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(gameReducer, savedGameState)
+  const [screen, setScreen] = useState('title') // 'title' | 'intro' | 'game'
+  const [nearbyChar, setNearbyChar] = useState(null) // { characterId, characterName, accentColor, isWatercooler }
+  const [activeDialogue, setActiveDialogue] = useState(null)
+  const [activeDialogueChar, setActiveDialogueChar] = useState(null)
+  const [activeWatercooler, setActiveWatercooler] = useState(null) // { npc, conversation }
+  const [lockedNotice, setLockedNotice] = useState(null) // { attempts }
+  const [activeDossier, setActiveDossier] = useState(null) // character object
+  const [gamePaused, setGamePaused] = useState(false)
+  const gameRef = useRef(null)
+  const stateRef = useRef(state)
+  stateRef.current = state
+
+  // Change 3 — track whether petra was already visited on mount (don't re-notify on reload)
+  const petraVisitedAtMount = useRef(state.completedDialogues.includes('petra_intro'))
+  const [showNewContacts, setShowNewContacts] = useState(false)
+
+  // Change 4 — mouse tooltip
+  const hasMoved = useRef(false)
+  const mouseTooltipShown = useRef(false)
+  const [mouseTooltip, setMouseTooltip] = useState({ show: false, x: 0, y: 0 })
+
+  // Mount Phaser only once game screen is active
+  useEffect(() => {
+    if (screen !== 'game') return
+    if (gameRef.current) return
+    gameRef.current = createGame('phaser-root')
+    window.dispatchEvent(new CustomEvent('phaser:fatigue_update', {
+      detail: { speedMultiplier: getPlayerSpeedMultiplier(stateRef.current.week) },
+    }))
+    return () => {
+      gameRef.current?.destroy(true)
+      gameRef.current = null
+    }
+  }, [screen])
+
+  // Proximity event — update nearby character display
+  useEffect(() => {
+    const handler = (e) => setNearbyChar(e.detail || null)
+    window.addEventListener('phaser:proximity', handler)
+    return () => window.removeEventListener('phaser:proximity', handler)
+  }, [])
+
+  // Dossier event — open character profile on TAB
+  useEffect(() => {
+    const handler = (e) => {
+      const { characterId } = e.detail
+      const character = stateRef.current.cast.find(c => c.id === characterId)
+      if (!character) return
+      setActiveDossier({ id: characterId })
+      window.dispatchEvent(new CustomEvent('phaser:pause'))
+    }
+    window.addEventListener('phaser:dossier', handler)
+    return () => window.removeEventListener('phaser:dossier', handler)
+  }, [])
+
+  const handleDossierDismiss = useCallback(() => {
+    setActiveDossier(null)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+  }, [])
+
+  // Interact event — open dialogue panel or watercooler panel
+  useEffect(() => {
+    const handler = (e) => {
+      const { characterId, isWatercooler } = e.detail
+
+      if (isWatercooler) {
+        const npc = WATERCOOLER_NPCS.find(n => n.id === characterId)
+        if (!npc) return
+        const conversation = getWatercoolerConversation(characterId, stateRef.current.officeRumors)
+        setActiveWatercooler({ npc, conversation })
+        window.dispatchEvent(new CustomEvent('phaser:pause'))
+        return
+      }
+
+      const current = stateRef.current
+
+      // Room locking — only petra is accessible until petra_intro is done
+      const isUnlocked = current.unlockedCharacters.includes(characterId)
+      if (!isUnlocked) {
+        setLockedNotice({ message: 'SPEAK TO PETRA FIRST' })
+        return
+      }
+      const character = current.cast.find(c => c.id === characterId)
+      if (!character) return
+
+      const dialogue = getAvailableDialogue(characterId, current)
+      if (!dialogue) {
+        setLockedNotice({ message: `${character.shortName?.toUpperCase() ?? characterId.toUpperCase()} HAS NOTHING NEW FOR YOU RIGHT NOW` })
+        return
+      }
+
+      const enriched = {
+        ...dialogue,
+        contextLine: dialogue.contextLine ? dialogue.contextLine(current) : null,
+        exchange: {
+          ...dialogue.exchange,
+          responses: (dialogue.exchange.responses || []).map(r => ({
+            ...r,
+            effects: normalizeDialogueEffects(
+              r.effects,
+              characterId,
+              current.cast.map(entry => entry.id),
+            ),
+            resolvedReply: resolveReply(r, character.emotion),
+          })),
+        },
+      }
+
+      setActiveDialogue(enriched)
+      setActiveDialogueChar(character)
+      window.dispatchEvent(new CustomEvent('phaser:pause'))
+    }
+    window.addEventListener('phaser:interact', handler)
+    return () => window.removeEventListener('phaser:interact', handler)
+  }, [])
+
+  const handleDialogueComplete = useCallback((dialogueId, effects) => {
+    dispatch({ type: 'COMPLETE_DIALOGUE', dialogueId, effects })
+    setActiveDialogue(null)
+    setActiveDialogueChar(null)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+  }, [])
+
+  const handleWatercoolerDismiss = useCallback(() => {
+    setActiveWatercooler(null)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+  }, [])
+
+
+  // Auto-generate Optics Report when all 4 scenarios complete
+  useEffect(() => {
+    if (state.completedScenarios.length >= 4 && !state.opticsReport) {
+      generateOpticsReport(state).then(report => {
+        dispatch({ type: 'SET_OPTICS_REPORT', report })
+      })
+    }
+  }, [state.completedScenarios.length])
+
+  // Simone hostile escalation post-return
+  useEffect(() => {
+    const simone = state.cast.find(c => c.id === 'simone')
+    if (simone?.hasReturned && simone.emotion.wariness > 70) {
+      const hasPressure = state.scenarioQueue.some(s => s.tag === 'PRESSURE')
+      if (!hasPressure) {
+        generatePressureScenario(simone, state.week, state.decisionLog).then(scenario => {
+          if (scenario) dispatch({ type: 'INJECT_PRESSURE_SCENARIO', scenario })
+        })
+      }
+    }
+  }, [state.cast.find(c => c.id === 'simone')?.emotion?.wariness])
+
+  // Crisis trigger — any stakeholder hits trust < 20 AND wariness > 75
+  const crisisSig = state.cast.map(c => `${c.id}:${c.emotion.trust}:${c.emotion.wariness}`).join(',')
+  useEffect(() => {
+    state.cast.forEach(c => {
+      if (c.emotion.trust < 20 && c.emotion.wariness > 75) {
+        if (!(state.crisisTriggeredFor ?? []).includes(c.id)) {
+          const scenario = CRISIS_SCENARIOS[c.id]
+          if (scenario) {
+            dispatch({ type: 'MARK_CRISIS_TRIGGERED', characterId: c.id })
+            dispatch({ type: 'INJECT_PRESSURE_SCENARIO', scenario })
+          }
+        }
+      }
+    })
+  }, [crisisSig]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const pendingScenario = state.scenarioQueue.find(s => {
+    if (typeof s.unlockCondition === 'function') return s.unlockCondition(state)
+    return s.week <= state.week
+  }) || null
+
+  const handleScenarioChoice = useCallback((choiceIndex, choice) => {
+    dispatch({ type: 'RESOLVE_SCENARIO', scenarioId: state.activeScenario.id, choiceIndex, choice })
+    if (choice.triggersSimoneReturn) {
+      setTimeout(() => dispatch({ type: 'RETURN_SIMONE' }), 3000)
+    }
+    state.cast.forEach(c => {
+      const delta = choice.effects?.[c.id]
+      if (delta && (Math.abs(delta.trust || 0) > 3 || Math.abs(delta.wariness || 0) > 3)) {
+        dispatch({
+          type: 'UPDATE_COGNITIVE_STATE',
+          characterId: c.id,
+          cognitiveState: {
+            emotions: (delta.trust || 0) < -3 ? 'Professionally careful.' : (delta.trust || 0) > 3 ? 'Cautiously optimistic.' : 'Watchful.',
+          },
+        })
+      }
+    })
+  }, [state.activeScenario, state.cast])
+
+  // Compute nearby character full data for HUD and prompt
+  const nearbyFull = nearbyChar
+    ? state.cast.find(c => c.id === nearbyChar.characterId) ?? null
+    : null
+
+  const playerSpeedMultiplier = getPlayerSpeedMultiplier(state.week)
+
+  useEffect(() => {
+    if (screen !== 'game') return
+    window.dispatchEvent(new CustomEvent('phaser:fatigue_update', {
+      detail: { speedMultiplier: playerSpeedMultiplier },
+    }))
+  }, [playerSpeedMultiplier, screen])
+
+  const scenarioPending = !!(
+    pendingScenario &&
+    !state.activeScenario &&
+    !state.showingStakeholderResponse &&
+    !activeDialogue &&
+    !activeWatercooler
+  )
+
+  // Auto-save on meaningful progress
+  useEffect(() => {
+    if (state.completedDialogues.length > 0 || state.completedScenarios.length > 0 || state.week > 1) {
+      saveGame(state)
+    }
+  }, [state.completedDialogues.length, state.completedScenarios.length, state.week])
+
+  const handleNewGame = useCallback(async () => {
+    await clearSave()
+    dispatch({ type: 'RESET_GAME' })
+    window.__petraVisited = false
+    setScreen('intro')
+  }, [])
+
+  const petraVisited = state.completedDialogues.includes('petra_intro')
+
+  // Derive current objective from state
+  const currentObjective = (() => {
+    if (!state.completedDialogues.includes('petra_intro')) return 'SPEAK TO PETRA'
+    if (pendingScenario) return 'REVIEW PENDING SCENARIO'
+    const teamIntros = ['callum_intro', 'simone_intro', 'marcus_intro']
+    const unmet = teamIntros.filter(d => !state.completedDialogues.includes(d))
+    if (unmet.length > 0) return 'MEET YOUR TEAM'
+    return 'DELIVER THE Q3 REVIEW'
+  })()
+
+  useEffect(() => {
+    if (petraVisited) {
+      window.__petraVisited = true
+      window.dispatchEvent(new CustomEvent('phaser:petra_visited'))
+      if (!petraVisitedAtMount.current) {
+        window.dispatchEvent(new CustomEvent('phaser:reveal_characters'))
+        setShowNewContacts(true)
+      }
+    } else {
+      window.__petraVisited = false
+    }
+  }, [petraVisited])
+
+  // Pause menu — ESC when no dialog/dossier/scenario/overlay is open
+  const anyPanelOpen = !!(
+    activeDialogue || activeDossier || activeWatercooler || lockedNotice ||
+    state.activeScenario || state.showingStakeholderResponse ||
+    state.showWeekBriefing || state.opticsReport || !state.hasSeenControls
+  )
+
+  const showGameplayOverlay = (
+    screen === 'game' &&
+    !gamePaused &&
+    !anyPanelOpen
+  )
+
+  const showTopObjective = showGameplayOverlay && !showNewContacts
+
+  useEffect(() => {
+    if (screen !== 'game') return
+    const handler = (e) => {
+      if (e.key === 'Escape' && !anyPanelOpen) {
+        setGamePaused(p => {
+          const next = !p
+          window.dispatchEvent(new CustomEvent(next ? 'phaser:pause' : 'phaser:resume'))
+          return next
+        })
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [screen, anyPanelOpen])
+
+  const handleResume = useCallback(() => {
+    setGamePaused(false)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+  }, [])
+
+  const handleMainMenu = useCallback(() => {
+    setGamePaused(false)
+    window.dispatchEvent(new CustomEvent('phaser:resume'))
+    setScreen('title')
+  }, [])
+
+  // Change 4 — mouse assumption tooltip
+  useEffect(() => {
+    if (screen !== 'game') return
+    const onKey = (e) => {
+      if (['w', 'a', 's', 'd', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key))
+        hasMoved.current = true
+    }
+    const onClick = (e) => {
+      if (!hasMoved.current && !mouseTooltipShown.current) {
+        mouseTooltipShown.current = true
+        setMouseTooltip({ show: true, x: e.clientX, y: e.clientY })
+        setTimeout(() => setMouseTooltip(t => ({ ...t, show: false })), 2000)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('click', onClick)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('click', onClick)
+    }
+  }, [screen])
+
+  return (
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#04060e', overflow: 'hidden' }}>
+      {screen === 'title' && (
+        <TitleScreen
+          hasSave={hasSave}
+          onComplete={() => setScreen('intro')}
+          onContinue={() => setScreen('game')}
+          onNewGame={handleNewGame}
+        />
+      )}
+
+      {screen === 'intro' && (
+        <IntroScreen onComplete={(name) => {
+          if (name) dispatch({ type: 'SET_PLAYER_NAME', name })
+          setScreen('game')
+        }} />
+      )}
+
+      {/* Phaser canvas */}
+      <div id="phaser-root" style={{ position: 'fixed', inset: 0 }} />
+
+      {/* Controls overlay — shown once on first map load */}
+      {screen === 'game' && !state.hasSeenControls && (
+        <ControlsOverlay onDismiss={() => dispatch({ type: 'MARK_CONTROLS_SEEN' })} />
+      )}
+
+      {/* Pause menu */}
+      {gamePaused && (
+        <PauseMenu
+          onResume={handleResume}
+          onRestart={handleNewGame}
+          onMainMenu={handleMainMenu}
+        />
+      )}
+
+      {/* MENU button — visible in game when no panels are open */}
+      {screen === 'game' && !gamePaused && state.hasSeenControls && (
+        <button
+          onClick={() => {
+            setGamePaused(true)
+            window.dispatchEvent(new CustomEvent('phaser:pause'))
+          }}
+          style={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            fontFamily: 'VT323, monospace',
+            fontSize: '13px',
+            letterSpacing: '3px',
+            color: '#2a3a4e',
+            background: 'transparent',
+            border: '1px solid #1a2535',
+            padding: '6px 14px',
+            cursor: 'pointer',
+            zIndex: 150,
+          }}
+        >
+          MENU
+        </button>
+      )}
+
+      {/* New contacts notification — fades in after Petra intro */}
+      {showNewContacts && (
+        <div
+          onAnimationEnd={() => {}}
+          style={{
+            position: 'fixed',
+            top: 80,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontFamily: 'VT323, monospace',
+            fontSize: '16px',
+            letterSpacing: '5px',
+            color: '#ff9f43',
+            background: 'rgba(4,6,14,0.85)',
+            padding: '8px 20px',
+            border: '1px solid rgba(255,159,67,0.2)',
+            zIndex: 300,
+            animation: 'fadeUp 0.3s ease forwards',
+            pointerEvents: 'none',
+            width: 'min(420px, calc(100vw - 24px))',
+            textAlign: 'center',
+            lineHeight: 1.15,
+          }}
+          ref={el => {
+            if (el) setTimeout(() => setShowNewContacts(false), 3000)
+          }}
+        >
+          NEW CONTACTS AVAILABLE
+        </div>
+      )}
+
+      {/* Mouse assumption tooltip */}
+      {mouseTooltip.show && (
+        <div style={{
+          position: 'fixed',
+          left: mouseTooltip.x + 12,
+          top: mouseTooltip.y - 20,
+          fontFamily: 'VT323, monospace',
+          fontSize: '14px',
+          letterSpacing: '2px',
+          color: '#ff9f43',
+          background: 'rgba(4,6,14,0.9)',
+          padding: '4px 10px',
+          border: '1px solid rgba(255,159,67,0.15)',
+          pointerEvents: 'none',
+          zIndex: 400,
+          animation: 'fadeUp 0.2s ease',
+        }}>
+          USE WASD OR ARROW KEYS TO MOVE
+        </div>
+      )}
+
+      {/* CRT scanline + vignette overlay — always on top of canvas, below UI */}
+      <Atmosphere />
+
+      {/* Objective — top-center, visible during gameplay */}
+      {showTopObjective && (
+        <div className="top-objective">
+          <div className="top-objective-label">OBJECTIVE</div>
+          <div className="top-objective-text">{currentObjective}</div>
+        </div>
+      )}
+
+      {/* HUD — always visible */}
+      {showGameplayOverlay && (
+        <HUD
+          week={state.week}
+          nearbyCharacter={nearbyFull}
+          scenarioPending={scenarioPending}
+          onOpenScenario={() => dispatch({ type: 'SET_ACTIVE_SCENARIO', scenario: pendingScenario })}
+        />
+      )}
+
+
+      {/* Interaction prompt — visible when near character but not in dialogue */}
+      {showGameplayOverlay && nearbyChar && (
+        <InteractionPrompt
+          characterName={nearbyChar.characterName}
+          accentColor={nearbyChar.accentColor}
+          isWatercooler={nearbyChar.isWatercooler}
+        />
+      )}
+
+      {screen === 'game' && !gamePaused && (
+        <WatercoolerOverhear
+          week={state.week}
+          rumorState={state.officeRumors}
+          onDiscoverIntel={(payload) => dispatch({ type: 'DISCOVER_OVERHEAR_INTEL', ...payload })}
+          onApplyWariness={(stakeholderId) => dispatch({ type: 'APPLY_EAVESDROP_WARINESS', stakeholderId })}
+        />
+      )}
+
+      {/* Dialogue panel */}
+      {activeDialogue && activeDialogueChar && (
+        <DialoguePanel
+          key={activeDialogue.id}
+          dialogue={activeDialogue}
+          character={activeDialogueChar}
+          onComplete={(effects) => handleDialogueComplete(activeDialogue.id, effects)}
+        />
+      )}
+
+      {/* Week briefing — Slack-style notifications */}
+      {state.showWeekBriefing && screen === 'game' && (
+        <WeekBriefing
+          week={state.weekBriefingWeek}
+          messages={getBriefingMessages(state)}
+          onDismiss={() => dispatch({ type: 'DISMISS_WEEK_BRIEFING' })}
+        />
+      )}
+
+      {/* Character dossier */}
+      {activeDossier && (
+        <CharacterDossier
+          character={state.cast.find(c => c.id === activeDossier?.id) ?? activeDossier}
+          onDismiss={handleDossierDismiss}
+        />
+      )}
+
+      {/* Locked room notice */}
+      {lockedNotice && (
+        <LockedNotice
+          message={lockedNotice.message}
+          onDismiss={() => setLockedNotice(null)}
+        />
+      )}
+
+      {/* Watercooler panel */}
+      {activeWatercooler && (
+        <WatercoolerPanel
+          npc={activeWatercooler.npc}
+          conversation={activeWatercooler.conversation}
+          onDiscoverClue={(payload) => dispatch({ type: 'DISCOVER_OFFICE_RUMOR', ...payload })}
+          onDismiss={handleWatercoolerDismiss}
+        />
+      )}
+
+      {/* Scenario modal */}
+      {state.activeScenario && !state.showingStakeholderResponse && (
+        <ScenarioModal
+          scenario={state.activeScenario}
+          onChoice={handleScenarioChoice}
+        />
+      )}
+
+      {/* Stakeholder response */}
+      {state.showingStakeholderResponse && (
+        <StakeholderResponseScreen
+          data={state.stakeholderResponseData}
+          onDismiss={() => dispatch({ type: 'DISMISS_STAKEHOLDER_RESPONSE' })}
+        />
+      )}
+
+      {/* Optics report — end game */}
+      {state.opticsReport && (
+        <OpticsReport
+          report={state.opticsReport}
+          decisionLog={state.decisionLog}
+        />
+      )}
+    </div>
+  )
+}

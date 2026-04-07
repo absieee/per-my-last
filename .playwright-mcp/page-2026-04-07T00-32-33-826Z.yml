@@ -1,0 +1,609 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Link to the Steam Homepage" [ref=e8] [cursor=pointer]:
+          - /url: https://store.steampowered.com/?snr=1_5_9__global-header
+          - img "Link to the Steam Homepage" [ref=e9]
+        - navigation "Global Menu" [ref=e10]:
+          - link "STORE" [ref=e11] [cursor=pointer]:
+            - /url: https://store.steampowered.com/?snr=1_5_9__global-header
+          - link "COMMUNITY" [ref=e12] [cursor=pointer]:
+            - /url: https://steamcommunity.com/
+          - link "About" [ref=e13] [cursor=pointer]:
+            - /url: https://store.steampowered.com/about/?snr=1_5_9__global-header
+          - link "SUPPORT" [ref=e14] [cursor=pointer]:
+            - /url: https://help.steampowered.com/en/
+        - navigation "Account Menu" [ref=e16]:
+          - link "Install Steam" [ref=e17] [cursor=pointer]:
+            - /url: https://store.steampowered.com/about/?snr=1_5_9__global-header
+            - generic [ref=e18]: Install Steam
+          - link "sign in" [ref=e19] [cursor=pointer]:
+            - /url: https://store.steampowered.com/login/?redir=app%2F2920570%2FDale__Dawson_Stationery_Supplies%2F&redir_ssl=1&snr=1_5_9__global-header
+          - text: "| language"
+    - navigation "Store menu" [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e25]:
+          - button "Browse" [ref=e26] [cursor=pointer]:
+            - generic [ref=e27]: Browse
+          - button "Recommendations" [ref=e30] [cursor=pointer]:
+            - generic [ref=e31]: Recommendations
+          - button "Categories" [ref=e34] [cursor=pointer]:
+            - generic [ref=e35]: Categories
+          - button "Hardware" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]: Hardware
+          - button "Ways to Play" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]: Ways to Play
+          - button "Special Sections" [ref=e46] [cursor=pointer]:
+            - generic [ref=e47]: Special Sections
+        - generic [ref=e50]:
+          - search [ref=e51]:
+            - combobox "Search the store" [ref=e53]
+            - button "Search" [ref=e54] [cursor=pointer]:
+              - img "Search" [ref=e55]
+          - link "Advanced Search" [ref=e58] [cursor=pointer]:
+            - /url: https://store.steampowered.com/search/?term=&snr=1_7_15__advancedsearch
+    - main [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e65]:
+          - generic [ref=e67] [cursor=pointer]: Open in Desktop App
+          - generic [ref=e69]:
+            - text: You're not signed in!
+            - text: Open this page in the Steam App to wishlist, follow, purchase and see recommendations
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e74]:
+              - generic [ref=e76]:
+                - link "All Games" [ref=e77] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?term=&snr=1_5_9__205
+                - text: ">"
+                - link "Casual Games" [ref=e78] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/genre/Casual/?snr=1_5_9__205
+                - text: ">"
+                - link "Dale & Dawson Stationery Supplies" [ref=e79] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/app/2920570/?snr=1_5_9__205
+              - generic [ref=e81]:
+                - link "Community Hub" [ref=e83] [cursor=pointer]:
+                  - /url: https://steamcommunity.com/app/2920570
+                  - generic [ref=e84]: Community Hub
+                - heading "Dale & Dawson Stationery Supplies" [level=1] [ref=e85]
+            - generic [ref=e88]:
+              - generic [ref=e90]:
+                - generic [ref=e93]: In "Dale & Dawson Stationery Supplies," play as a Manager, Specialist, or Slacker in an office setting. Slackers blend in, mimicking Specialists to avoid the Manager's suspicion. Uncover or cause deception to win.
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - generic [ref=e96]:
+                      - 'link "Recent Reviews: Very Positive (81)" [ref=e97] [cursor=pointer]':
+                        - /url: "#app_reviews_hash"
+                        - generic [ref=e98]: "Recent Reviews:"
+                        - generic [ref=e99]: Very Positive (81)
+                      - 'link "English Reviews: Very Positive (4,456)" [ref=e100] [cursor=pointer]':
+                        - /url: "#app_reviews_hash"
+                        - generic [ref=e101]: "English Reviews:"
+                        - generic [ref=e102]: Very Positive (4,456)
+                    - generic [ref=e103]:
+                      - generic [ref=e104]: "Release Date:"
+                      - generic [ref=e105]: 30 Aug, 2024
+                    - generic [ref=e106]:
+                      - generic [ref=e107]: "Developer:"
+                      - link "Striped Panda Studios" [ref=e109] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/search/?developer=Striped%20Panda%20Studios&snr=1_5_9__2000
+                    - generic [ref=e110]:
+                      - generic [ref=e111]: "Publisher:"
+                      - link "Striped Panda Studios" [ref=e113] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/search/?publisher=Striped%20Panda%20Studios&snr=1_5_9__422
+                  - generic [ref=e115]:
+                    - generic [ref=e116]: "Popular user-defined tags for this product:"
+                    - generic [ref=e117]:
+                      - link "Multiplayer" [ref=e118] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/tags/en/Multiplayer/?snr=1_5_9__409
+                      - link "Casual" [ref=e119] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/tags/en/Casual/?snr=1_5_9__409
+                      - link "Social Deduction" [ref=e120] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/tags/en/Social%20Deduction/?snr=1_5_9__409
+                      - link "3D" [ref=e121] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/tags/en/3D/?snr=1_5_9__409
+                      - link "First-Person" [ref=e122] [cursor=pointer]:
+                        - /url: https://store.steampowered.com/tags/en/First-Person/?snr=1_5_9__409
+                      - button "+" [ref=e123] [cursor=pointer]
+              - generic [ref=e128]:
+                - generic [ref=e131]:
+                  - generic [ref=e133]:
+                    - generic "Trailer" [ref=e134]
+                    - generic [ref=e135]:
+                      - generic [ref=e141]:
+                        - generic [ref=e142]:
+                          - img [ref=e145] [cursor=pointer]
+                          - img [ref=e150] [cursor=pointer]
+                          - generic [ref=e156]:
+                            - generic [ref=e157]: 0:10
+                            - generic [ref=e158]: /
+                            - generic [ref=e159]: 0:20
+                        - generic [ref=e160]:
+                          - img [ref=e163] [cursor=pointer]
+                          - img [ref=e167] [cursor=pointer]
+                          - img [ref=e171] [cursor=pointer]
+                      - generic:
+                        - generic:
+                          - generic: Gameplay
+                          - generic: Trailer
+                  - generic:
+                    - 'img "Screenshot #0"'
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                      - generic:
+                        - generic:
+                          - img
+                  - generic:
+                    - img
+                  - generic:
+                    - img
+                - generic [ref=e173]:
+                  - generic [ref=e174]:
+                    - generic [ref=e175] [cursor=pointer]:
+                      - img [ref=e176]
+                      - img [ref=e178]
+                    - img [ref=e181] [cursor=pointer]
+                    - img [ref=e183] [cursor=pointer]
+                    - img [ref=e185] [cursor=pointer]
+                    - img [ref=e187] [cursor=pointer]
+                    - img [ref=e189] [cursor=pointer]
+                    - img [ref=e191] [cursor=pointer]
+                    - img [ref=e193] [cursor=pointer]
+                  - generic [ref=e194]:
+                    - img [ref=e196] [cursor=pointer]
+                    - img [ref=e201] [cursor=pointer]
+          - generic [ref=e208]:
+            - paragraph [ref=e209]:
+              - link "Sign in" [ref=e210] [cursor=pointer]:
+                - /url: https://store.steampowered.com/login/?redir=app%2F2920570&snr=1_5_9_
+              - text: to add this item to your wishlist, follow it, or mark it as ignored
+            - link [ref=e212] [cursor=pointer]:
+              - /url: javascript:void(0)
+              - img [ref=e214]
+          - generic [ref=e215]:
+            - generic [ref=e216]:
+              - generic [ref=e218]:
+                - link "Online PvP" [ref=e219] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=36&snr=1_5_9__423
+                  - generic [ref=e221]: Online PvP
+                - link "LAN PvP" [ref=e222] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=47&snr=1_5_9__423
+                  - generic [ref=e224]: LAN PvP
+                - link "Online Co-op" [ref=e225] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=38&snr=1_5_9__423
+                  - generic [ref=e227]: Online Co-op
+                - link "LAN Co-op" [ref=e228] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=48&snr=1_5_9__423
+                  - generic [ref=e230]: LAN Co-op
+                - link "Steam Achievements" [ref=e231] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=22&snr=1_5_9__423
+                  - generic [ref=e233]: Steam Achievements
+                - link "In-App Purchases" [ref=e234] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=35&snr=1_5_9__423
+                  - generic [ref=e236]: In-App Purchases
+                - link "Steam Cloud" [ref=e237] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=23&snr=1_5_9__423
+                  - generic [ref=e239]: Steam Cloud
+                - link "Family Sharing" [ref=e240] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/search/?category2=62&snr=1_5_9__423
+                  - generic [ref=e242]: Family Sharing
+              - generic [ref=e243]:
+                - generic [ref=e244]: "Languages:"
+                - generic [ref=e245]:
+                  - table [ref=e246]:
+                    - rowgroup [ref=e247]:
+                      - row "Interface Full Audio Subtitles" [ref=e248]:
+                        - columnheader [ref=e249]
+                        - columnheader "Interface" [ref=e250]
+                        - columnheader "Full Audio" [ref=e251]
+                        - columnheader "Subtitles" [ref=e252]
+                      - row "English ✔ ✔ ✔" [ref=e253]:
+                        - cell "English" [ref=e254]
+                        - cell "✔" [ref=e255]
+                        - cell "✔" [ref=e256]
+                        - cell "✔" [ref=e257]
+                      - row "French ✔ ✔" [ref=e258]:
+                        - cell "French" [ref=e259]
+                        - cell "✔" [ref=e260]
+                        - cell [ref=e261]
+                        - cell "✔" [ref=e262]
+                      - row "German ✔ ✔" [ref=e263]:
+                        - cell "German" [ref=e264]
+                        - cell "✔" [ref=e265]
+                        - cell [ref=e266]
+                        - cell "✔" [ref=e267]
+                      - row "Spanish - Spain ✔ ✔" [ref=e268]:
+                        - cell "Spanish - Spain" [ref=e269]
+                        - cell "✔" [ref=e270]
+                        - cell [ref=e271]
+                        - cell "✔" [ref=e272]
+                      - row "Hungarian ✔ ✔" [ref=e273]:
+                        - cell "Hungarian" [ref=e274]
+                        - cell "✔" [ref=e275]
+                        - cell [ref=e276]
+                        - cell "✔" [ref=e277]
+                  - generic [ref=e278] [cursor=pointer]: See all 22 supported languages
+              - group "Steam Deck Compatibility" [ref=e280]:
+                - generic [ref=e281]: Steam Deck Compatibility
+                - generic [ref=e282]:
+                  - generic [ref=e283]: Playable
+                  - button "Learn more" [ref=e286] [cursor=pointer]
+              - generic [ref=e288]:
+                - generic [ref=e289]: Content
+                - generic [ref=e290]:
+                  - generic [ref=e291]: Includes Interactive Elements
+                  - paragraph [ref=e292]: In-game purchases, In-game chat, Online interactivity
+              - generic [ref=e293]:
+                - generic [ref=e294]: Includes 38 Steam Achievements
+                - generic [ref=e295]:
+                  - img "Changed my mind" [ref=e297]
+                  - img "Janitor" [ref=e299]
+                  - img "Who did this?" [ref=e301]
+                  - img "Sticky Bandits" [ref=e303]
+                  - link "View all 38" [ref=e304] [cursor=pointer]:
+                    - /url: https://steamcommunity.com/stats/2920570/achievements
+                    - text: View
+                    - text: all 38
+              - generic [ref=e307]:
+                - generic [ref=e308]:
+                  - text: "Title: Dale & Dawson Stationery Supplies"
+                  - text: "Genre:"
+                  - generic [ref=e309]:
+                    - link "Casual" [ref=e310] [cursor=pointer]:
+                      - /url: https://store.steampowered.com/genre/Casual/?snr=1_5_9__408
+                    - text: ","
+                    - link "RPG" [ref=e311] [cursor=pointer]:
+                      - /url: https://store.steampowered.com/genre/RPG/?snr=1_5_9__408
+                    - text: ","
+                    - link "Strategy" [ref=e312] [cursor=pointer]:
+                      - /url: https://store.steampowered.com/genre/Strategy/?snr=1_5_9__408
+                  - generic [ref=e313]:
+                    - text: "Developer:"
+                    - link "Striped Panda Studios" [ref=e314] [cursor=pointer]:
+                      - /url: https://store.steampowered.com/search/?developer=Striped%20Panda%20Studios&snr=1_5_9__408
+                  - generic [ref=e315]:
+                    - text: "Publisher:"
+                    - link "Striped Panda Studios" [ref=e316] [cursor=pointer]:
+                      - /url: https://store.steampowered.com/search/?publisher=Striped%20Panda%20Studios&snr=1_5_9__422
+                  - text: "Release Date: 30 Aug, 2024"
+                - generic [ref=e317]:
+                  - link "View update history" [ref=e318] [cursor=pointer]:
+                    - /url: https://store.steampowered.com/newshub/?appids=2920570&snr=1_5_9__408
+                  - link "Read related news" [ref=e319] [cursor=pointer]:
+                    - /url: https://store.steampowered.com/newshub/app/2920570?snr=1_5_9__408
+                  - link "View discussions" [ref=e320] [cursor=pointer]:
+                    - /url: https://steamcommunity.com/app/2920570/discussions/
+                  - link "Find Community Groups" [ref=e321] [cursor=pointer]:
+                    - /url: https://steamcommunity.com/actions/Search?T=ClanAccount&K=Dale%20%26%20Dawson%20Stationery%20Supplies
+              - generic [ref=e322]:
+                - link "Embed" [ref=e323] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e324]: Embed
+                - link "Report this Product" [ref=e325] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - generic "Report this Product" [ref=e326]
+            - generic [ref=e328]:
+              - region "Buy Dale & Dawson Stationery Supplies" [ref=e331]:
+                - heading "Buy Dale & Dawson Stationery Supplies" [level=2] [ref=e334]
+                - generic [ref=e336]:
+                  - generic [ref=e337]: £6.69
+                  - button "Add to Cart" [ref=e339] [cursor=pointer]:
+                    - generic [ref=e340]: Add to Cart
+              - generic [ref=e344]:
+                - generic [ref=e345]:
+                  - heading "Recent Events & Announcements" [level=2] [ref=e346]
+                  - button "View All" [ref=e348] [cursor=pointer]
+                  - 'button "Regular Update Fri, January 23, 2026 5:56 PM GMT New Map Paris Dale & Dawson Stationery Supplies - Game Update Version 1.7.0 Explore a brand-new office set in Paris. Features a fresh layout with new rooms and office spaces. New Saboteur Task: Cause a paper jam in the printer." [ref=e350] [cursor=pointer]':
+                    - generic [ref=e353]:
+                      - generic [ref=e354]:
+                        - text: Regular Update
+                        - generic [ref=e355]:
+                          - text: Fri, January 23, 2026
+                          - text: 5:56 PM
+                          - generic [ref=e357]: GMT
+                      - generic [ref=e358]: New Map Paris
+                      - generic [ref=e359]: Dale & Dawson Stationery Supplies - Game Update Version 1.7.0
+                      - generic [ref=e360]: "Explore a brand-new office set in Paris. Features a fresh layout with new rooms and office spaces. New Saboteur Task: Cause a paper jam in the printer."
+                - 'button "See all updates (Latest: Jan 23)" [ref=e366] [cursor=pointer]'
+              - generic [ref=e367]:
+                - generic [ref=e369]:
+                  - heading "About This Game" [level=2] [ref=e370]
+                  - heading "The Manager" [level=2] [ref=e371]
+                  - text: The Manager is the office's ultimate authority figure, tasked with ensuring productivity and firing the Slackers hiding among the Specialists.
+                  - button "Pause animation" [ref=e375]:
+                    - img "Pause animation" [ref=e376]
+                  - heading "Slackers" [level=2] [ref=e377]
+                  - text: The Slacker's goal is to goof off without getting caught. Whether it’s playing Minesweeper, or taking a dump, Slackers must blend in to avoid the Manager’s wrath.
+                  - button "Pause animation" [ref=e381]:
+                    - img "Pause animation" [ref=e382]
+                  - heading "Specialists" [level=2] [ref=e383]
+                  - text: Specialists are the backbone of the company, assigned various tasks that keep the office running smoothly. But even the hardest workers know that productivity sometimes requires a coffee break.
+                  - button "Pause animation" [ref=e387]:
+                    - img "Pause animation" [ref=e388]
+                  - heading "Gameplay Mechanics" [level=2] [ref=e389]
+                  - list [ref=e390]:
+                    - listitem [ref=e391]: "Objective-Based Gameplay: Specialists are tasked with completing objectives to contribute to the company's success, whereas Slackers engage in activities to appear busy while avoiding actual work."
+                    - listitem [ref=e392]: "Social Deduction and Strategy: Players utilize proximity voice chat for real-time discussions, alliances, and accusations, making social interactions crucial to gameplay."
+                    - listitem [ref=e393]:
+                      - text: "Managerial Oversight: The Manager must observe, deduce, and decide who to fire, with each choice potentially altering the game's balance."
+                      - text: "Experience the Office Like Never Before:"
+                - generic [ref=e395] [cursor=pointer]: READ MORE
+              - generic [ref=e398]:
+                - heading "AI Generated Content Disclosure" [level=2] [ref=e399]
+                - paragraph [ref=e400]: "The developers describe how their game uses AI Generated Content like this:"
+                - paragraph [ref=e401]: AI only was used to create the achievement images
+              - generic [ref=e403]:
+                - heading "System Requirements" [level=2] [ref=e404]
+                - generic [ref=e406]:
+                  - list [ref=e408]:
+                    - strong [ref=e409]: "Minimum:"
+                    - list [ref=e410]:
+                      - listitem [ref=e411]:
+                        - strong [ref=e412]: "OS:"
+                        - text: Windows 10
+                      - listitem [ref=e413]:
+                        - strong [ref=e414]: "Processor:"
+                        - text: Intel i5-6400
+                      - listitem [ref=e415]:
+                        - strong [ref=e416]: "Memory:"
+                        - text: 4 GB RAM
+                      - listitem [ref=e417]:
+                        - strong [ref=e418]: "Graphics:"
+                        - text: Nvidia Geforce GTX 960
+                      - listitem [ref=e419]:
+                        - strong [ref=e420]: "DirectX:"
+                        - text: Version 11
+                      - listitem [ref=e421]:
+                        - strong [ref=e422]: "Network:"
+                        - text: Broadband Internet connection
+                      - listitem [ref=e423]:
+                        - strong [ref=e424]: "Storage:"
+                        - text: 2 GB available space
+                  - list [ref=e426]:
+                    - strong [ref=e427]: "Recommended:"
+                    - list [ref=e428]:
+                      - listitem [ref=e429]:
+                        - strong [ref=e430]: "OS:"
+                        - text: Windows 11
+                      - listitem [ref=e431]:
+                        - strong [ref=e432]: "Processor:"
+                        - text: Intel i7-7700k
+                      - listitem [ref=e433]:
+                        - strong [ref=e434]: "Memory:"
+                        - text: 4 GB RAM
+                      - listitem [ref=e435]:
+                        - strong [ref=e436]: "Graphics:"
+                        - text: Nvidia Geforce GTX 1080Ti
+                      - listitem [ref=e437]:
+                        - strong [ref=e438]: "DirectX:"
+                        - text: Version 12
+                      - listitem [ref=e439]:
+                        - strong [ref=e440]: "Network:"
+                        - text: Broadband Internet connection
+                      - listitem [ref=e441]:
+                        - strong [ref=e442]: "Storage:"
+                        - text: 2 GB available space
+          - generic [ref=e444]:
+            - generic [ref=e446]:
+              - generic [ref=e447]:
+                - generic [ref=e448]: More like this
+                - link "See All" [ref=e449] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/recommended/morelike/app/2920570/?snr=1_5_9__300
+                  - generic [ref=e450]: See All
+              - generic [ref=e452]:
+                - generic [ref=e453]:
+                  - button "Previous" [ref=e454] [cursor=pointer]
+                  - list "slider" [ref=e456]:
+                    - generic [ref=e458]:
+                      - listitem [ref=e459]:
+                        - button "Super Battle Golf 30% off. £6.89 normally, discounted to £4.82" [ref=e689]:
+                          - link "Super Battle Golf 30% off. £6.89 normally, discounted to £4.82" [ref=e690] [cursor=pointer]:
+                            - /url: https://store.steampowered.com/app/4069520/Super_Battle_Golf?snr=1_5_9__300
+                            - button "Super Battle Golf" [ref=e692]:
+                              - img "Super Battle Golf" [ref=e694]
+                            - generic "30% off. £6.89 normally, discounted to £4.82" [ref=e697]:
+                              - generic [ref=e698]: "-30%"
+                              - generic [ref=e699]:
+                                - generic [ref=e700]: £6.89
+                                - generic [ref=e701]: £4.82
+                      - listitem [ref=e461]:
+                        - button "Roadside Research 25% off. £10.99 normally, discounted to £8.24" [ref=e706]:
+                          - link "Roadside Research 25% off. £10.99 normally, discounted to £8.24" [ref=e707] [cursor=pointer]:
+                            - /url: https://store.steampowered.com/app/3643170/Roadside_Research?snr=1_5_9__300
+                            - button "Roadside Research" [ref=e709]:
+                              - img "Roadside Research" [ref=e711]
+                            - generic "25% off. £10.99 normally, discounted to £8.24" [ref=e714]:
+                              - generic [ref=e715]: "-25%"
+                              - generic [ref=e716]:
+                                - generic [ref=e717]: £10.99
+                                - generic [ref=e718]: £8.24
+                      - listitem [ref=e463]:
+                        - button "Dead by Daylight £17.19" [ref=e723]:
+                          - link "Dead by Daylight £17.19" [ref=e724] [cursor=pointer]:
+                            - /url: https://store.steampowered.com/app/381210/Dead_by_Daylight?snr=1_5_9__300
+                            - button "Dead by Daylight" [ref=e726]:
+                              - img "Dead by Daylight" [ref=e728]
+                            - generic [ref=e732]: £17.19
+                      - listitem [ref=e465]:
+                        - button "ELDEN RING £49.99" [ref=e737]:
+                          - link "ELDEN RING £49.99" [ref=e738] [cursor=pointer]:
+                            - /url: https://store.steampowered.com/app/1245620/ELDEN_RING?snr=1_5_9__300
+                            - button "ELDEN RING" [ref=e740]:
+                              - img "ELDEN RING" [ref=e742]
+                            - generic [ref=e746]: £49.99
+                      - listitem [ref=e467]
+                      - listitem [ref=e470]
+                      - listitem [ref=e473]
+                      - listitem [ref=e476]
+                      - listitem [ref=e479]
+                      - listitem [ref=e482]
+                      - listitem [ref=e485]
+                      - listitem [ref=e488]
+                      - listitem [ref=e491]
+                      - listitem [ref=e494]
+                      - listitem [ref=e497]
+                      - listitem [ref=e500]
+                      - listitem [ref=e503]
+                      - listitem [ref=e506]
+                      - listitem [ref=e509]
+                      - listitem [ref=e512]
+                      - listitem [ref=e515]
+                      - listitem [ref=e518]
+                      - listitem [ref=e521]
+                      - listitem [ref=e524]
+                      - listitem [ref=e527]
+                      - listitem [ref=e530]
+                      - listitem [ref=e533]
+                      - listitem [ref=e536]
+                      - listitem [ref=e539]
+                      - listitem [ref=e542]
+                  - button "Next" [ref=e545] [cursor=pointer]
+                - generic [ref=e548]:
+                  - button "previous" [ref=e552] [cursor=pointer]
+                  - button "next" [ref=e554] [cursor=pointer]
+            - generic [ref=e556]:
+              - link "View all" [ref=e557] [cursor=pointer]:
+                - /url: https://store.steampowered.com/curators/curatorsreviewing/?appid=2920570&snr=1_5_9__top-curators
+              - heading "What Curators Say" [level=2] [ref=e558]
+              - generic [ref=e559]:
+                - text: 47 Curators have reviewed this product. Click
+                - link "here" [ref=e560] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/curators/curatorsreviewing/?appid=2920570&snr=1_5_9__top-curators
+                - text: to see them.
+          - generic [ref=e563]:
+            - heading "Customer reviews for Dale & Dawson Stationery Supplies See language breakdown About user reviews Your preferences" [level=2] [ref=e564]:
+              - text: Customer reviews for Dale & Dawson Stationery Supplies
+              - generic [ref=e566]:
+                - link "See language breakdown" [ref=e567] [cursor=pointer]:
+                  - /url: javascript:ViewLanguageReviewScores( 2920570 )
+                - link "About user reviews" [ref=e568] [cursor=pointer]:
+                  - /url: https://help.steampowered.com/faqs/view/2DA6-9CB3-F84A-643E
+                - link "Your preferences" [ref=e569] [cursor=pointer]:
+                  - /url: https://store.steampowered.com/account/preferences/#review_score_preferences
+            - generic [ref=e570]:
+              - generic [ref=e573]:
+                - generic [ref=e574]: "English Reviews:"
+                - generic [ref=e575]: Very Positive
+                - generic [ref=e576]: (4,456 reviews)
+              - generic [ref=e577]:
+                - generic [ref=e578]:
+                  - text: "Total reviews in all languages:"
+                  - generic [ref=e579]: 7,565
+                  - generic [ref=e580]: Very Positive
+                - generic [ref=e581]:
+                  - text: "Recent Reviews in all languages:"
+                  - generic [ref=e582]: "81"
+                  - generic [ref=e583]: Very Positive
+            - list "Filter options" [ref=e586]:
+              - listitem [ref=e587]:
+                - button "Review Type" [ref=e588] [cursor=pointer]
+              - listitem [ref=e589]:
+                - button "Purchase Type" [ref=e590] [cursor=pointer]
+              - listitem [ref=e591]:
+                - button "Language" [ref=e592] [cursor=pointer]
+              - listitem [ref=e593]:
+                - button "Date Range" [ref=e594] [cursor=pointer]
+              - listitem [ref=e595]:
+                - button "Playtime" [ref=e596] [cursor=pointer]
+              - listitem [ref=e597]:
+                - button "Display" [ref=e598] [cursor=pointer]
+              - button "Show graph" [ref=e600] [cursor=pointer]: Show graph
+            - group [ref=e603]:
+              - generic [ref=e604]: Filters
+              - button [ref=e605] [cursor=pointer]
+              - button [ref=e606] [cursor=pointer]
+              - button [ref=e607] [cursor=pointer]
+              - button [ref=e608] [cursor=pointer]
+              - button "Excluding Off-topic Review Activity" [ref=e609] [cursor=pointer]
+              - button "Playtime:" [ref=e610] [cursor=pointer]: "Playtime:"
+              - button "Played Mostly on Steam Deck" [ref=e611] [cursor=pointer]
+              - button "Operating System:" [ref=e612] [cursor=pointer]: "Operating System:"
+              - button "CPU:" [ref=e613] [cursor=pointer]: "CPU:"
+              - button "GPU:" [ref=e614] [cursor=pointer]: "GPU:"
+              - button "Device Type:" [ref=e615] [cursor=pointer]: "Device Type:"
+    - contentinfo [ref=e623]:
+      - generic [ref=e624]:
+        - generic [ref=e625]:
+          - link [ref=e626] [cursor=pointer]:
+            - /url: https://store.steampowered.com/?snr=1_44_44_
+            - img [ref=e627]
+          - link [ref=e637] [cursor=pointer]:
+            - /url: https://valvesoftware.com
+            - img [ref=e638]
+        - paragraph [ref=e643]:
+          - text: © 2026 Valve Corporation. All rights reserved. All trademarks are property of their respective owners in the US and other countries.
+          - text: VAT included in all prices where applicable.
+        - generic [ref=e644]:
+          - link [ref=e645] [cursor=pointer]:
+            - /url: https://www.youtube.com/@Steam
+            - img [ref=e646]
+          - link [ref=e648] [cursor=pointer]:
+            - /url: https://bsky.app/profile/steampowered.com
+            - img [ref=e649]
+          - link [ref=e651] [cursor=pointer]:
+            - /url: https://facebook.com/steam
+            - img [ref=e652]
+          - link [ref=e654] [cursor=pointer]:
+            - /url: https://twitter.com/steam
+            - img [ref=e655]
+      - generic [ref=e657]:
+        - heading "STEAM" [level=3] [ref=e658]
+        - link "About Steam" [ref=e659] [cursor=pointer]:
+          - /url: https://store.steampowered.com/about/?snr=1_44_44_
+        - link "Steam SSA" [ref=e660] [cursor=pointer]:
+          - /url: https://store.steampowered.com/subscriber_agreement/?snr=1_44_44_
+        - link "Steamworks" [ref=e661] [cursor=pointer]:
+          - /url: https://partner.steamgames.com/
+        - link "Steam Distribution" [ref=e662] [cursor=pointer]:
+          - /url: https://partner.steamgames.com/steamdirect
+        - link "Gift Cards" [ref=e663] [cursor=pointer]:
+          - /url: https://store.steampowered.com/digitalgiftcards/?snr=1_44_44_
+      - generic [ref=e664]:
+        - heading "VALVE" [level=3] [ref=e665]
+        - link "About Valve" [ref=e666] [cursor=pointer]:
+          - /url: https://valvesoftware.com/about
+        - link "Jobs" [ref=e667] [cursor=pointer]:
+          - /url: https://valvesoftware.com/
+        - link "Hardware" [ref=e668] [cursor=pointer]:
+          - /url: https://store.steampowered.com/hardware/?snr=1_44_44_
+        - link "Recycling" [ref=e669] [cursor=pointer]:
+          - /url: https://store.steampowered.com/hardware_recycling/?snr=1_44_44_
+      - generic [ref=e670]:
+        - heading "LEGAL" [level=3] [ref=e671]
+        - link "Privacy" [ref=e672] [cursor=pointer]:
+          - /url: https://store.steampowered.com/privacy_agreement/?snr=1_44_44_
+        - link "Accessibility" [ref=e673] [cursor=pointer]:
+          - /url: https://help.steampowered.com/faqs/view/10BB-D27A-6378-4436
+        - link "Notices & Policies" [ref=e674] [cursor=pointer]:
+          - /url: https://store.steampowered.com/legal/?snr=1_44_44_
+        - link "Cookies" [ref=e675] [cursor=pointer]:
+          - /url: https://store.steampowered.com/account/cookiepreferences/?snr=1_44_44_
+        - link "Refunds" [ref=e676] [cursor=pointer]:
+          - /url: https://store.steampowered.com/steam_refunds/?snr=1_44_44_
+      - generic [ref=e677]:
+        - heading "MORE" [level=3] [ref=e678]
+        - link "Get Steam" [ref=e679] [cursor=pointer]:
+          - /url: https://store.steampowered.com/about/?snr=1_44_44_
+        - link "Get Mobile Apps" [ref=e680] [cursor=pointer]:
+          - /url: https://store.steampowered.com/mobile/?snr=1_44_44_
+        - link "Get Support" [ref=e681] [cursor=pointer]:
+          - /url: https://help.steampowered.com/
+        - link "My Account" [ref=e682] [cursor=pointer]:
+          - /url: https://store.steampowered.com/account/?snr=1_44_44_
+  - generic [ref=e748]:
+    - generic [ref=e749]:
+      - generic [ref=e750]: Do you mind if we use optional cookies to provide you personalized content and to analyze site traffic?
+      - generic [ref=e751]:
+        - text: We don't use a lot of cookies; you can see and manage them at any time on our
+        - link "Cookie Settings page" [ref=e752] [cursor=pointer]:
+          - /url: https://store.steampowered.com/account/cookiepreferences
+        - text: . If you click 'Accept All,' you consent to the use of cookies on Steam websites. Learn more about cookies in our
+        - link "Privacy Policy" [ref=e753] [cursor=pointer]:
+          - /url: https://store.steampowered.com/privacy_agreement
+        - text: .
+    - generic [ref=e754]:
+      - generic [ref=e756] [cursor=pointer]: Accept All
+      - generic [ref=e758] [cursor=pointer]: Reject All

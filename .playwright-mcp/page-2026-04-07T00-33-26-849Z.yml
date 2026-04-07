@@ -1,0 +1,378 @@
+- generic [ref=e1]:
+  - banner:
+    - banner [ref=e2]:
+      - generic [ref=e3]:
+        - generic [ref=e4]:
+          - link "IGDB Logo" [ref=e5] [cursor=pointer]:
+            - /url: /
+            - img "IGDB Logo" [ref=e6]
+          - button [ref=e7] [cursor=pointer]:
+            - img [ref=e8]: 
+        - button "Search... ⌘K" [ref=e12] [cursor=pointer]:
+          - img [ref=e14]
+          - text: Search...
+          - generic [ref=e17]: ⌘K
+        - button [ref=e20] [cursor=pointer]:
+          - checkbox
+          - img [ref=e21]
+        - link "LOGIN WITH TWITCH" [ref=e24] [cursor=pointer]:
+          - /url: /oauth/twitch
+          - button "LOGIN WITH TWITCH" [ref=e25]:
+            - img [ref=e27]: 
+            - text: LOGIN WITH TWITCH
+          - text: 
+  - main [ref=e30]:
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e36]:
+          - heading "Dale & Dawson Stationery Supplies" [level=1] [ref=e39]
+          - generic [ref=e40]:
+            - generic [ref=e41]: 8/30/2024 (1 years ago)
+            - generic [ref=e42]: Full Release
+            - link "Striped Panda Studios" [ref=e44] [cursor=pointer]:
+              - /url: /companies/striped-panda-studios
+          - generic [ref=e45]:
+            - img "Dale & Dawson Stationery Supplies cover" [ref=e49]
+            - text:    
+            - button "thumbnail image for video Play Video" [ref=e53] [cursor=pointer]:
+              - generic [ref=e54]:
+                - img "thumbnail image for video" [ref=e55]
+                - img "Play Video" [ref=e56]
+            - generic [ref=e57]:
+              - generic [ref=e59]:
+                - generic [ref=e61]:
+                  - generic [ref=e62]:
+                    - img [ref=e63]: 
+                    - text: "7.7"
+                  - generic [ref=e66]: 10 user ratings
+                - generic [ref=e68]:
+                  - generic [ref=e69]:
+                    - img [ref=e70]: 
+                    - text: N/A
+                  - link "0 critic ratings" [ref=e73] [cursor=pointer]:
+                    - /url: /games/dale-and-dawson-stationery-supplies#community
+                    - generic [ref=e74]: 0 critic ratings
+                - generic [ref=e75]:
+                  - button [ref=e76] [cursor=pointer]:
+                    - img [ref=e77]
+                  - button [ref=e79] [cursor=pointer]:
+                    - img [ref=e80]
+                  - button [ref=e82] [cursor=pointer]:
+                    - img [ref=e83]
+                  - button [ref=e85] [cursor=pointer]:
+                    - img [ref=e86]
+                  - button [ref=e88] [cursor=pointer]:
+                    - img [ref=e89]
+                  - button [ref=e91] [cursor=pointer]:
+                    - img [ref=e92]
+                  - button [ref=e94] [cursor=pointer]:
+                    - img [ref=e95]
+                  - button [ref=e97] [cursor=pointer]:
+                    - img [ref=e98]
+                  - button [ref=e100] [cursor=pointer]:
+                    - img [ref=e101]
+                  - button [ref=e103] [cursor=pointer]:
+                    - img [ref=e104]
+              - group [ref=e108]:
+                - button "Want 38" [ref=e110] [cursor=pointer]:
+                  - img [ref=e111]: 
+                  - generic [ref=e113]: Want
+                  - generic [ref=e114]: "38"
+                - button "Playing 8" [ref=e116] [cursor=pointer]:
+                  - img [ref=e117]: 
+                  - generic [ref=e119]: Playing
+                  - generic [ref=e120]: "8"
+                - button "Played 28" [ref=e122] [cursor=pointer]:
+                  - img [ref=e123]
+                  - generic [ref=e125]: Played
+                  - generic [ref=e126]: "28"
+        - generic [ref=e128]:
+          - generic [ref=e130]:
+            - paragraph [ref=e131]:
+              - strong [ref=e132]: "Genre:"
+              - link "Role-playing (RPG)" [ref=e133] [cursor=pointer]:
+                - /url: /genres/role-playing-rpg
+              - text: ","
+              - link "Strategy" [ref=e134] [cursor=pointer]:
+                - /url: /genres/strategy
+              - text: ","
+              - link "Indie" [ref=e135] [cursor=pointer]:
+                - /url: /genres/indie
+            - paragraph [ref=e136]:
+              - strong [ref=e137]: "Platforms:"
+              - link "PC (Microsoft Windows)" [ref=e138] [cursor=pointer]:
+                - /url: /platforms/win
+            - paragraph [ref=e140]: Navigate office intrigue in Dale & Dawson Stationery Supplies! Complete tasks, uncover the carrier of illegal leads, and outsmart coworkers in this strategic multiplayer game set in an early 2000s off...Read more
+          - generic [ref=e141]:
+            - button "Add to lists Added to 179 lists" [ref=e143] [cursor=pointer]:
+              - generic [ref=e144]:
+                - img [ref=e145]
+                - generic [ref=e147]:
+                  - paragraph [ref=e148]: Add to lists
+                  - paragraph [ref=e149]: Added to 179 lists
+              - img [ref=e150]
+            - button "Write a review 0 user reviews" [ref=e153] [cursor=pointer]:
+              - img [ref=e154]
+              - generic [ref=e156]:
+                - paragraph [ref=e157]: Write a review
+                - paragraph [ref=e158]: 0 user reviews
+      - generic [ref=e164]:
+        - generic [ref=e166]: About
+        - link "Community" [ref=e167] [cursor=pointer]:
+          - /url: /games/dale-and-dawson-stationery-supplies#community
+          - generic [ref=e168]: Community
+        - link "Media" [ref=e169] [cursor=pointer]:
+          - /url: /games/dale-and-dawson-stationery-supplies#media
+          - generic [ref=e170]: Media
+        - link "Related Content" [ref=e171] [cursor=pointer]:
+          - /url: /games/dale-and-dawson-stationery-supplies#related
+          - generic [ref=e172]: Related Content
+        - link "Releases" [ref=e173] [cursor=pointer]:
+          - /url: /games/dale-and-dawson-stationery-supplies#releases
+          - generic [ref=e174]: Releases
+        - button "Edit" [ref=e176] [cursor=pointer]:
+          - img [ref=e178]
+          - text: Edit
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - generic [ref=e187]:
+                - heading "Main Developers" [level=6] [ref=e188]
+                - link "Striped Panda Studios" [ref=e189] [cursor=pointer]:
+                  - /url: /companies/striped-panda-studios
+              - generic [ref=e191]:
+                - heading "Publishers" [level=6] [ref=e192]
+                - link "Striped Panda Studios" [ref=e193] [cursor=pointer]:
+                  - /url: /companies/striped-panda-studios
+              - generic [ref=e194]:
+                - generic [ref=e195]:
+                  - heading "Genres" [level=6] [ref=e196]
+                  - link "Role-playing (RPG)" [ref=e197] [cursor=pointer]:
+                    - /url: /genres/role-playing-rpg
+                  - link "Strategy" [ref=e198] [cursor=pointer]:
+                    - /url: /genres/strategy
+                  - link "Indie" [ref=e199] [cursor=pointer]:
+                    - /url: /genres/indie
+                - generic [ref=e200]:
+                  - heading "Themes" [level=6] [ref=e201]
+                  - link "Party" [ref=e202] [cursor=pointer]:
+                    - /url: /themes/party
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - heading "Game Modes" [level=6] [ref=e205]
+                  - link "Multiplayer" [ref=e206] [cursor=pointer]:
+                    - /url: /game_modes/multiplayer
+                  - link "Co-operative" [ref=e207] [cursor=pointer]:
+                    - /url: /game_modes/co-operative
+                - generic [ref=e208]:
+                  - heading "Player Perspectives" [level=6] [ref=e209]
+                  - link "First person" [ref=e210] [cursor=pointer]:
+                    - /url: /player_perspectives/first-person
+            - separator [ref=e211]
+            - generic [ref=e212]:
+              - generic [ref=e214]:
+                - heading "Series" [level=6] [ref=e215]
+                - text: "-"
+              - generic [ref=e217]:
+                - heading "Is a spin-off of" [level=6] [ref=e218]
+                - text: "-"
+              - generic [ref=e220]:
+                - heading "Franchises" [level=6] [ref=e221]
+                - text: "-"
+              - generic [ref=e223]:
+                - heading "Game Engine" [level=6] [ref=e224]
+                - link "Unity" [ref=e225] [cursor=pointer]:
+                  - /url: /game_engines/unity
+            - separator [ref=e226]
+            - heading "Story" [level=6] [ref=e228]
+          - generic [ref=e230]:
+            - generic [ref=e231]:
+              - heading "Localized Titles" [level=6] [ref=e232]
+              - paragraph [ref=e233]: "-"
+            - generic [ref=e234]:
+              - heading "Alternative Titles" [level=6] [ref=e235]
+              - paragraph [ref=e236]:
+                - strong [ref=e237]: "Windows Executable:"
+                - text: DDSS.exe
+          - generic [ref=e239]:
+            - heading "Keywords" [level=6] [ref=e240]
+            - paragraph [ref=e242]: "-"
+        - generic [ref=e244]:
+          - paragraph [ref=e247]:
+            - strong [ref=e248]: "IGDB ID:"
+            - text: "296326"
+          - generic [ref=e249]:
+            - paragraph [ref=e251]: Releases
+            - link "Detailed view" [ref=e253] [cursor=pointer]:
+              - /url: /games/dale-and-dawson-stationery-supplies#releases
+          - generic [ref=e255]:
+            - paragraph [ref=e257]: PC (Microsoft Windows)
+            - paragraph [ref=e259]: 2024-8-30
+          - paragraph [ref=e262]: Time to beat
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - generic [ref=e266]:
+                - generic [ref=e267]:
+                  - paragraph [ref=e268]: Hastily
+                  - generic [ref=e269]: N/A
+                - generic [ref=e270]:
+                  - paragraph [ref=e271]: Normally
+                  - generic [ref=e272]: N/A
+                - generic [ref=e273]:
+                  - paragraph [ref=e274]: Completely
+                  - generic [ref=e275]: N/A
+              - paragraph [ref=e276]: No times submitted yet
+            - generic [ref=e277]:
+              - paragraph [ref=e278]: "Your times:"
+              - paragraph [ref=e279]: "You have not submitted any times yet, add them here:"
+              - button "Add times" [ref=e280] [cursor=pointer]: Add times
+          - paragraph [ref=e281]: Links
+          - generic [ref=e284]:
+            - link "Steam" [ref=e286] [cursor=pointer]:
+              - /url: https://store.steampowered.com/app/2920570
+              - img "Steam" [ref=e287]
+            - separator [ref=e288]
+            - generic [ref=e289]:
+              - link "Twitch" [ref=e290] [cursor=pointer]:
+                - /url: https://www.twitch.tv/directory/category/dale-and-dawson-stationery-supplies
+                - img "Twitch" [ref=e291]
+              - link "YouTube" [ref=e292] [cursor=pointer]:
+                - /url: https://www.youtube.com/@stripedpandastudios
+                - img "YouTube" [ref=e293]
+              - link "Discord" [ref=e294] [cursor=pointer]:
+                - /url: https://discord.gg/invite/9YpGvjD2sk
+                - img "Discord" [ref=e295]
+            - separator [ref=e296]
+            - link "Press Kit" [ref=e297] [cursor=pointer]:
+              - /url: /games/dale-and-dawson-stationery-supplies/presskit
+              - button "Press Kit" [ref=e298]:
+                - img [ref=e300]
+                - text: Press Kit
+          - paragraph [ref=e302]: Supported Languages
+          - generic [ref=e304]:
+            - table [ref=e305]:
+              - rowgroup [ref=e306]:
+                - row "Audio Subtitles Interface" [ref=e307]:
+                  - columnheader [ref=e308]
+                  - columnheader "Audio" [ref=e309]
+                  - columnheader "Subtitles" [ref=e310]
+                  - columnheader "Interface" [ref=e311]
+              - rowgroup [ref=e312]:
+                - 'row "Czech: ✓ ✓" [ref=e313]':
+                  - cell "Czech:" [ref=e314]
+                  - cell [ref=e315]
+                  - cell "✓" [ref=e316]
+                  - cell "✓" [ref=e317]
+                - 'row "Danish: ✓ ✓" [ref=e318]':
+                  - cell "Danish:" [ref=e319]
+                  - cell [ref=e320]
+                  - cell "✓" [ref=e321]
+                  - cell "✓" [ref=e322]
+                - 'row "English: ✓ ✓ ✓" [ref=e323]':
+                  - cell "English:" [ref=e324]
+                  - cell "✓" [ref=e325]
+                  - cell "✓" [ref=e326]
+                  - cell "✓" [ref=e327]
+                - 'row "Spanish (Spain): ✓ ✓ ✓" [ref=e328]':
+                  - cell "Spanish (Spain):" [ref=e329]
+                  - cell "✓" [ref=e330]
+                  - cell "✓" [ref=e331]
+                  - cell "✓" [ref=e332]
+                - 'row "French: ✓ ✓" [ref=e333]':
+                  - cell "French:" [ref=e334]
+                  - cell [ref=e335]
+                  - cell "✓" [ref=e336]
+                  - cell "✓" [ref=e337]
+            - text: Show all 16 supported languages
+          - generic [ref=e339]:
+            - generic [ref=e340]:
+              - paragraph [ref=e341]: "Last updated on:"
+              - paragraph [ref=e342]: Mon Jan 12 2026
+              - text: Previous changes
+            - button "Report" [ref=e343] [cursor=pointer]:
+              - img [ref=e345]
+              - text: Report
+  - contentinfo [ref=e347]:
+    - generic [ref=e348]:
+      - generic [ref=e350]:
+        - paragraph [ref=e351]: Recently Visited
+        - generic [ref=e356]:
+          - link "Dale & Dawson Stationery Supplies cover" [ref=e357] [cursor=pointer]:
+            - /url: /games/dale-and-dawson-stationery-supplies
+            - img "Dale & Dawson Stationery Supplies cover" [ref=e361]
+          - generic [ref=e362]:
+            - heading "Dale & Dawson Stationery Supplies" [level=6] [ref=e363]
+            - generic [ref=e364]:
+              - generic "Role-playing (RPG)" [ref=e365]
+              - generic [ref=e366]:
+                - text: "7.7"
+                - img [ref=e367]: 
+      - generic [ref=e369]:
+        - generic [ref=e370]:
+          - link "Discord" [ref=e371] [cursor=pointer]:
+            - /url: https://discord.com/invite/igdb
+            - img [ref=e372]: 
+            - text: Discord
+          - link "Twitter" [ref=e374] [cursor=pointer]:
+            - /url: https://twitter.com/IGDBcom
+            - img [ref=e375]: 
+            - text: Twitter
+        - generic [ref=e377]:
+          - generic [ref=e378]:
+            - link "Privacy Notice" [ref=e379] [cursor=pointer]:
+              - /url: https://www.twitch.tv/p/legal/privacy-policy/
+            - paragraph [ref=e380]: "-"
+          - generic [ref=e381]:
+            - link "Terms" [ref=e382] [cursor=pointer]:
+              - /url: https://www.twitch.tv/p/legal/community-guidelines/
+            - paragraph [ref=e383]: "-"
+          - generic [ref=e384]:
+            - link "Content Policy" [ref=e385] [cursor=pointer]:
+              - /url: /content-policy
+            - paragraph [ref=e386]: "-"
+          - generic [ref=e387]:
+            - link "Community Guidelines" [ref=e388] [cursor=pointer]:
+              - /url: https://www.twitch.tv/p/legal/community-guidelines/
+            - paragraph [ref=e389]: "-"
+          - generic [ref=e390]:
+            - link "Developer Terms" [ref=e391] [cursor=pointer]:
+              - /url: https://www.twitch.tv/p/legal/developer-agreement/
+            - paragraph [ref=e392]: "-"
+          - generic [ref=e393]:
+            - link "DMCA guidelines" [ref=e394] [cursor=pointer]:
+              - /url: https://www.twitch.tv/p/en/legal/dmca-guidelines/
+            - paragraph [ref=e395]: "-"
+          - generic [ref=e396]:
+            - link "API" [ref=e397] [cursor=pointer]:
+              - /url: https://www.igdb.com/api
+            - paragraph [ref=e398]: "-"
+          - generic [ref=e399]:
+            - link "MCP" [ref=e400] [cursor=pointer]:
+              - /url: /mcp
+            - paragraph [ref=e401]: "-"
+          - generic [ref=e402]:
+            - link "Contribution Guidelines" [ref=e403] [cursor=pointer]:
+              - /url: https://github.com/twitchtv/igdb-contribution-guidelines/wiki
+            - paragraph [ref=e404]: "-"
+          - generic [ref=e405]:
+            - link "UserVoice" [ref=e406] [cursor=pointer]:
+              - /url: https://twitch.uservoice.com/forums/929953-igdb
+            - paragraph [ref=e407]: "-"
+          - link "IGDB Press Kit" [ref=e409] [cursor=pointer]:
+            - /url: /press
+        - generic [ref=e410]:
+          - text: IGDB is operated by
+          - link "Twitch" [ref=e411] [cursor=pointer]:
+            - /url: https://twitch.tv
+  - alertdialog "Accept cookies to help improve this website" [ref=e413]:
+    - generic [ref=e415]:
+      - generic [ref=e417]:
+        - heading "Accept cookies to help improve this website" [level=2] [ref=e418]
+        - paragraph [ref=e419]:
+          - text: IGDB uses data collected on our services, including through technologies such as cookies, to remember who you are, remember your preferences, and analyze usage to improve our products. By clicking "Accept Cookies", you agree to this activity. Click "Manage Cookies" to decline cookies.
+          - link "Cookie Notice" [ref=e420] [cursor=pointer]:
+            - /url: https://www.twitch.tv/p/en/legal/cookie-notice/
+      - generic [ref=e422]:
+        - button "Manage Cookies" [ref=e423] [cursor=pointer]
+        - button "Accept Cookies" [ref=e424] [cursor=pointer]

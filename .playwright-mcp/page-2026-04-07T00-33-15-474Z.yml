@@ -1,0 +1,131 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Main Navigation" [ref=e3]:
+    - banner "Site header" [ref=e4]:
+      - navigation "Main navigation" [ref=e5]:
+        - link "PC Gamer" [ref=e7] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/
+          - img "PC Gamer" [ref=e9]
+        - button "US Edition flag of US" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12]: US Edition
+          - img "flag of US" [ref=e13]
+          - img [ref=e14]
+        - generic [ref=e16]:
+          - link "Visit us on steam" [ref=e17] [cursor=pointer]:
+            - /url: https://steamcommunity.com/groups/pcgamer
+            - img [ref=e18]
+          - link "Visit us on facebook" [ref=e21] [cursor=pointer]:
+            - /url: https://www.facebook.com/pcgamermagazine
+            - img [ref=e22]
+          - link "Visit us on twitter" [ref=e25] [cursor=pointer]:
+            - /url: https://twitter.com/pcgamer
+            - img [ref=e26]:
+              - img [ref=e30]
+          - link "Visit us on instagram" [ref=e32] [cursor=pointer]:
+            - /url: https://www.instagram.com/pcgamer_mag/?hl=en
+            - img [ref=e33]
+          - link "Visit us on youtube" [ref=e36] [cursor=pointer]:
+            - /url: https://www.youtube.com/user/pcgamer
+            - img [ref=e37]
+          - link "Visit us on twitch" [ref=e40] [cursor=pointer]:
+            - /url: https://www.twitch.tv/pcgamer
+            - img [ref=e41]
+          - link "Visit us on flipboard" [ref=e44] [cursor=pointer]:
+            - /url: https://flipboard.com/@PC_Gamer_
+            - img [ref=e45]
+          - link "Visit us on tiktok" [ref=e49] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@pcgamer_mag?lang=en
+            - img [ref=e50]
+        - button "Subscribe" [ref=e54] [cursor=pointer]:
+          - text: Subscribe
+          - img [ref=e55]
+        - generic [ref=e57] [cursor=pointer]:
+          - generic [ref=e58]: Sign in
+          - img [ref=e60]
+        - button "Search" [ref=e63] [cursor=pointer]:
+          - img [ref=e65]
+    - list [ref=e69]:
+      - listitem [ref=e70]:
+        - link "home" [ref=e71] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/
+          - generic [ref=e72]: 
+      - listitem [ref=e73]:
+        - link "Games" [ref=e74] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/games/
+      - listitem [ref=e75]:
+        - link "Hardware" [ref=e76] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/hardware/
+      - listitem [ref=e77]:
+        - link "News" [ref=e78] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/news/
+      - listitem [ref=e79]:
+        - link "Reviews" [ref=e80] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/games/reviews/
+      - listitem [ref=e81]:
+        - link "Guides" [ref=e82] [cursor=pointer]:
+          - /url: https://www.pcgamer.com/guides/
+      - listitem [ref=e83]:
+        - link "Video" [ref=e84] [cursor=pointer]:
+          - /url: https://www.youtube.com/@pcgamer/
+      - listitem [ref=e85]:
+        - link "Forum" [ref=e86] [cursor=pointer]:
+          - /url: https://forums.pcgamer.com/
+      - listitem [ref=e87]:
+        - generic [ref=e88]:
+          - text: More
+          - generic [ref=e89]: 
+          - text: 
+  - main [ref=e90]:
+    - article "article" [ref=e92]:
+      - heading "Sorry! Page not found." [level=1] [ref=e94]
+      - generic [ref=e96]:
+        - paragraph [ref=e97]: The page you're looking for has either been moved or removed from the site.
+        - paragraph [ref=e98]:
+          - text: Please try searching our site or
+          - link "start again on our homepage" [ref=e99] [cursor=pointer]:
+            - /url: https://www.pcgamer.com/
+          - text: .
+      - generic [ref=e100]:
+        - searchbox "Type to search..." [ref=e101]
+        - button [ref=e102] [cursor=pointer]:
+          - img [ref=e104]
+  - region "Main footer"
+  - contentinfo "footer content" [ref=e106]:
+    - generic [ref=e107]:
+      - paragraph [ref=e108]:
+        - text: PC Gamer is part of Future US Inc, an international media group and leading digital publisher.
+        - link "Visit our corporate site" [ref=e109] [cursor=pointer]:
+          - /url: https://futureplc.com/
+        - text: .
+      - link "Add as a preferred source on Google Add as a preferred source on Google" [ref=e110] [cursor=pointer]:
+        - /url: https://google.com/preferences/source?q=pcgamer.com
+        - img "Add as a preferred source on Google" [ref=e112]
+        - generic [ref=e113]: Add as a preferred source on Google
+      - navigation "Footer Navigation" [ref=e114]:
+        - list [ref=e115]:
+          - listitem [ref=e116]:
+            - link "About Us" [ref=e117] [cursor=pointer]:
+              - /url: https://www.pcgamer.com/about-pc-gamer/
+          - listitem [ref=e118]:
+            - link "Contact Future's experts" [ref=e119] [cursor=pointer]:
+              - /url: https://futureplc.com/contact/
+          - listitem [ref=e120]:
+            - link "Terms and conditions" [ref=e121] [cursor=pointer]:
+              - /url: https://futureplc.com/terms-conditions/
+          - listitem [ref=e122]:
+            - link "Privacy policy" [ref=e123] [cursor=pointer]:
+              - /url: https://futureplc.com/privacy-policy/
+          - listitem [ref=e124]:
+            - link "Cookies policy" [ref=e125] [cursor=pointer]:
+              - /url: https://futureplc.com/cookies-policy/
+          - listitem [ref=e126]:
+            - link "Advertise with us" [ref=e127] [cursor=pointer]:
+              - /url: https://go.future-advertising.com/PC-Gamer-Media-Kit.html
+          - listitem [ref=e128]:
+            - link "Accessibility Statement" [ref=e129] [cursor=pointer]:
+              - /url: https://futureplc.com/accessibility-statement/
+          - listitem [ref=e130]:
+            - link "Careers" [ref=e131] [cursor=pointer]:
+              - /url: https://futureplc.com/careers/
+      - paragraph [ref=e132]: © Future US, Inc. Full 7th Floor, 130 West 42nd Street, New York, NY 10036.
