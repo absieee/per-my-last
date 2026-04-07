@@ -156,7 +156,7 @@ function EmailScreen({ playerName, onNext }) {
           <p style={{ fontFamily: SANS, fontSize: '15px', color: '#c4d4e4', lineHeight: 1.7, margin: 0 }}>
             That is what &quot;without incident&quot; means.
           </p>
-          <p style={{ fontFamily: SANS, fontSize: '15px', color: '#8a9aae', lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontFamily: SANS, fontSize: '15px', color: '#5a7090', lineHeight: 1.7, margin: 0 }}>
             Your team has been briefed.<br />
             They are watching.
           </p>

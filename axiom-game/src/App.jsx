@@ -34,6 +34,37 @@ function getPlayerSpeedMultiplier(week) {
   return Math.max(0.68, 1 - fatiguePenalty)
 }
 
+function buildNpcWorldState(state) {
+  const stakeholderIds = new Set(['petra', 'callum', 'simone', 'marcus'])
+  const npcStates = Object.fromEntries(
+    state.cast
+      .filter(character => stakeholderIds.has(character.id))
+      .map(character => [
+        character.id,
+        {
+          trust: character.emotion.trust,
+          respect: character.emotion.respect,
+          wariness: character.emotion.wariness,
+          loyalty: character.emotion.loyalty,
+          hasReturned: !!character.hasReturned,
+        },
+      ])
+  )
+
+  const alliances = (state.politics?.alliances || [])
+    .filter(alliance => alliance?.members?.every(member => stakeholderIds.has(member)))
+    .map(alliance => ({
+      members: [...alliance.members].sort(),
+      formedWeek: alliance.formedWeek ?? state.week,
+    }))
+
+  return {
+    week: state.week,
+    npcStates,
+    alliances,
+  }
+}
+
 function normalizeDialogueEffects(effects, characterId, castIds) {
   if (!effects) return {}
   const effectKeys = Object.keys(effects)
@@ -72,6 +103,9 @@ export default function App() {
     gameRef.current = createGame('phaser-root')
     window.dispatchEvent(new CustomEvent('phaser:fatigue_update', {
       detail: { speedMultiplier: getPlayerSpeedMultiplier(stateRef.current.week) },
+    }))
+    window.dispatchEvent(new CustomEvent('phaser:npc_state_update', {
+      detail: buildNpcWorldState(stateRef.current),
     }))
     return () => {
       gameRef.current?.destroy(true)
@@ -241,6 +275,7 @@ export default function App() {
     : null
 
   const playerSpeedMultiplier = getPlayerSpeedMultiplier(state.week)
+  const npcWorldState = buildNpcWorldState(state)
 
   useEffect(() => {
     if (screen !== 'game') return
@@ -248,6 +283,13 @@ export default function App() {
       detail: { speedMultiplier: playerSpeedMultiplier },
     }))
   }, [playerSpeedMultiplier, screen])
+
+  useEffect(() => {
+    if (screen !== 'game') return
+    window.dispatchEvent(new CustomEvent('phaser:npc_state_update', {
+      detail: npcWorldState,
+    }))
+  }, [npcWorldState, screen])
 
   const scenarioPending = !!(
     pendingScenario &&

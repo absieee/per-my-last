@@ -15,8 +15,8 @@ export const DIALOGUES = [
     requiresComposure: true,
     exchange: {
       beats: [
-        "You're the new PM. I'm Petra — CPO.",
-        "Meridian sits inside my product vision. The board has expectations. So do I.",
+        "Ah, you're the new PM? I'm Petra, the Chief Product Officer.",
+        "Meridian sits inside my product vision. The board has their expectations. I have my own.",
       ],
       responses: [
         {
@@ -25,7 +25,7 @@ export const DIALOGUES = [
           subtext: "Say you're here to deliver on those expectations.",
           effects: { trust: 4, wariness: -2 },
           reply: {
-            default: "Good. Then we're on the same page. Come find me after you've settled in.",
+            default: "Good. Then we're on the same page! Come find me after you've settled in.",
           },
         },
         {
@@ -34,7 +34,7 @@ export const DIALOGUES = [
           subtext: "Ask what those expectations actually are.",
           effects: { trust: 1, respect: 2, wariness: 3 },
           reply: {
-            default: "Ha. The honest answer is: you'll feel it. Come to the Meridian review Thursday.",
+            default: "Ha! The honest answer is: you'll feel it. Come to the Meridian review on Thursday.",
             highWariness: "That's quite a lot to get into right now. Observe first.",
           },
         },
@@ -259,17 +259,17 @@ export const DIALOGUES = [
     priority: 100,
     exchange: {
       beats: [
-        "I've circulated a briefing note. The Synthetic Labour Transparency Act — worth reading.",
-        "There's a range of defensible positions. Some more defensible than others.",
+        "I've circulated a briefing note. The Synthetic Labour Transparency Act - worth getting your eyes across it.",
+        "There are a range of defensible positions. Some more favourable than others.",
       ],
       responses: [
         {
           id: 'engaged',
           label: 'ENGAGED',
-          subtext: "Say you've read it — ask about the risk hierarchy.",
+          subtext: "Say you've read it and ask about the risk hierarchy.",
           effects: { trust: 4, respect: 4 },
           reply: {
-            default: "Then you've seen the three filing approaches. The technically compliant route is defensible. Question is what you're defending against.",
+            default: "Then you've seen the 3 filing approaches? The technically compliant route is defensible. Question is what you're defending against.",
           },
         },
         {
@@ -278,7 +278,7 @@ export const DIALOGUES = [
           subtext: "Ask for his personal recommendation.",
           effects: { trust: 2, respect: 1 },
           reply: {
-            default: "Understand the political exposure before deciding anything. Compliance and stakeholder comfort overlap — but not always.",
+            default: "Understand the political exposure before deciding anything. Compliance and stakeholder comfort overlap, but not always.",
           },
         },
         {
@@ -414,7 +414,7 @@ export const DIALOGUES = [
     priority: 100,
     exchange: {
       beats: [
-        "VP of Engineering. Simone. I've reviewed the Meridian spec fourteen times.",
+        "VP of Engineering. Simone. I've reviewed the Meridian spec 14 times.",
         "Three areas need to be understood before you touch the roadmap. People skip those. That causes problems.",
       ],
       responses: [
@@ -424,16 +424,16 @@ export const DIALOGUES = [
           subtext: "Ask her to walk you through the three areas.",
           effects: { trust: 5, respect: 4 },
           reply: {
-            default: "Good. Inference layer. Convergence protocols — people don't read those carefully. Load thresholds. Get those right and everything else gets easier. Not easy. Easier.",
+            default: "Good! \n\nInference layer. \n\nConvergence protocols - people don't read those carefully. \n\nLoad thresholds. \n\nGet those right and everything else gets easier. Not easy. Easier.",
           },
         },
         {
           id: 'roadmap_anyway',
           label: 'ROADMAP',
-          subtext: "Ask to see the delivery roadmap first — you want the big picture.",
+          subtext: "Ask to see the delivery roadmap first - you want the big picture.",
           effects: { trust: -3, respect: -2, wariness: 4 },
           reply: {
-            default: "The roadmap assumes the spec is stable. The spec isn't stable. But yes. I can send it.",
+            default: "The roadmap assumes the spec is stable. The spec isn't stable. But sure. I can send it.",
           },
         },
         {
@@ -442,7 +442,7 @@ export const DIALOGUES = [
           subtext: "Ask what she considers the single highest risk in the current build.",
           effects: { trust: 3, respect: 5 },
           reply: {
-            default: "Convergence protocols under high load. We haven't reproduced the failure condition in testing. I find that more unsettling than the team does. Documented it. Four times.",
+            default: "Convergence protocols under high load. We haven't reproduced the failure condition in testing. I find that more unsettling than the team does.",
           },
         },
       ],
@@ -584,7 +584,7 @@ export const DIALOGUES = [
     priority: 100,
     exchange: {
       beats: [
-        "Marcus — Strategic Comms. I like to meet PMs before the project has a reputation.",
+        "Name's Marcus - Strategic Comms. I like to meet PMs before the project has a reputation.",
         "Meridian doesn't have one yet. We're still choosing. Thought you should know.",
       ],
       responses: [
@@ -612,7 +612,7 @@ export const DIALOGUES = [
           subtext: "Ask what he's already heard about Meridian.",
           effects: { trust: 3, respect: 4, loyalty: 2 },
           reply: {
-            default: "Three versions. One: managed transition, future of work. Two: Axiom automating jobs, hoping nobody looks closely. Three: something stranger. Version one is ahead. Keep it that way.",
+            default: "Three versions. One: managed transition, future of work. \n\nTwo: Axiom automating jobs, hoping nobody looks closely. \n\nThree: something stranger. \n\nVersion one is ahead. Keep it that way.",
           },
         },
       ],
