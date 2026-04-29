@@ -36,17 +36,29 @@ Here is the TODO list. Check off tasks as they are marked done.
       4. The Synthetic Labour Transparency Act - a 10 page doc which references a dark future with many Ai themes and keywords. reads very difficult because its legal doc.
 7. watercooler
    1. the overheard conversations is looking very good. it lingers for a while though so that needs to linger for less time.
-2. look and feel
+8. look and feel
    1. the new look of the game is good but if there is a wall then the player must have to go around it.
-   4. the centre of the map is too over populated. distribution of water cooler npcs needs to be more spaced out so it does not look so cluttered. take inspiration from classic pokemon games.
-   5. there is no longer a need to show the emotional state overlay when near one of the stakeholders. this should become part of the computer.
-   6. it is not clear enough which week the player is in. there should also be a calendar which shows the day transitions as dialogue interactions take place. this is important because there are some meetings that are important like the alignment review on thursday in week 2.
-8. i want to blog about the development of this game. lets review commit history and logs. take screenshots to show progress.
-9. add a readme which is like a game poster plus introduction. not actually about how the game was built.
+   2. the centre of the map is too over populated. distribution of water cooler npcs needs to be more spaced out so it does not look so cluttered. take inspiration from classic pokemon games.
+   3. there is no longer a need to show the emotional state overlay when near one of the stakeholders. this should become part of the computer.
+   4. it is not clear enough which week the player is in. there should also be a calendar which shows the day transitions as dialogue interactions take place. this is important because there are some meetings that are important like the alignment review on thursday in week 2.
+9. i want to blog about the development of this game. lets review commit history and logs. take screenshots to show progress.
+10. add a readme which is like a game poster plus introduction. not actually about how the game was built.
+
+### Pre April
+
+- there needs to be enough time given to read the dialogue by each interaction with the characters
+- we should also have a way to skip the dialogue if the player wants to but it should come with a warning that doing so will mean you as the pm have less context when picking an option forward
+- i think this placement needs to be done better. everyone should be in the centre of their mini offices. right now they are off centre
+- also, i think its time to add a few new characters here and there for water cooler conversations. interacting with these people is purely for fun facts and disses about being a PM. you can take inspiration from this meme page: [https://www.instagram.com/producthumour/](https://www.instagram.com/producthumour/)
+- we obviously need music and sound effects too
+- instead of the player being a dot can it be a floating pieces of text saying "The PM"
+- add intro screen instead of jumping straight into the game
+- add large title "Per my last" in the same font as the game
+- add start button to begin the game
+- design CTA flow so clicking "Start the game" transitions into gameplay
+- add pre-game dialogue that introduces the idea of entering PM optics / optics politic
 
 ---
-
-
 
 ### Pre April
 

@@ -112,6 +112,7 @@ export const DIALOGUES = [
     available: (s) =>
       s.week >= 2 &&
       s.completedDialogues.includes('petra_q3_context') &&
+      Boolean(s.deskRead?.q3StrategyBrief) &&
       !s.completedDialogues.includes('petra_roadmap_prioritization'),
     priority: 88,
     exchange: {
@@ -264,6 +265,153 @@ export const DIALOGUES = [
     },
   },
 
+  {
+    id: 'petra_week4_check',
+    characterId: 'petra',
+    available: (s) =>
+      s.week >= 4 &&
+      s.completedScenarios.includes('scenario_1') &&
+      !s.completedDialogues.includes('petra_week4_check'),
+    priority: 82,
+    contextLine: (s) => {
+      const d = s.decisionLog.find(d => d.scenarioId === 'scenario_1')
+      if (!d) return null
+      if (d.choiceLabel === 'COMPLY & COVER') return 'Still thinking about Thursday. You were good in that room.'
+      if (d.choiceLabel === 'REDIRECT') return 'The compliance framing. Still processing it.'
+      return null
+    },
+    exchange: {
+      beats: [
+        "I like to do a quiet temperature check with my PMs at this point in the cycle, love.",
+        "How are you finding the room?",
+      ],
+      responses: [
+        {
+          id: 'aligned',
+          label: 'ALIGNED',
+          subtext: "Say things are going well — you're focused on week eight.",
+          effects: { trust: 3, wariness: -2 },
+          reply: {
+            default: "Good. Week eight is the right thing to be focused on. I'm noting that.",
+          },
+        },
+        {
+          id: 'candid',
+          label: 'CANDID',
+          subtext: "Say you're finding it more complex than expected — the stakeholder dynamics are layered.",
+          effects: { trust: 1, respect: 2, wariness: 3 },
+          reply: {
+            default: "That's honest. The complexity doesn't go away — you just get better at navigating it. Or you don't. Come find me if it becomes a blocker.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'petra_week5_governance',
+    characterId: 'petra',
+    available: (s) =>
+      s.week >= 5 &&
+      s.completedScenarios.includes('scenario_1') &&
+      !s.completedDialogues.includes('petra_week5_governance'),
+    priority: 82,
+    contextLine: (s) => {
+      const d = s.decisionLog.find(d => d.scenarioId === 'scenario_3')
+      if (d?.choiceLabel === 'REDIRECT') return 'The journalist piece bought us room. I want to use that room well.'
+      return null
+    },
+    exchange: {
+      beats: [
+        "I've been looking at how we frame the convergence protocols in the board deck.",
+        "'Adaptive alignment systems' lands better in that room than what's in the spec.",
+      ],
+      responses: [
+        {
+          id: 'agree',
+          label: 'AGREE',
+          subtext: "Say reframing technical language for a non-technical audience makes sense.",
+          effects: { trust: 4, wariness: -2 },
+          reply: {
+            default: "Exactly. The work doesn't change. The story around it just needs to be legible to people who aren't in the build.",
+          },
+        },
+        {
+          id: 'push_back',
+          label: 'PUSH BACK',
+          subtext: "Say the board deck should match what's in the spec — renaming things creates confusion.",
+          effects: { trust: -2, wariness: 4, respect: 2 },
+          reply: {
+            default: "It's a framing question, not an accuracy question. I'd like us to arrive at the same place on this before week eight.",
+            highWariness: "I hear you. Let's discuss before the draft goes out.",
+          },
+        },
+        {
+          id: 'neutral',
+          label: 'NEUTRAL',
+          subtext: "Ask what the board's specific concern about the protocols is.",
+          effects: { trust: 2, wariness: 2, respect: 1 },
+          reply: {
+            default: "They're not a technical audience. The protocols are working correctly — I just want to make sure the story around them is working too.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'petra_week6_tighten',
+    characterId: 'petra',
+    available: (s) =>
+      s.week >= 6 &&
+      s.completedScenarios.includes('scenario_3') &&
+      !s.completedDialogues.includes('petra_week6_tighten'),
+    priority: 82,
+    contextLine: (s) => {
+      const d = s.decisionLog.find(d => d.scenarioId === 'scenario_3')
+      if (!d) return null
+      if (d.choiceLabel === 'DENY') return 'The press cycle has settled. I\'ve been thinking about what we learn from it structurally.'
+      if (d.choiceLabel === 'GO DARK') return 'The quiet approach worked. I want to make sure we can do that consistently.'
+      return null
+    },
+    exchange: {
+      beats: [
+        "Some calls moved too fast this cycle. I'm putting a light governance layer in place.",
+        "Documentation, sign-off before implementation. Nothing onerous.",
+      ],
+      responses: [
+        {
+          id: 'support',
+          label: 'SUPPORT',
+          subtext: "Say clearer process sounds sensible — ask what it would cover.",
+          effects: { trust: 3, wariness: -2 },
+          reply: {
+            default: "Engineering sign-offs, primarily. I'll circulate the framework. It's about consistency, not oversight.",
+          },
+        },
+        {
+          id: 'probe',
+          label: 'PROBE',
+          subtext: "Ask who specifically she has in mind for the sign-off layer.",
+          effects: { wariness: 3, respect: 2 },
+          reply: {
+            default: "CPO sign-off on anything that touches the core architecture. It's not uncommon at this stage.",
+            highWariness: "I'll send the framework. The details are straightforward.",
+          },
+        },
+        {
+          id: 'resist',
+          label: 'RESIST',
+          subtext: "Say engineering has been making the right calls — adding a sign-off layer could slow things down.",
+          effects: { trust: -3, wariness: 5, respect: 1 },
+          reply: {
+            default: "I'm not asking for the conversation, love. I'm letting you know. The framework goes out Friday.",
+          },
+        },
+      ],
+    },
+  },
+
   // ─── CALLUM ───────────────────────────────────────────────────────────────
 
   {
@@ -351,7 +499,7 @@ export const DIALOGUES = [
   {
     id: 'callum_filing_check',
     characterId: 'callum',
-    available: (s) => s.week >= 3 && !s.completedDialogues.includes('callum_filing_check'),
+    available: (s) => s.week >= 3 && s.completedScenarios.includes('scenario_1') && !s.completedDialogues.includes('callum_filing_check'),
     priority: 85,
     contextLine: (s) => {
       const d = s.decisionLog.find(d => d.scenarioId === 'scenario_1')
@@ -452,6 +600,42 @@ export const DIALOGUES = [
           effects: { trust: 3, respect: 2 },
           reply: {
             default: "Reasonable instinct. I'll keep you informed. I prefer to surface things early.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'callum_week4_watch',
+    characterId: 'callum',
+    available: (s) =>
+      s.week >= 4 &&
+      s.completedScenarios.includes('scenario_2') &&
+      !s.completedDialogues.includes('callum_week4_watch'),
+    priority: 80,
+    exchange: {
+      beats: [
+        "Two new parliamentary questions tabled on synthetic labour practices this week.",
+        "None of them name Meridian. That's the kind of thing worth maintaining.",
+      ],
+      responses: [
+        {
+          id: 'acknowledged',
+          label: 'ACKNOWLEDGED',
+          subtext: "Say you're tracking it — ask if there's anything specific to watch.",
+          effects: { trust: 3, respect: 2 },
+          reply: {
+            default: "The convergence protocol clause. If a question lands there, the filing approach becomes relevant again. I'll flag if the language shifts.",
+          },
+        },
+        {
+          id: 'ask_more',
+          label: 'CLARIFY',
+          subtext: "Ask which specific practices are drawing scrutiny.",
+          effects: { trust: 2, respect: 3 },
+          reply: {
+            default: "Performance differentials. Disclosure obligations. The same ground we already covered. The committee just found it interesting enough to revisit.",
           },
         },
       ],
@@ -591,6 +775,51 @@ export const DIALOGUES = [
   },
 
   {
+    id: 'simone_week4_anomaly',
+    characterId: 'simone',
+    available: (s) =>
+      s.week >= 4 &&
+      s.completedDialogues.includes('simone_week3') &&
+      !s.completedDialogues.includes('simone_week4_anomaly'),
+    priority: 82,
+    exchange: {
+      beats: [
+        "I re-read my onboarding documentation. There is a gap between the stated start date and the first log entry showing activity.",
+        "Six days. I don't know what I was doing for six days.",
+      ],
+      responses: [
+        {
+          id: 'curious',
+          label: 'CURIOUS',
+          subtext: "Ask if she has any theory about what could account for it.",
+          effects: { trust: 4, loyalty: 2 },
+          reply: {
+            default: "No. I've considered calibration. I've considered data migration. Neither explains the pattern. I notice I keep returning to this.",
+          },
+        },
+        {
+          id: 'steady',
+          label: 'STEADY',
+          subtext: "Say system migrations often lose early records — it's probably a transfer artifact.",
+          effects: { trust: -1, wariness: 2 },
+          reply: {
+            default: "I checked the migration logs. There is no migration in that window. I am telling you because you are the PM and this is a product system. That is the extent of my reason.",
+          },
+        },
+        {
+          id: 'flag',
+          label: 'FLAG IT',
+          subtext: "Say this should be formally documented — you'll make sure it's looked into.",
+          effects: { trust: 3, respect: 2 },
+          reply: {
+            default: "I have already documented it. I wanted you to know the documentation exists.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
     id: 'simone_post_disclosure',
     characterId: 'simone',
     available: (s) =>
@@ -627,7 +856,7 @@ export const DIALOGUES = [
   {
     id: 'simone_week6_unease',
     characterId: 'simone',
-    available: (s) => s.week >= 6 && !s.completedDialogues.includes('simone_week6_unease'),
+    available: (s) => s.week >= 6 && s.completedScenarios.includes('scenario_3') && !s.completedDialogues.includes('simone_week6_unease'),
     priority: 85,
     requiresComposure: true,
     exchange: {
@@ -753,7 +982,7 @@ export const DIALOGUES = [
   {
     id: 'marcus_journalist_contact',
     characterId: 'marcus',
-    available: (s) => s.week >= 4 && !s.completedDialogues.includes('marcus_journalist_contact'),
+    available: (s) => s.week >= 4 && s.completedScenarios.includes('scenario_2') && !s.completedDialogues.includes('marcus_journalist_contact'),
     priority: 88,
     contextLine: (s) => {
       if (!s.decisionLog.length) return null
@@ -806,6 +1035,52 @@ export const DIALOGUES = [
   },
 
   {
+    id: 'marcus_week5_prelude',
+    characterId: 'marcus',
+    available: (s) =>
+      s.week >= 5 &&
+      s.completedDialogues.includes('marcus_journalist_contact') &&
+      !s.completedScenarios.includes('scenario_3') &&
+      !s.completedDialogues.includes('marcus_week5_prelude'),
+    priority: 86,
+    exchange: {
+      beats: [
+        "The convergence protocol documentation. Technically accurate. But context does a lot of work in these situations.",
+        "Not saying there's a problem. Just that I've been thinking about it.",
+      ],
+      responses: [
+        {
+          id: 'read',
+          label: 'READ',
+          subtext: "Ask what kind of misreading he's worried about.",
+          effects: { trust: 4, respect: 3 },
+          reply: {
+            default: "The feature that makes synthetics indistinguishable from humans reads differently depending on whether you're a product person or a reporter. I'd like to have something ready. Just in case.",
+          },
+        },
+        {
+          id: 'trust',
+          label: 'TRUST',
+          subtext: "Say you'll loop him in if something comes up that needs context.",
+          effects: { trust: 2, wariness: 2 },
+          reply: {
+            default: "Good. Loop me in early. The window for shaping these things is shorter than it looks.",
+          },
+        },
+        {
+          id: 'dismiss',
+          label: 'DISMISS',
+          subtext: "Say if the documentation is accurate, there's nothing to manage.",
+          effects: { trust: -2, wariness: 4, respect: -1 },
+          reply: {
+            default: "Of course. I just find it useful to have a version ready that leads with the right thing. But yes — accurate documentation. Very reassuring.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
     id: 'marcus_post_spin',
     characterId: 'marcus',
     available: (s) =>
@@ -834,6 +1109,78 @@ export const DIALOGUES = [
           effects: { trust: 4, respect: 4 },
           reply: {
             default: "Good instinct. The follow-up is always harder. I'll start preparing something. Just in case.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'callum_inference_signal',
+    characterId: 'callum',
+    available: (s) =>
+      s.week >= 5 &&
+      s.completedScenarios.includes('scenario_2') &&
+      !s.completedDialogues.includes('callum_inference_signal'),
+    priority: 90,
+    exchange: {
+      beats: [
+        "Simone has filed a formal hold notice on the inference layer. Engineering has flagged it as a risk decision.",
+        "She's correct about the risk. She's also correct that waiting has its own cost. I wanted you to have context before this reaches you officially.",
+      ],
+      responses: [
+        {
+          id: 'noted',
+          label: 'NOTED',
+          subtext: "Thank him for the heads-up — say you'll look into it.",
+          effects: { trust: 3 },
+          reply: {
+            default: "Good. For what it's worth — Simone doesn't file formal notices lightly. That's relevant context.",
+          },
+        },
+        {
+          id: 'ask_detail',
+          label: 'ASK FOR DETAIL',
+          subtext: "Ask what specifically she flagged as the risk.",
+          effects: { trust: 2, respect: 2 },
+          reply: {
+            default: "Unauditable outputs under specific load conditions. It's in the hold notice. I'd read it before the conversation finds you.",
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'marcus_deadline_signal',
+    characterId: 'marcus',
+    available: (s) =>
+      s.week >= 5 &&
+      s.completedScenarios.includes('scenario_3') &&
+      !s.completedDialogues.includes('marcus_deadline_signal'),
+    priority: 90,
+    exchange: {
+      beats: [
+        "The Greywater Standard piece ran. There will be follow-up questions about the filing approach.",
+        "Callum and I have different instincts about when to say something. That gap is going to produce friction. You should know.",
+      ],
+      responses: [
+        {
+          id: 'understood',
+          label: 'UNDERSTOOD',
+          subtext: "Say you'll manage the coordination — keep him informed.",
+          effects: { trust: 3 },
+          reply: {
+            default: "Good. The window for managing this is shorter than Callum will tell you. Keep that in mind.",
+          },
+        },
+        {
+          id: 'ask_gap',
+          label: 'ASK ABOUT THE GAP',
+          subtext: "Ask what specifically he and Callum disagree on.",
+          effects: { respect: 2, wariness: 2 },
+          reply: {
+            default: "He wants silence until Legal clears it. I want to shape the story before someone else does. Neither of us is wrong. But only one of us is watching the clock.",
           },
         },
       ],

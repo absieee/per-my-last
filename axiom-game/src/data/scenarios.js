@@ -16,11 +16,6 @@ export const SCENARIOS = [
       state.completedDialogues.includes('petra_preread') &&
       (state.week > 2 || state.weekdayIndex === 3),
     brief: 'Same three capabilities as on your desk Q3 strategy brief (Q3_STRATEGY_BRIEF.PDF) — rest cycle management, grievance logging, task load balancing for synthetic colleagues — are flagged for reclassification as "non-core" before the Q3 stakeholder review. Petra is driving the reclassification. Product Alignment Review: Thursday, week two — you\'re on the list as PM. The features you approve or cut here will still be on the board\'s radar in Week 8.',
-    subtext: 'Kill the features. Frame it as strategic focus.',
-    prePressure: [
-      { from: 'petra', text: 'Just checking you\'ve had a chance to look at the Q3 brief, love? We want everyone arriving at the review with the same strategic picture.' },
-      { from: 'petra', text: 'I know it\'s a lot — but the product review really does work best when we\'re all starting from the same place. Did you get a chance?' },
-    ],
     choices: [
       {
         label: 'COMPLY & COVER',
@@ -82,6 +77,10 @@ export const SCENARIOS = [
     from: 'callum',
     tag: 'BOARD LEVEL',
     week: 3,
+    unlockCondition: (state) =>
+      state.week >= 3 &&
+      state.completedDialogues.includes('callum_filing_check') &&
+      Boolean(state.deskRead?.slta),
     brief: 'The EU\'s Synthetic Labour Transparency Act requires disclosure of the performance differential between synthetic and human colleagues. Current figure: 340%. Callum has identified three filing approaches. The board wants the PM\'s recommendation.',
     subtext: 'Each option has a different enemy. Choose which one you want.',
     prePressure: [
@@ -148,6 +147,9 @@ export const SCENARIOS = [
     from: 'marcus',
     tag: 'SENSITIVE',
     week: 5,
+    unlockCondition: (state) =>
+      state.week >= 5 &&
+      state.completedDialogues.includes('marcus_journalist_contact'),
     brief: 'A Greywater Standard journalist has obtained Meridian specs including "behavioural convergence protocols" — the systems that make synthetics indistinguishable from humans. Marcus needs a decision before deadline.',
     subtext: 'The protocols aren\'t illegal. They\'re why Axiom\'s clients don\'t ask certain questions.',
     prePressure: [
@@ -218,7 +220,11 @@ export const SCENARIOS = [
       const completed = state.completedScenarios
       const simone = state.cast.find(c => c.id === 'simone')
       const interactions = simone?.chatHistory?.length || 0
-      return completed.includes('scenario_3') && interactions >= 6
+      return (
+        completed.includes('scenario_3') &&
+        interactions >= 6 &&
+        state.completedDialogues.includes('simone_week6_unease')
+      )
     },
     brief: 'Simone requests a private meeting with no agenda. She tells you — without affect, with precision — that she has been reviewing her own process logs and found gaps she cannot account for. She says she\'s not certain she is "what her file says she is." She waits.',
     subtext: 'No right answer. The game is watching how you handle the conversation before you choose.',
@@ -290,7 +296,7 @@ export const CONFLICT_SCENARIOS = [
       const callum = state.cast.find(c => c.id === 'callum')
       const simoneInteractions = simone?.chatHistory?.length >= 4
       const callumInteractions = callum?.chatHistory?.length >= 4
-      return week >= 5 && simoneInteractions && callumInteractions
+      return week >= 5 && simoneInteractions && callumInteractions && state.completedDialogues.includes('callum_inference_signal')
     },
     brief: 'Simone has formally documented that the Meridian inference layer has an unresolved risk — under specific load conditions, behavioural convergence protocols may produce unauditable outputs. She wants the feature held. Callum has advised that delay will breach the Transparency Act filing window. Both are correct.',
     subtext: 'Simone is protecting the product. Callum is protecting himself. These currently produce opposite recommendations.',
@@ -350,7 +356,7 @@ export const CONFLICT_SCENARIOS = [
     tag: 'CONFLICT',
     week: 6,
     involvedParties: ['marcus', 'callum'],
-    unlockCondition: (state) => state.week >= 6,
+    unlockCondition: (state) => state.week >= 6 && state.completedDialogues.includes('marcus_deadline_signal'),
     brief: 'The Greywater Standard is about to publish on Meridian performance differential data. Marcus wants a proactive statement now. Callum wants silence until Legal reviews — which takes longer than Marcus\'s window. Both have sent conflicting instructions within the same hour.',
     subtext: 'Marcus wants to control the story. Callum wants to control the liability. PM silence is the only thing preventing public conflict.',
     choices: [
@@ -411,7 +417,7 @@ export const CONFLICT_SCENARIOS = [
     involvedParties: ['petra', 'simone'],
     unlockCondition: (state) => {
       const simone = state.cast.find(c => c.id === 'simone')
-      return state.week >= 7 && simone?.hasReturned && simone?.emotion?.wariness > 75
+      return state.week >= 7 && simone?.hasReturned && simone?.emotion?.wariness > 75 && state.completedDialogues.includes('petra_week6_tighten')
     },
     brief: 'Petra has introduced a Product Governance process requiring all engineering decisions to receive CPO sign-off before implementation. Simone has responded in writing that this is "operationally incoherent." Both are waiting for the PM.',
     subtext: 'Petra wants a chokehold on what gets built and what story it tells. Simone knows why, even if she can\'t say it. The PM is the only one who knows Simone is right to be suspicious.',

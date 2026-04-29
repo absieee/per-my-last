@@ -24,23 +24,27 @@ export default function HUD({
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'VT323', fontSize: '20px', letterSpacing: '5px', color: '#ff9f43' }}>AXIOM</span>
-              <span style={{ fontFamily: 'VT323', fontSize: '12px', letterSpacing: '2px', color: '#2a3a4e', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'VT323', fontSize: '20px', letterSpacing: '3px', color: '#8aacbf', flexShrink: 0 }}>
                 WEEK {week}
               </span>
             </div>
-            <div style={{ fontFamily: 'VT323', fontSize: '11px', letterSpacing: '2px', color: '#3d5266' }}>
+            <div style={{ display: 'flex', gap: 4 }}>
               {WEEKDAY_LABELS.map((label, i) => (
                 <span
                   key={label}
                   style={{
-                    marginRight: 8,
-                    color: i === wd ? '#ff9f43' : '#2a3a4e',
-                    opacity: i === wd ? 1 : 0.45,
+                    fontFamily: 'VT323',
+                    fontSize: i === wd ? '17px' : '13px',
+                    letterSpacing: '1px',
+                    color: i === wd ? '#ff9f43' : '#4a6a8a',
+                    opacity: i === wd ? 1 : 0.75,
+                    background: i === wd ? 'rgba(255,159,67,0.1)' : 'transparent',
+                    border: i === wd ? '1px solid rgba(255,159,67,0.3)' : '1px solid transparent',
+                    padding: '1px 5px',
+                    lineHeight: 1.2,
                   }}
                 >
                   {label}
-                  {i === wd ? ' ·' : ''}
                 </span>
               ))}
             </div>
@@ -65,11 +69,20 @@ export default function HUD({
               fontFamily: 'VT323',
               fontSize: '11px',
               letterSpacing: '2px',
-              color: '#4a6080',
+              color: '#6b8aaa',
               background: 'transparent',
               border: '1px solid #1a2535',
               padding: '6px 10px',
               cursor: 'pointer',
+              transition: 'border-color 0.2s, color 0.2s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = '#ff9f4340'
+              e.currentTarget.style.color = '#9aacbf'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = '#1a2535'
+              e.currentTarget.style.color = '#6b8aaa'
             }}
           >
             DESK [C]

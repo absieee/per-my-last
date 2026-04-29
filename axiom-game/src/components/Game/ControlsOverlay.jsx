@@ -62,15 +62,50 @@ export default function ControlsOverlay({ onDismiss }) {
         Walk to Petra to begin.
       </div>
 
+      {/* Desk shortcut */}
       <div style={{
-        fontFamily: 'VT323, monospace',
-        fontSize: '14px',
-        letterSpacing: '3px',
-        color: '#3d5266',
-        marginBottom: 40,
-        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 14,
+        marginBottom: 36,
+        maxWidth: 'min(100%, 420px)',
+        width: '100%',
       }}>
-        PRESS C FOR YOUR DESK TERMINAL — STAKEHOLDER OPTICS & NOTES
+        <div style={{
+          fontFamily: 'VT323, monospace',
+          fontSize: '18px',
+          letterSpacing: '2px',
+          color: '#ff9f43',
+          opacity: 0.85,
+          flexShrink: 0,
+          lineHeight: 1.2,
+          border: '1px solid #ff9f4330',
+          padding: '4px 10px',
+        }}>
+          C
+        </div>
+        <div>
+          <div style={{
+            fontFamily: 'VT323, monospace',
+            fontSize: '15px',
+            letterSpacing: '3px',
+            color: '#6b8aaa',
+            marginBottom: 4,
+            lineHeight: 1.2,
+          }}>
+            YOUR DESK
+          </div>
+          <div style={{
+            fontFamily: 'Josefin Sans, sans-serif',
+            fontSize: '12px',
+            letterSpacing: '0.05em',
+            color: '#4a6080',
+            lineHeight: 1.45,
+          }}>
+            Files, documents, stakeholder optics, and your decision log.<br />
+            Available at any time. Everything here is private.
+          </div>
+        </div>
       </div>
 
       {/* Dismiss hint */}

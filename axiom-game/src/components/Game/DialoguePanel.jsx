@@ -143,7 +143,7 @@ export default function DialoguePanel({ dialogue, character, onComplete }) {
       const t = setTimeout(() => {
         SFX.dismiss()
         onComplete(selected?.effects || {})
-      }, 3500)
+      }, 3000)
       return () => clearTimeout(t)
     }
   }, [replyDone, stage, selected, onComplete])

@@ -7,6 +7,10 @@ function isSolidStructureTile(tileId) {
   return tileId === TILE_IDS.wall || tileId === TILE_IDS.divider
 }
 
+function isWallTile(tileId) {
+  return tileId === TILE_IDS.wall
+}
+
 const FRAME_W = 24
 const FRAME_H = 32
 const FRAME_COLS = 4
@@ -25,11 +29,14 @@ const ALLIANCE_ROUTE_DURATION = 9000
 const WATERCOOLER_X = 640
 const WATERCOOLER_Y = 364
 
+// Simone's whiteboard focus position — used for both decor placement and focus_spot route
+const SIMONE_WHITEBOARD_POS = { x: 376, y: 416 }
+
 const DIRECTIONS = ['down', 'left', 'right', 'up']
 
 const ROOM_SPECS = [
   { id: 'product', ownerId: 'petra', x: 0, y: 0, w: 500, h: 320, color: 0xFF6B6B, floorKey: 'floor-product', label: 'PRODUCT', labelX: 14, labelY: 12 },
-  { id: 'legal', ownerId: 'callum', x: 780, y: 0, w: 500, h: 320, color: 0x4ECDC4, floorKey: 'floor-legal', label: 'LEGAL & COMPLIANCE', labelX: 790, labelY: 12 },
+  { id: 'legal', ownerId: 'callum', x: 780, y: 0, w: 500, h: 320, color: 0x4ECDC4, floorKey: 'floor-legal', label: 'LEGAL', labelX: 790, labelY: 12 },
   { id: 'engineering', ownerId: 'simone', x: 0, y: 400, w: 500, h: 320, color: 0xFFE66D, floorKey: 'floor-engineering', label: 'ENGINEERING', labelX: 14, labelY: 706 },
   { id: 'comms', ownerId: 'marcus', x: 780, y: 400, w: 500, h: 320, color: 0xA29BFE, floorKey: 'floor-comms', label: 'STRATEGIC COMMS', labelX: 790, labelY: 706 },
 ]
@@ -85,21 +92,32 @@ const MAIN_NPCS = [
   },
 ]
 
-const SHARED_ROUTE_POINTS = {
-  top_hall: [{ x: 560, y: 176 }, { x: 640, y: 140 }, { x: 720, y: 176 }, { x: 640, y: 220 }],
-  center: [{ x: 560, y: 326 }, { x: 640, y: 312 }, { x: 720, y: 326 }, { x: 640, y: 404 }],
-  left_hall: [{ x: 322, y: 332 }, { x: 276, y: 360 }, { x: 322, y: 404 }, { x: 386, y: 360 }],
-  right_hall: [{ x: 958, y: 332 }, { x: 912, y: 360 }, { x: 958, y: 404 }, { x: 1022, y: 360 }],
-  bottom_hall: [{ x: 560, y: 544 }, { x: 640, y: 510 }, { x: 720, y: 544 }, { x: 640, y: 594 }],
-}
-
-const ALLIANCE_ROUTE_KEYS = {
-  'callum-petra': 'top_hall',
-  'marcus-petra': 'center',
-  'petra-simone': 'left_hall',
-  'callum-marcus': 'right_hall',
-  'callum-simone': 'center',
-  'marcus-simone': 'bottom_hall',
+/** In-room patrol loops near each office's corridor door (no shared hallway). */
+const ALLIANCE_INROOM_ROUTES = {
+  'callum-petra': {
+    petra: [{ x: 400, y: 168 }, { x: 452, y: 168 }, { x: 452, y: 208 }, { x: 392, y: 208 }],
+    callum: [{ x: 808, y: 168 }, { x: 884, y: 168 }, { x: 884, y: 208 }, { x: 800, y: 208 }],
+  },
+  'marcus-petra': {
+    petra: [{ x: 400, y: 168 }, { x: 452, y: 168 }, { x: 452, y: 208 }, { x: 392, y: 208 }],
+    marcus: [{ x: 988, y: 472 }, { x: 1108, y: 472 }, { x: 1108, y: 520 }, { x: 968, y: 520 }],
+  },
+  'petra-simone': {
+    petra: [{ x: 400, y: 168 }, { x: 452, y: 168 }, { x: 452, y: 208 }, { x: 392, y: 208 }],
+    simone: [{ x: 232, y: 472 }, { x: 332, y: 472 }, { x: 332, y: 524 }, { x: 208, y: 524 }],
+  },
+  'callum-marcus': {
+    callum: [{ x: 808, y: 168 }, { x: 884, y: 168 }, { x: 884, y: 208 }, { x: 800, y: 208 }],
+    marcus: [{ x: 988, y: 472 }, { x: 1108, y: 472 }, { x: 1108, y: 520 }, { x: 968, y: 520 }],
+  },
+  'callum-simone': {
+    callum: [{ x: 808, y: 168 }, { x: 884, y: 168 }, { x: 884, y: 208 }, { x: 800, y: 208 }],
+    simone: [{ x: 232, y: 472 }, { x: 332, y: 472 }, { x: 332, y: 524 }, { x: 208, y: 524 }],
+  },
+  'marcus-simone': {
+    marcus: [{ x: 988, y: 472 }, { x: 1108, y: 472 }, { x: 1108, y: 520 }, { x: 968, y: 520 }],
+    simone: [{ x: 232, y: 472 }, { x: 332, y: 472 }, { x: 332, y: 524 }, { x: 208, y: 524 }],
+  },
 }
 
 function hex(colorInt) {
@@ -108,6 +126,15 @@ function hex(colorInt) {
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v))
+}
+
+function blendTint(a, b, t) {
+  const ar = (a >> 16) & 0xff, ag = (a >> 8) & 0xff, ab = a & 0xff
+  const br = (b >> 16) & 0xff, bg = (b >> 8) & 0xff, bb = b & 0xff
+  const r = Math.round(ar + (br - ar) * t)
+  const g = Math.round(ag + (bg - ag) * t)
+  const bl = Math.round(ab + (bb - ab) * t)
+  return (r << 16) | (g << 8) | bl
 }
 
 function animationKey(textureKey, mode, direction) {
@@ -140,18 +167,20 @@ export default class OfficeScene extends Phaser.Scene {
     this.activeAllianceRoutes = []
     this.lastBehaviorRefreshAt = 0
     this.playerDirection = 'down'
+    this.lastWallBumpAt = 0
   }
 
   create() {
     this.createGeneratedTextures()
     this.createAnimations()
     this.drawOffice()
+    this.addRoomAtmosphere()
     this.createMainNPCs()
     this.createWatercoolerNPCs()
     this.createPlayer()
-    this.createPetraHint()
     this.setupInput()
     this.setupWindowListeners()
+    this.allianceGraphics = this.add.graphics().setDepth(29)
     this.syncNpcBehaviors()
   }
 
@@ -176,7 +205,6 @@ export default class OfficeScene extends Phaser.Scene {
     this.createCouchTexture()
     this.createPosterTexture()
     this.createWatercoolerTexture()
-    this.createPlantTexture()
     this.createMonitorTexture()
     this.createPrinterTexture()
     this.createMeetingTableTexture()
@@ -215,45 +243,46 @@ export default class OfficeScene extends Phaser.Scene {
 
     paintTile(TILE_IDS.corridorFloor, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#101622')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#182234', 0.9)
-      fillRect(ctx, 0, 0, 4, TILE_SIZE, '#182234', 0.9)
-      fillRect(ctx, 8, 8, 4, 4, '#0d1320')
-      fillRect(ctx, 20, 18, 5, 5, '#0d1320')
+      fillRect(ctx, 0, 0, TILE_SIZE, 2, '#182234', 0.45)
+      fillRect(ctx, 0, 0, 2, TILE_SIZE, '#182234', 0.45)
+      fillRect(ctx, 8, 8, 4, 4, '#0d1320', 0.5)
+      fillRect(ctx, 20, 18, 5, 5, '#0d1320', 0.5)
     })
     paintTile(TILE_IDS.productFloor, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#1b1518')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#2a1a1f', 0.9)
-      fillRect(ctx, 0, 0, 4, TILE_SIZE, '#2a1a1f', 0.9)
-      fillRect(ctx, 18, 8, 6, 6, '#4a1f26', 0.55)
+      fillRect(ctx, 0, 0, TILE_SIZE, 2, '#2a1a1f', 0.45)
+      fillRect(ctx, 0, 0, 2, TILE_SIZE, '#2a1a1f', 0.45)
+      fillRect(ctx, 18, 8, 6, 6, '#4a1f26', 0.3)
     })
     paintTile(TILE_IDS.legalFloor, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#11191a')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#152629', 0.9)
-      fillRect(ctx, 0, 0, 4, TILE_SIZE, '#152629', 0.9)
-      fillRect(ctx, 8, 18, 10, 4, '#254144', 0.5)
+      fillRect(ctx, 0, 0, TILE_SIZE, 2, '#152629', 0.45)
+      fillRect(ctx, 0, 0, 2, TILE_SIZE, '#152629', 0.45)
+      fillRect(ctx, 8, 18, 10, 4, '#254144', 0.3)
     })
     paintTile(TILE_IDS.engineeringFloor, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#1a1a16')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#29281c', 0.9)
-      fillRect(ctx, 0, 0, 4, TILE_SIZE, '#29281c', 0.9)
-      fillRect(ctx, 18, 16, 8, 6, '#384536', 0.55)
+      fillRect(ctx, 0, 0, TILE_SIZE, 2, '#29281c', 0.45)
+      fillRect(ctx, 0, 0, 2, TILE_SIZE, '#29281c', 0.45)
+      fillRect(ctx, 18, 16, 8, 6, '#384536', 0.3)
     })
     paintTile(TILE_IDS.commsFloor, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#171520')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#231f33', 0.9)
-      fillRect(ctx, 0, 0, 4, TILE_SIZE, '#231f33', 0.9)
-      fillRect(ctx, 10, 18, 12, 4, '#3a3150', 0.5)
+      fillRect(ctx, 0, 0, TILE_SIZE, 2, '#231f33', 0.45)
+      fillRect(ctx, 0, 0, 2, TILE_SIZE, '#231f33', 0.45)
+      fillRect(ctx, 10, 18, 12, 4, '#3a3150', 0.3)
     })
     paintTile(TILE_IDS.wall, (ctx) => {
-      fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#293141')
-      fillRect(ctx, 0, 0, TILE_SIZE, 4, '#4d5d73')
-      fillRect(ctx, 0, 4, TILE_SIZE, 4, '#18202d')
-      fillRect(ctx, 4, 12, 24, 16, '#1b2330')
+      fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#1a2030')
+      fillRect(ctx, 0, 0, TILE_SIZE, 3, '#344560', 0.7)
+      fillRect(ctx, 0, 3, TILE_SIZE, 2, '#222d40', 0.8)
+      fillRect(ctx, 0, 0, 1, TILE_SIZE, '#0d121a', 0.5)
+      fillRect(ctx, TILE_SIZE - 1, 0, 1, TILE_SIZE, '#0d121a', 0.5)
     })
     paintTile(TILE_IDS.divider, (ctx) => {
-      fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#202938')
-      fillRect(ctx, 14, 0, 4, TILE_SIZE, '#54647d')
-      fillRect(ctx, 0, 12, TILE_SIZE, 2, '#2c3749', 0.7)
+      fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#1c2535')
+      fillRect(ctx, 14, 0, 3, TILE_SIZE, '#2e3d52', 0.8)
+      fillRect(ctx, 0, 12, TILE_SIZE, 2, '#253040', 0.6)
     })
     paintTile(TILE_IDS.glass, (ctx) => {
       fillRect(ctx, 0, 0, TILE_SIZE, TILE_SIZE, '#0b121c', 0.7)
@@ -422,19 +451,6 @@ export default class OfficeScene extends Phaser.Scene {
     g.destroy()
   }
 
-  createPlantTexture() {
-    if (this.textures.exists('plant')) return
-    const g = this.make.graphics({ x: 0, y: 0, add: false })
-    g.fillStyle(0x403127, 1)
-    g.fillRect(8, 18, 12, 10)
-    g.fillStyle(0x5dbb83, 1)
-    g.fillTriangle(14, 0, 6, 18, 12, 18)
-    g.fillTriangle(14, 4, 12, 20, 20, 18)
-    g.fillTriangle(12, 8, 4, 20, 8, 22)
-    g.fillTriangle(16, 8, 20, 20, 24, 18)
-    g.generateTexture('plant', 28, 28)
-    g.destroy()
-  }
 
   createPrinterTexture() {
     if (this.textures.exists('printer')) return
@@ -595,24 +611,54 @@ export default class OfficeScene extends Phaser.Scene {
         texture.refresh()
       }
     })
+
+    // Desk idle frames (phases 0 and 1 only — used when NPC is seated at desk)
+    const hasDesk = key !== 'sheet-watercooler' && key !== 'sheet-player'
+    if (hasDesk) {
+      for (let phase = 0; phase < 2; phase++) {
+        const textureKey = frameTextureKey(key, 'desk', phase)
+        if (this.textures.exists(textureKey)) continue
+        const texture = this.textures.createCanvas(textureKey, FRAME_W, FRAME_H)
+        const ctx = texture.getContext()
+        this.drawDeskIdleFrame(ctx, key, accent, posture, phase)
+        texture.refresh()
+      }
+    }
   }
 
   drawCharacterFrame(ctx, key, accent, posture, direction, phase) {
     ctx.clearRect(0, 0, FRAME_W, FRAME_H)
 
-    const palette = {
-      accent: hex(accent),
-      dark: '#04060e',
-      light: '#c9d1d9',
-      warm: '#ff9f43',
-      cool: '#7ef7ff',
+    // Watercooler NPCs stay monochrome — they're incidental characters
+    if (key === 'sheet-watercooler') {
+      const a = hex(accent)
+      const fill = (x, y, w, h, color, alpha = 1) => {
+        ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1
+      }
+      const isIdle = phase <= 1
+      const legShift = isIdle ? (phase === 1 ? 1 : 0) : (phase === 2 ? -1 : 1)
+      const armShift = isIdle ? (phase === 1 ? -1 : 0) : (phase === 2 ? 2 : -2)
+      fill(8, 2, 8, 8, a); fill(7, 10, 10, 10, a)
+      fill(6, 12 + Math.max(0, armShift), 2, 7, a)
+      fill(17, 12 + Math.max(0, -armShift), 2, 7, a)
+      fill(9, 21, 3, 8, a); fill(13, 21, 3, 8, a)
+      fill(9 + legShift, 28, 3, 2, a, 0.5)
+      return
     }
 
+    // Per-character appearance: skin, hair, legs, shoes
+    const LOOKS = {
+      'sheet-petra':  { skin: '#c9896a', hair: '#140608', legs: '#18101e', shoes: '#300808' },
+      'sheet-callum': { skin: '#d4aa82', hair: '#2a1a0a', legs: '#24242e', shoes: '#14100a' },
+      'sheet-simone': { skin: '#b0bcb8', hair: '#222230', legs: '#10101a', shoes: '#1c1c24' },
+      'sheet-marcus': { skin: '#7a4828', hair: '#120c06', legs: '#16121e', shoes: '#281606' },
+      'sheet-player': { skin: '#c49a72', hair: '#1a1208', legs: '#1a1e2c', shoes: '#141414' },
+    }
+    const looks = LOOKS[key] ?? LOOKS['sheet-player']
+    const accentHex = hex(accent)
+
     const fill = (x, y, w, h, color, alpha = 1) => {
-      ctx.globalAlpha = alpha
-      ctx.fillStyle = color
-      ctx.fillRect(x, y, w, h)
-      ctx.globalAlpha = 1
+      ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1
     }
 
     const isIdle = phase <= 1
@@ -627,32 +673,123 @@ export default class OfficeScene extends Phaser.Scene {
     const armRightX = bodyX + shoulderWidth - 1 + (direction === 'right' ? 1 : 0)
     const accessoryOnFront = direction === 'down' || direction === 'up'
 
-    fill(headX, 2, headW, 8, palette.accent)
-    fill(bodyX, 10, shoulderWidth, 11, palette.accent)
-    fill(armLeftX, 12 + Math.max(0, armShift), 2, 8, palette.accent)
-    fill(armRightX, 12 + Math.max(0, -armShift), 2, 8, palette.accent)
-    fill(bodyX + 1 + legShift, 21, 3, 8, palette.accent)
-    fill(bodyX + shoulderWidth - 4 - legShift, 21, 3, 8, palette.accent)
+    // Hair — drawn first so skin renders over the face area
+    if (direction === 'down') {
+      fill(headX - 1, 0, headW + 2, 3, looks.hair)   // top strip + side peeks
+      fill(headX - 1, 3, 2, 4, looks.hair)            // left side
+      fill(headX + headW - 1, 3, 2, 4, looks.hair)    // right side
+    } else if (direction === 'up') {
+      fill(headX - 1, 0, headW + 2, 9, looks.hair)   // full back of head
+    } else {
+      fill(headX, 0, headW, 2, looks.hair)             // top strip
+      const backX = direction === 'left' ? headX + headW - 2 : headX
+      fill(backX, 1, 3, 6, looks.hair)                 // hair at back of profile
+    }
 
-    fill(headX + 2, 4, 1, 1, palette.dark, 0.8)
-    fill(headX + headW - 3, 4, 1, 1, palette.dark, 0.8)
-    fill(headX + 1, 3, 2, 2, '#ffffff', 0.08)
+    // Head — skin tone over hair
+    fill(headX, 2, headW, 8, looks.skin)
+    // Eyes
+    fill(headX + 2, 4, 1, 1, '#0a0808', 0.9)
+    fill(headX + headW - 3, 4, 1, 1, '#0a0808', 0.9)
+    // Subtle brow highlight
+    fill(headX + 1, 3, 2, 1, '#ffffff', 0.07)
 
+    // Torso — accent color (the character's domain color)
+    fill(bodyX, 10, shoulderWidth, 11, accentHex)
+
+    // Arms — accent (sleeves match outfit)
+    fill(armLeftX, 12 + Math.max(0, armShift), 2, 8, accentHex)
+    fill(armRightX, 12 + Math.max(0, -armShift), 2, 8, accentHex)
+
+    // Legs — distinct trouser color
+    fill(bodyX + 1 + legShift, 21, 3, 7, looks.legs)
+    fill(bodyX + shoulderWidth - 4 - legShift, 21, 3, 7, looks.legs)
+
+    // Shoes — small accent block
+    fill(bodyX + 1 + legShift, 28, 3, 2, looks.shoes)
+    fill(bodyX + shoulderWidth - 4 - legShift, 28, 3, 2, looks.shoes)
+
+    // Posture accessories
     if (posture === 'blazer') {
-      fill(bodyX + 2, 12, shoulderWidth - 4, 4, palette.warm, 0.45)
+      // Lapel Vs on blazer
+      fill(bodyX + 4, 10, 1, 6, '#ffffff', 0.22)
+      fill(bodyX + shoulderWidth - 5, 10, 1, 6, '#ffffff', 0.22)
     } else if (posture === 'papers') {
-      fill(direction === 'left' ? armLeftX - 2 : armRightX + 1, 15, 4, 6, palette.light, 0.8)
+      fill(direction === 'left' ? armLeftX - 2 : armRightX + 1, 15, 4, 6, '#c9d1d9', 0.8)
     } else if (posture === 'tablet') {
-      fill(bodyX + 2, accessoryOnFront ? 14 : 15, 6, 6, palette.cool, 0.7)
+      fill(bodyX + 2, accessoryOnFront ? 14 : 15, 6, 6, '#7ef7ff', 0.7)
     } else if (posture === 'phone') {
-      fill(direction === 'left' ? armLeftX - 1 : armRightX + 1, 13, 2, 6, palette.light, 0.7)
+      fill(direction === 'left' ? armLeftX - 1 : armRightX + 1, 13, 2, 6, '#c9d1d9', 0.7)
     } else if (posture === 'player') {
-      fill(bodyX + 3, 13, 4, 4, palette.warm, 0.6)
+      fill(bodyX + 3, 13, 4, 4, '#ff9f43', 0.55)
     }
 
-    if (key === 'sheet-player') {
-      fill(bodyX, 0, shoulderWidth, 1, palette.warm, 0.25)
+    // Body edge shadows
+    fill(headX - 1, 3, 1, 6, '#04060e', 0.4)
+    fill(headX + headW, 3, 1, 6, '#04060e', 0.4)
+    fill(bodyX - 1, 11, 1, 10, '#04060e', 0.35)
+    fill(bodyX + shoulderWidth, 11, 1, 10, '#04060e', 0.35)
+  }
+
+  drawDeskIdleFrame(ctx, key, accent, posture, phase) {
+    ctx.clearRect(0, 0, FRAME_W, FRAME_H)
+
+    const LOOKS = {
+      'sheet-petra':  { skin: '#c9896a', hair: '#140608', legs: '#18101e' },
+      'sheet-callum': { skin: '#d4aa82', hair: '#2a1a0a', legs: '#24242e' },
+      'sheet-simone': { skin: '#b0bcb8', hair: '#222230', legs: '#10101a' },
+      'sheet-marcus': { skin: '#7a4828', hair: '#120c06', legs: '#16121e' },
     }
+    const looks = LOOKS[key] ?? LOOKS['sheet-petra']
+    const accentHex = hex(accent)
+
+    const fill = (x, y, w, h, color, alpha = 1) => {
+      ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1
+    }
+
+    const shoulderWidth = posture === 'blazer' ? 12 : 10
+    const bodyX = 12 - Math.floor(shoulderWidth / 2)
+    const headX = 8
+    const headW = 8
+    const headY = phase === 1 ? 4 : 3  // phase 1: slight lean forward
+
+    // Hair — top strip visible above face
+    fill(headX - 1, headY - 2, headW + 2, 3, looks.hair)
+    fill(headX - 1, headY + 1, 2, 4, looks.hair)
+    fill(headX + headW - 1, headY + 1, 2, 4, looks.hair)
+
+    // Head (skin)
+    fill(headX, headY, headW, 8, looks.skin)
+    fill(headX + 2, headY + 3, 1, 1, '#0a0808', 0.75)
+    fill(headX + headW - 3, headY + 3, 1, 1, '#0a0808', 0.75)
+    fill(headX - 1, headY + 1, 1, 6, '#04060e', 0.4)
+    fill(headX + headW, headY + 1, 1, 6, '#04060e', 0.4)
+
+    // Torso (accent)
+    fill(bodyX, headY + 9, shoulderWidth, 8, accentHex)
+    fill(bodyX - 1, headY + 10, 1, 7, '#04060e', 0.35)
+    fill(bodyX + shoulderWidth, headY + 10, 1, 7, '#04060e', 0.35)
+
+    // Posture accessories
+    if (posture === 'blazer') {
+      fill(bodyX + 4, headY + 9, 1, 5, '#ffffff', 0.2)
+      fill(bodyX + shoulderWidth - 5, headY + 9, 1, 5, '#ffffff', 0.2)
+    } else if (posture === 'papers') {
+      fill(bodyX + shoulderWidth + 1, headY + 14, 5, 4, '#c9d1d9', 0.75)
+    } else if (posture === 'tablet') {
+      fill(bodyX + 1, headY + 12, 7, 5, '#7ef7ff', 0.7)
+    } else if (posture === 'phone') {
+      fill(bodyX + shoulderWidth + 1, headY + 12, 2, 5, '#c9d1d9', 0.7)
+    }
+
+    // Arms on desk
+    const armY = headY + 17
+    fill(bodyX - 1, armY, shoulderWidth + 2, 3, accentHex)
+
+    // Desk surface hint
+    fill(2, armY + 3, FRAME_W - 4, 2, '#04060e', 0.2)
+    // Lower body faded behind desk
+    fill(bodyX, armY + 4, shoulderWidth, 7, looks.legs, 0.35)
   }
 
   createAnimations() {
@@ -686,6 +823,23 @@ export default class OfficeScene extends Phaser.Scene {
           })
         }
       })
+
+      // Desk idle animation — only for the 4 main character sheets
+      const hasDeskAnim = sheet !== 'sheet-watercooler' && sheet !== 'sheet-player'
+      if (hasDeskAnim) {
+        const deskKey = animationKey(sheet, 'idle', 'desk')
+        if (!this.anims.exists(deskKey)) {
+          this.anims.create({
+            key: deskKey,
+            frames: [
+              { key: frameTextureKey(sheet, 'desk', 0) },
+              { key: frameTextureKey(sheet, 'desk', 1) },
+            ],
+            frameRate: 1,
+            repeat: -1,
+          })
+        }
+      }
     })
   }
 
@@ -717,10 +871,34 @@ export default class OfficeScene extends Phaser.Scene {
 
   drawRoomOverlay(room) {
     const g = this.add.graphics().setDepth(3)
-    g.fillStyle(room.color, 0.04)
+    g.fillStyle(room.color, 0.03)
     g.fillRect(room.x, room.y, room.w, room.h)
-    g.lineStyle(2, room.color, 0.14)
+    g.lineStyle(1, room.color, 0.08)
     g.strokeRect(room.x + 1, room.y + 1, room.w - 2, room.h - 2)
+  }
+
+  addRoomAtmosphere() {
+    // Simone's engineering room — cyan server glow over the two server racks (x=70,y=440 and x=126,y=440)
+    const simoneGlow = this.add.ellipse(120, 470, 80, 50, 0x00ffff, 0.05).setDepth(3.5)
+    this.tweens.add({
+      targets: simoneGlow,
+      alpha: { from: 0.06, to: 0.18 },
+      duration: 1800,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    })
+
+    // Marcus's comms room — purple lounge glow over couch (x=850,y=580) and coffee table (x=912,y=592)
+    const marcusGlow = this.add.ellipse(900, 590, 90, 40, 0xA29BFE, 0.04).setDepth(3.5)
+    this.tweens.add({
+      targets: marcusGlow,
+      alpha: { from: 0.04, to: 0.14 },
+      duration: 2400,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    })
   }
 
   drawRoomLabel(room) {
@@ -741,8 +919,7 @@ export default class OfficeScene extends Phaser.Scene {
     g.lineBetween(640, 332, 640, 388)
 
     this.add.image(626, 342, 'watercooler').setOrigin(0).setDepth(18)
-    this.add.image(598, 342, 'plant').setOrigin(0).setDepth(18).setAlpha(0.8)
-    this.add.image(654, 342, 'plant').setOrigin(0).setDepth(18).setAlpha(0.8)
+
   }
 
   drawDepartmentDecor() {
@@ -754,7 +931,7 @@ export default class OfficeScene extends Phaser.Scene {
     this.add.image(412, 100, 'glass-panel').setOrigin(0).setDepth(10)
     this.add.image(118, 42, 'whiteboard').setOrigin(0).setDepth(10)
     this.add.image(396, 214, 'vision-poster').setOrigin(0).setDepth(10)
-    this.add.image(350, 214, 'plant').setOrigin(0).setDepth(10)
+
     this.add.image(212, 94, 'meeting-table').setOrigin(0).setDepth(10).setScale(0.9)
     this.add.image(214, 74, 'chair').setOrigin(0).setDepth(10)
     this.add.image(280, 74, 'chair').setOrigin(0).setDepth(10)
@@ -764,16 +941,17 @@ export default class OfficeScene extends Phaser.Scene {
     this.add.image(legalBounds.x1 * TILE_SIZE - 80, legalBounds.y0 * TILE_SIZE + 48, 'bookshelf').setOrigin(0).setDepth(10)
     this.add.image(legalBounds.x1 * TILE_SIZE - 132, legalBounds.y0 * TILE_SIZE + 48, 'bookshelf').setOrigin(0).setDepth(10)
     this.add.image(legalBounds.x0 * TILE_SIZE + 96, legalBounds.y0 * TILE_SIZE + 48, 'glass-panel').setOrigin(0).setDepth(10).setAlpha(0.6)
-    this.add.image(840, 236, 'plant').setOrigin(0).setDepth(10).setAlpha(0.7)
+
     this.add.image(876, 180, 'cabinet').setOrigin(0).setDepth(10)
     this.add.image(924, 180, 'cabinet').setOrigin(0).setDepth(10)
     this.add.image(1010, 232, 'printer').setOrigin(0).setDepth(10)
 
     this.add.image(engineeringBounds.x0 * TILE_SIZE + 70, engineeringBounds.y0 * TILE_SIZE + 24, 'server-rack').setOrigin(0).setDepth(10)
     this.add.image(engineeringBounds.x0 * TILE_SIZE + 126, engineeringBounds.y0 * TILE_SIZE + 24, 'server-rack').setOrigin(0).setDepth(10)
+    this.add.image(SIMONE_WHITEBOARD_POS.x, SIMONE_WHITEBOARD_POS.y, 'whiteboard').setOrigin(0).setDepth(10).setScale(0.85).setAlpha(0.88)
     this.add.image(385, 418, 'monitor').setOrigin(0).setDepth(10)
     this.add.image(420, 418, 'monitor').setOrigin(0).setDepth(10)
-    this.add.image(394, 618, 'plant').setOrigin(0).setDepth(10).setAlpha(0.55)
+
     this.add.image(340, 452, 'monitor').setOrigin(0).setDepth(10)
     this.add.image(382, 452, 'monitor').setOrigin(0).setDepth(10)
     this.add.image(332, 494, 'cabinet').setOrigin(0).setDepth(10).setScale(0.9)
@@ -781,7 +959,7 @@ export default class OfficeScene extends Phaser.Scene {
     this.add.image(commsBounds.x0 * TILE_SIZE + 82, commsBounds.y0 * TILE_SIZE + 164, 'couch').setOrigin(0).setDepth(10)
     this.add.image(commsBounds.x1 * TILE_SIZE - 128, commsBounds.y0 * TILE_SIZE + 4, 'vision-poster').setOrigin(0).setDepth(10).setTint(0xbda8ff)
     this.add.image(commsBounds.x0 * TILE_SIZE + 102, commsBounds.y0 * TILE_SIZE + 12, 'glass-panel').setOrigin(0).setDepth(10).setAlpha(0.5)
-    this.add.image(commsBounds.x1 * TILE_SIZE - 148, commsBounds.y1 * TILE_SIZE - 60, 'plant').setOrigin(0).setDepth(10)
+
     this.add.image(912, 592, 'coffee-table').setOrigin(0).setDepth(10)
     this.add.image(1030, 438, 'notice-board').setOrigin(0).setDepth(10)
   }
@@ -792,7 +970,7 @@ export default class OfficeScene extends Phaser.Scene {
     }
     this.add.image(586, 262, 'couch').setOrigin(0).setDepth(14).setScale(0.8)
     this.add.image(618, 454, 'couch').setOrigin(0).setDepth(14).setScale(0.8)
-    this.add.image(716, 338, 'plant').setOrigin(0).setDepth(18).setAlpha(0.8)
+
     this.add.image(544, 220, 'meeting-table').setOrigin(0).setDepth(14)
     this.add.image(546, 198, 'chair').setOrigin(0).setDepth(14)
     this.add.image(622, 198, 'chair').setOrigin(0).setDepth(14)
@@ -806,19 +984,16 @@ export default class OfficeScene extends Phaser.Scene {
   }
 
   buildRouteMap(npc) {
-    const commonRoutes = {
-      petra: [{ x: 522, y: 320 }, { x: 584, y: 282 }, { x: 620, y: 334 }, { x: 566, y: 384 }],
-      callum: [{ x: 760, y: 322 }, { x: 714, y: 284 }, { x: 662, y: 334 }, { x: 720, y: 384 }],
-      simone: [{ x: 532, y: 400 }, { x: 584, y: 436 }, { x: 632, y: 404 }, { x: 578, y: 350 }],
-      marcus: [{ x: 748, y: 398 }, { x: 704, y: 434 }, { x: 646, y: 396 }, { x: 698, y: 346 }],
-    }
     return {
       desk_loop: npc.patrol,
-      common_area: commonRoutes[npc.id] || npc.patrol,
       focus_spot: npc.id === 'simone'
-        ? [{ x: 410, y: 436 }, { x: 444, y: 436 }, { x: 444, y: 486 }, { x: 390, y: 486 }]
+        ? [
+            { x: SIMONE_WHITEBOARD_POS.x, y: SIMONE_WHITEBOARD_POS.y + 28 },
+            { x: SIMONE_WHITEBOARD_POS.x + 44, y: SIMONE_WHITEBOARD_POS.y + 28 },
+            { x: SIMONE_WHITEBOARD_POS.x + 44, y: SIMONE_WHITEBOARD_POS.y + 64 },
+            { x: SIMONE_WHITEBOARD_POS.x, y: SIMONE_WHITEBOARD_POS.y + 64 },
+          ]
         : npc.patrol,
-      visit_target: SHARED_ROUTE_POINTS.center,
     }
   }
 
@@ -939,38 +1114,6 @@ export default class OfficeScene extends Phaser.Scene {
     }
   }
 
-  createPetraHint() {
-    if (window.__petraVisited) return
-    const leftPoints = [{ x: 570, y: 358 }, { x: 490, y: 358 }, { x: 410, y: 358 }, { x: 330, y: 358 }]
-    const upPoints = [{ x: 250, y: 295 }, { x: 250, y: 225 }, { x: 250, y: 165 }]
-    this.petraArrows = []
-
-    const drawLeftArrow = (g, px, py) => g.fillTriangle(px - 7, py, px + 4, py - 5, px + 4, py + 5)
-    const drawUpArrow = (g, px, py) => g.fillTriangle(px, py - 7, px - 5, py + 4, px + 5, py + 4)
-
-    ;[
-      ...leftPoints.map(p => ({ ...p, draw: drawLeftArrow })),
-      ...upPoints.map(p => ({ ...p, draw: drawUpArrow })),
-    ].forEach(({ x, y, draw }, i) => {
-      const g = this.add.graphics().setDepth(32)
-      g.fillStyle(0xFF6B6B, 1)
-      draw(g, x, y)
-      g.setAlpha(0)
-      this.petraArrows.push(g)
-      this.time.delayedCall(600 + i * 60, () => {
-        this.tweens.add({
-          targets: g,
-          alpha: { from: 0.08, to: 0.35 },
-          duration: 900,
-          delay: i * 120,
-          yoyo: true,
-          repeat: -1,
-          ease: 'Sine.easeInOut',
-        })
-      })
-    })
-  }
-
   setupInput() {
     this.cursors = this.input.keyboard.createCursorKeys()
     this.wasd = {
@@ -986,19 +1129,6 @@ export default class OfficeScene extends Phaser.Scene {
   setupWindowListeners() {
     this._onPause = () => { this.isPaused = true }
     this._onResume = () => { this.isPaused = false }
-    this._onPetraVisited = () => {
-      if (!this.petraArrows?.length) return
-      this.tweens.killTweensOf(this.petraArrows)
-      this.tweens.add({
-        targets: this.petraArrows,
-        alpha: 0,
-        duration: 400,
-        onComplete: () => {
-          this.petraArrows.forEach(g => g?.destroy())
-          this.petraArrows = []
-        },
-      })
-    }
     this._onRevealCharacters = () => {
       this.npcs.filter(npc => npc.hidden && npc.id !== 'petra').forEach(npc => {
         const targets = [npc.graphic, npc.ring, npc.labelText, npc.shadow, npc.desk].filter(Boolean)
@@ -1017,7 +1147,6 @@ export default class OfficeScene extends Phaser.Scene {
 
     window.addEventListener('phaser:pause', this._onPause)
     window.addEventListener('phaser:resume', this._onResume)
-    window.addEventListener('phaser:petra_visited', this._onPetraVisited)
     window.addEventListener('phaser:reveal_characters', this._onRevealCharacters)
     window.addEventListener('phaser:fatigue_update', this._onFatigueUpdate)
     window.addEventListener('phaser:npc_state_update', this._onNpcStateUpdate)
@@ -1035,28 +1164,39 @@ export default class OfficeScene extends Phaser.Scene {
         ? allianceRoute.key
         : npc.id === 'simone' && trust >= 70
           ? 'focus_spot'
-          : this.shouldUseCommonArea(npc.id)
-            ? 'common_area'
-            : 'desk_loop'
+          : 'desk_loop'
 
       npc.behavior = {
-        speedMultiplier: clamp(1 + Math.max(0, wariness - 55) / 90, 1, 1.42),
-        idleMultiplier: trust < 35 ? 0.45 : wariness >= 65 ? 0.68 : 1,
+        speedMultiplier: clamp(
+          1 + Math.max(0, wariness - 55) / 90 + (trust < 25 ? 0.35 : trust < 40 ? 0.18 : 0),
+          1, 1.8
+        ),
+        idleMultiplier: trust < 25 ? 0.28 : trust < 35 ? 0.45 : wariness >= 65 ? 0.68 : 1,
         avoidPlayer: trust < 35,
+        faceAwayFromPlayer: wariness > 70 || trust < 25,
         avoidRadius: PLAYER_AVOID_RADIUS,
+        effectiveRadius: trust < 30 ? 45 : INTERACTION_RADIUS,
         routePreference,
         bobDuration: Math.max(650, 1400 - Math.max(0, wariness - 50) * 10),
       }
 
-      if (allianceRoute) npc.routeMap[allianceRoute.key] = allianceRoute.route
+      // Tint shift: stressed state bleeds into sprite color
+      if (npc.graphic) {
+        if (wariness > 75 || trust < 20) {
+          npc.graphic.setTint(blendTint(npc.color, 0x666666, 0.35))
+        } else if (wariness > 55) {
+          npc.graphic.setTint(blendTint(npc.color, 0x888888, 0.15))
+        } else {
+          npc.graphic.clearTint()
+        }
+      }
+
+      if (allianceRoute) {
+        const memberRoute = allianceRoute.routesByMemberId?.[npc.id]
+        if (memberRoute?.length) npc.routeMap[allianceRoute.key] = memberRoute
+      }
       this.updateNpcRoute(npc, routePreference)
     })
-  }
-
-  shouldUseCommonArea(id) {
-    const cycle = Math.floor((this.npcWorldState.week * 3000 + this.time.now) / 12000)
-    const offsetMap = { petra: 0, callum: 1, simone: 2, marcus: 3 }
-    return ((cycle + (offsetMap[id] || 0)) % 3) === 1
   }
 
   updateAllianceRoutes() {
@@ -1065,14 +1205,14 @@ export default class OfficeScene extends Phaser.Scene {
     ;(this.npcWorldState.alliances || []).forEach(alliance => {
       const members = [...alliance.members].sort()
       const pairKey = members.join('-')
-      const route = SHARED_ROUTE_POINTS[ALLIANCE_ROUTE_KEYS[pairKey] || 'center']
-      if (!route) return
+      const routesByMemberId = ALLIANCE_INROOM_ROUTES[pairKey]
+      if (!routesByMemberId) return
       const existing = this.activeAllianceRoutes.find(item => item.id === pairKey)
       nextRoutes.push({
         id: pairKey,
         members,
         key: `alliance_${pairKey}`,
-        route,
+        routesByMemberId,
         expiresAt: existing ? Math.max(existing.expiresAt, now + 2500) : now + ALLIANCE_ROUTE_DURATION,
       })
     })
@@ -1107,6 +1247,13 @@ export default class OfficeScene extends Phaser.Scene {
     return nearestIndex
   }
 
+  getDirectionAwayFromPlayer(x, y) {
+    const dx = x - this.playerX
+    const dy = y - this.playerY
+    if (Math.abs(dx) >= Math.abs(dy)) return dx >= 0 ? 'right' : 'left'
+    return dy >= 0 ? 'down' : 'up'
+  }
+
   getDirection(dx, dy, fallback = 'down') {
     if (Math.abs(dx) < 0.2 && Math.abs(dy) < 0.2) return fallback
     if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? 'right' : 'left'
@@ -1131,6 +1278,29 @@ export default class OfficeScene extends Phaser.Scene {
     return pts.every(([px, py]) => !this.isWorldXYBlocked(px, py))
   }
 
+  /** Sample structure tile at world pixel (for wall-hit feedback). */
+  getStructureTileAtWorld(wx, wy) {
+    if (!this.collisionStructure) return TILE_IDS.empty
+    const { col, row } = this.worldXYToTile(wx, wy)
+    return this.collisionStructure[row][col]
+  }
+
+  triggerWallBumpFeedback(time, vx, vy, tryX, tryY) {
+    if (time <= this.lastWallBumpAt + 140) return
+    this.lastWallBumpAt = time
+    SFX.wallBump()
+    let sampleX = this.playerX
+    let sampleY = this.playerY
+    if (Math.abs(vx) > 1e-6 && !this.canPlayerStandAt(tryX, this.playerY)) sampleX += Math.sign(vx) * 20
+    if (Math.abs(vy) > 1e-6 && !this.canPlayerStandAt(this.playerX, tryY)) sampleY += Math.sign(vy) * 20
+    const tile = this.getStructureTileAtWorld(sampleX, sampleY)
+    const tint = isWallTile(tile) ? 0xffc9a8 : 0xc8e6ff
+    this.playerSprite.setTint(tint)
+    this.time.delayedCall(85, () => {
+      if (this.playerSprite?.active) this.playerSprite.clearTint()
+    })
+  }
+
   update(time, delta) {
     if (this.isPaused) return
 
@@ -1146,6 +1316,8 @@ export default class OfficeScene extends Phaser.Scene {
     }
 
     this.updateNpcPatrols(dt)
+    this.updateAllianceDrift(dt)
+    this.drawAllianceLines()
 
     const currentSpeed = PLAYER_SPEED * this.playerSpeedMultiplier
     if (this.cursors.left.isDown || this.wasd.left.isDown) vx -= currentSpeed
@@ -1159,8 +1331,12 @@ export default class OfficeScene extends Phaser.Scene {
 
     const tryX = clamp(this.playerX + vx * dt, 16, 1264)
     const tryY = clamp(this.playerY + vy * dt, 16, 704)
+    let blockedBySolid = false
     if (this.canPlayerStandAt(tryX, this.playerY)) this.playerX = tryX
+    else if (Math.abs(vx) > 1e-6) blockedBySolid = true
     if (this.canPlayerStandAt(this.playerX, tryY)) this.playerY = tryY
+    else if (Math.abs(vy) > 1e-6) blockedBySolid = true
+    if (blockedBySolid) this.triggerWallBumpFeedback(time, vx, vy, tryX, tryY)
     this.playerSprite.setPosition(this.playerX, this.playerY)
     this.playerGlow.setPosition(this.playerX, this.playerY + 15)
     this.playerText.setPosition(this.playerX, this.playerY + 22)
@@ -1220,7 +1396,8 @@ export default class OfficeScene extends Phaser.Scene {
         npc.ring.lineStyle(1, npc.color, alpha)
         npc.ring.strokeCircle(npc.x, npc.y, npc.radius)
       }
-      if (dist < npc.radius && dist < closestDist) {
+      const effectiveR = npc.behavior?.effectiveRadius ?? npc.radius
+      if (dist < effectiveR && dist < closestDist) {
         closestDist = dist
         closest = npc
       }
@@ -1251,6 +1428,59 @@ export default class OfficeScene extends Phaser.Scene {
     this.tabPressedLastFrame = tabDown
   }
 
+  updateAllianceDrift(dt) {
+    this.activeAllianceRoutes.forEach(route => {
+      const [idA, idB] = route.members
+      const npcA = this.npcs.find(n => n.id === idA)
+      const npcB = this.npcs.find(n => n.id === idB)
+      if (!npcA || !npcB || npcA.hidden || npcB.hidden) return
+      if (npcA.isWatercooler || npcB.isWatercooler) return
+
+      // Only drift when both are idle (dwelling at a waypoint)
+      if (npcA.patrolTimer <= 0 || npcB.patrolTimer <= 0) return
+
+      const dx = npcA.x - npcB.x
+      const dy = npcA.y - npcB.y
+      const dist = Math.sqrt(dx * dx + dy * dy)
+
+      if (dist < 22) {
+        // Close enough — face each other
+        const towardA = this.getDirection(dx, dy, npcB.direction)
+        const towardB = this.getDirection(-dx, -dy, npcA.direction)
+        this.setActorAnimation(npcB.graphic, npcB.textureKey, 'idle', towardA)
+        this.setActorAnimation(npcA.graphic, npcA.textureKey, 'idle', towardB)
+        return
+      }
+
+      if (dist > 90) return  // Too far apart — routing hasn't converged them yet
+
+      // B drifts toward A at a subtle speed
+      const DRIFT_SPEED = 7  // px/s
+      const step = DRIFT_SPEED * dt
+      npcB.x += (dx / dist) * step
+      npcB.y += (dy / dist) * step
+      npcB.graphic.setPosition(npcB.x, npcB.y)
+      npcB.shadow.setPosition(npcB.x, npcB.y + 15)
+      npcB.labelText.setPosition(npcB.x, npcB.y - 26)
+    })
+  }
+
+  drawAllianceLines() {
+    if (!this.allianceGraphics) return
+    this.allianceGraphics.clear()
+    ;(this.npcWorldState.alliances ?? []).forEach(alliance => {
+      const [idA, idB] = alliance.members
+      const npcA = this.npcs.find(n => n.id === idA)
+      const npcB = this.npcs.find(n => n.id === idB)
+      if (!npcA || !npcB || npcA.hidden || npcB.hidden) return
+      this.allianceGraphics.lineStyle(1, 0xffffff, 0.12)
+      this.allianceGraphics.beginPath()
+      this.allianceGraphics.moveTo(npcA.x, npcA.y)
+      this.allianceGraphics.lineTo(npcB.x, npcB.y)
+      this.allianceGraphics.strokePath()
+    })
+  }
+
   updateNpcPatrols(dt) {
     this.npcs.forEach(npc => {
       if (npc.hidden) return
@@ -1262,7 +1492,21 @@ export default class OfficeScene extends Phaser.Scene {
 
       const distToPlayer = Phaser.Math.Distance.Between(npc.x, npc.y, this.playerX, this.playerY)
       if (npc.behavior.avoidPlayer && distToPlayer < npc.behavior.avoidRadius) {
-        npc.patrolTimer = 0
+        // Flee: move directly away from the player
+        const awayX = npc.x - this.playerX
+        const awayY = npc.y - this.playerY
+        const awayLen = Math.sqrt(awayX * awayX + awayY * awayY) || 1
+        const step = PATROL_SPEED * npc.behavior.speedMultiplier * dt * 1.2
+        npc.x += (awayX / awayLen) * step
+        npc.y += (awayY / awayLen) * step
+        const fleeDir = Math.abs(awayX) > Math.abs(awayY)
+          ? (awayX > 0 ? 'right' : 'left')
+          : (awayY > 0 ? 'down' : 'up')
+        npc.graphic.setPosition(npc.x, npc.y)
+        npc.shadow.setPosition(npc.x, npc.y + 15)
+        npc.labelText.setPosition(npc.x, npc.y - 26)
+        this.setActorAnimation(npc.graphic, npc.textureKey, 'walk', fleeDir)
+        return
       } else if (distToPlayer < npc.radius + 16) {
         npc.patrolStuckMs = 0
         npc._patrolPrevTargetDist = undefined
@@ -1270,9 +1514,19 @@ export default class OfficeScene extends Phaser.Scene {
         return
       }
 
+      const atDesk = npc.deskPos &&
+        Phaser.Math.Distance.Between(npc.x, npc.y, npc.deskPos.x + 8, npc.deskPos.y + 8) < 22
+
       if (npc.patrolTimer > 0) {
         npc.patrolTimer -= dt * 1000
-        this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
+        if (atDesk) {
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', 'desk')
+        } else {
+          const idleDir = npc.behavior.faceAwayFromPlayer
+            ? this.getDirectionAwayFromPlayer(npc.x, npc.y)
+            : npc.direction
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', idleDir)
+        }
         return
       }
 
@@ -1287,7 +1541,14 @@ export default class OfficeScene extends Phaser.Scene {
         npc.patrolTimer = Phaser.Math.Between(700, 1600) * npc.behavior.idleMultiplier
         npc.patrolStuckMs = 0
         npc._patrolPrevTargetDist = undefined
-        this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
+        if (atDesk) {
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', 'desk')
+        } else {
+          const arrivalDir = npc.behavior.faceAwayFromPlayer
+            ? this.getDirectionAwayFromPlayer(npc.x, npc.y)
+            : npc.direction
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', arrivalDir)
+        }
         return
       }
 
@@ -1304,7 +1565,14 @@ export default class OfficeScene extends Phaser.Scene {
         npc.patrolTimer = Phaser.Math.Between(400, 900) * npc.behavior.idleMultiplier
         npc.patrolStuckMs = 0
         npc._patrolPrevTargetDist = undefined
-        this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', npc.direction)
+        if (atDesk) {
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', 'desk')
+        } else {
+          const stuckDir = npc.behavior.faceAwayFromPlayer
+            ? this.getDirectionAwayFromPlayer(npc.x, npc.y)
+            : npc.direction
+          this.setActorAnimation(npc.graphic, npc.textureKey, 'idle', stuckDir)
+        }
         return
       }
 
@@ -1340,7 +1608,6 @@ export default class OfficeScene extends Phaser.Scene {
   shutdown() {
     window.removeEventListener('phaser:pause', this._onPause)
     window.removeEventListener('phaser:resume', this._onResume)
-    window.removeEventListener('phaser:petra_visited', this._onPetraVisited)
     window.removeEventListener('phaser:reveal_characters', this._onRevealCharacters)
     window.removeEventListener('phaser:fatigue_update', this._onFatigueUpdate)
     window.removeEventListener('phaser:npc_state_update', this._onNpcStateUpdate)

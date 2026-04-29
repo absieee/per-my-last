@@ -52,7 +52,7 @@ export const initialState = {
   showWeekBriefing: false,
   weekBriefingWeek: null,
   crisisTriggeredFor: [],
-  hasSeenControls: false,
+  hasSeenControls: true,
   playerName: '',
   officeRumors: {
     discoveredClues: [],
@@ -62,5 +62,8 @@ export const initialState = {
   /** Terminal / desk: which docs the PM has opened (counts as "read") */
   deskRead: {
     q3StrategyBrief: false,
+    roadmap: false,
+    techSpec: false,
+    slta: false,
   },
 }

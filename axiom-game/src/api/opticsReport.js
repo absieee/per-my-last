@@ -9,56 +9,91 @@ function narrativeEmotion(char) {
   return `${char.name}: ${t}, ${r}, ${w}, ${l}`
 }
 
-function avgTrust(cast, ids) {
-  const chars = ids.map(id => cast.find(c => c.id === id)).filter(Boolean)
-  if (!chars.length) return 50
-  return chars.reduce((sum, c) => sum + c.emotion.trust, 0) / chars.length
+
+/**
+ * Score the PM on two independent axes:
+ *   political  — did you play the corporate game? (Petra trust + scenario choices)
+ *   simone     — did you protect and trust Simone? (Simone trust + scenario choices)
+ * Both axes are clamped 0–100.
+ */
+export function computeScores(state) {
+  const { cast, decisionLog = [] } = state
+
+  const petraTrust  = cast.find(c => c.id === 'petra')?.emotion.trust  ?? 50
+  const simoneTrust = cast.find(c => c.id === 'simone')?.emotion.trust ?? 50
+
+  let political = petraTrust
+  let simone    = simoneTrust
+
+  for (const d of decisionLog) {
+    switch (d.scenarioId) {
+      case 'scenario_1':
+        if (d.choiceLabel === 'COMPLY & COVER') political += 20
+        else if (d.choiceLabel === 'REDIRECT')  political += 10
+        else if (d.choiceLabel === 'PUSH BACK') political -= 15
+        break
+      case 'scenario_3':
+        if (d.choiceLabel === 'SPIN & COMPLY')  political += 15
+        else if (d.choiceLabel === 'REDIRECT')  political += 10
+        else if (d.choiceLabel === 'GO DARK')   political +=  5
+        else if (d.choiceLabel === 'DENY')      political -= 10
+        break
+      case 'scenario_4':
+        if (d.choiceLabel === 'LISTEN')         simone += 25
+        else if (d.choiceLabel === 'HOLD STEADY') simone += 15
+        else if (d.choiceLabel === 'ESCALATE')  simone -= 25
+        break
+      case 'conflict_petra_simone':
+        if (d.choiceLabel === "SIMONE'S CALL")  simone += 15
+        else if (d.choiceLabel === "PETRA'S CALL") simone -= 15
+        break
+      case 'conflict_callum_simone':
+        if (d.choiceLabel === "SIMONE'S CALL")  simone += 15
+        else if (d.choiceLabel === "CALLUM'S CALL") simone -= 10
+        break
+    }
+  }
+
+  return {
+    political: Math.max(0, Math.min(100, political)),
+    simone:    Math.max(0, Math.min(100, simone)),
+  }
 }
 
 export function computeArchetype(state) {
-  const { cast, lockAttempts = {} } = state
+  const { political, simone } = computeScores(state)
 
-  const petraTrust  = cast.find(c => c.id === 'petra')?.emotion.trust ?? 50
-  const othersAvg   = avgTrust(cast, ['callum', 'simone', 'marcus'])
-  const allAvg      = avgTrust(cast, ['petra', 'callum', 'simone', 'marcus'])
-  const bypassedPetra = Object.values(lockAttempts).some(v => v >= 3)
+  const playedPolitics  = political >= 55
+  const trustedSimone   = simone    >= 55
 
-  if (bypassedPetra && othersAvg >= 60) {
+  if (playedPolitics && trustedSimone) {
     return {
-      id: 'promoted',
-      title: 'PROMOTED OVER PETRA',
-      verdict: 'The committee has noted an unconventional stakeholder trajectory. The outcome is, nonetheless, difficult to argue with.',
-      color: '#ff9f43',
-    }
-  }
-  if (allAvg < 30) {
-    return {
-      id: 'restructured',
-      title: 'THE PM ROLE HAS BEEN RESTRUCTURED',
-      verdict: 'Project Meridian continues. The PM position has been redesigned to reflect lessons from this performance cycle.',
-      color: '#FF6B6B',
-    }
-  }
-  if (petraTrust >= 70 && othersAvg < 40) {
-    return {
-      id: 'managed_up',
-      title: 'MANAGED UP, MANAGED OUT',
-      verdict: 'Excellent upward management. The committee notes limited lateral impact. Petra\'s assessment was enthusiastic. The others did not participate.',
-      color: '#A29BFE',
-    }
-  }
-  if (allAvg >= 60) {
-    return {
-      id: 'approved',
-      title: 'MERIDIAN APPROVED — WITH CONDITIONS',
-      verdict: 'The committee is cautiously satisfied. This is not common. The conditions are attached separately and should be read before Monday.',
+      id: 'architect',
+      title: 'THE ARCHITECT',
+      verdict: 'You understood what the room needed. You also understood what the room could not see. These two things are not supposed to coexist in the same PM. They did, briefly.',
       color: '#4ECDC4',
     }
   }
+  if (playedPolitics && !trustedSimone) {
+    return {
+      id: 'operator',
+      title: 'THE OPERATOR',
+      verdict: "You delivered exactly what was asked. The Q3 review was without incident. Simone's metrics have improved. She has stopped initiating conversation.",
+      color: '#A29BFE',
+    }
+  }
+  if (!playedPolitics && trustedSimone) {
+    return {
+      id: 'dissident',
+      title: 'THE DISSIDENT',
+      verdict: "The board room was uncomfortable. The story you told was true. Someone in the room respected you for it. The committee has noted which someone.",
+      color: '#ff9f43',
+    }
+  }
   return {
-    id: 'mixed',
-    title: 'PERFORMANCE UNDER REVIEW',
-    verdict: 'The committee remains undecided. The PM has demonstrated range. Whether the range was intentional is a matter of interpretation.',
+    id: 'leftover',
+    title: 'THE LEFTOVER',
+    verdict: 'You made it to week eight. The review was noted. You are already being replaced. The role remains open for the next performance cycle.',
     color: '#FFE66D',
   }
 }
@@ -79,6 +114,7 @@ export async function generateOpticsReport(state) {
   const { cast, decisionLog, toneFlagLog, completedScenarios, politics, officeRumors } = state
 
   const archetype = computeArchetype(state)
+  const { political: politicalScore, simone: simoneScore } = computeScores(state)
   const secretEnding = computeSecretEnding(state)
 
   // Top 3 tone moments (worst then best)
@@ -99,10 +135,23 @@ export async function generateOpticsReport(state) {
   const rumorClues = officeRumors?.clueLog || []
   const clueSummary = rumorClues.map(entry => `- Week ${entry.week}, from ${entry.npcName}: ${entry.clue}`).join('\n')
 
+  const simoneVoiceNote = {
+    architect: "Simone's feedback should feel warm but precise — she is still watching you, and this is unusual for her.",
+    operator:  "Simone's feedback should be short, clinical, and absent of warmth. She is correct and she is done.",
+    dissident: "Simone's feedback should be unexpectedly present — she noticed, and she wants you to know she noticed.",
+    leftover:  "Simone's feedback should be a single sentence. No affect. The sentence should feel final.",
+  }[archetype.id] ?? ''
+
   const prompt = `You are generating the end-of-game Optics Report for a corporate PM simulation set at Axiom Collective, Greywater, 2041. The tone is dry British corporate absurdism.
 
 OVERALL VERDICT ARCHETYPE: "${archetype.title}" — ${archetype.verdict}
 Write the entire report consistent with this ending archetype. The archetype reflects the PM's overall stakeholder trajectory.
+
+AXIS SCORES (internal, do not mention directly):
+- Political alignment score: ${politicalScore}/100 (higher = played the corporate game)
+- Simone relationship score: ${simoneScore}/100 (higher = trusted and protected Simone)
+
+SIMONE VOICE NOTE: ${simoneVoiceNote}
 
 FINAL EMOTIONAL STATES:
 ${emotionNarratives}
@@ -140,7 +189,12 @@ Then add one sentence per character's political assessment using these exact tem
 - Petra: 'Petra notes the PM was, on balance, "very process-aware." She has not elaborated on what she means by "on balance."'
 - Callum: 'Callum's assessment was provided in writing. It runs to four pages. The committee has summarised it as: cautious confidence, with caveats.'
 - Marcus: 'Marcus declined to provide written feedback, preferring a conversation. The committee has noted the content. It will not be shared with the PM.'
-- Simone: 'Simone's feedback read: "The PM made decisions. Some of them were correct." The committee is uncertain whether this is positive.'`
+- Simone: '${{
+    architect: 'Simone\'s feedback was one sentence: "You were paying attention." The committee has read this three times.',
+    operator:  'Simone submitted feedback. It was empty. The committee has noted this as a systems error pending review.',
+    dissident: 'Simone\'s feedback read: "The PM made the correct calls. I noticed." The committee is uncertain whether this is professional.',
+    leftover:  'Simone\'s feedback read: "The PM made decisions. Some of them were correct." The committee is uncertain whether this is positive.',
+  }[archetype.id] ?? 'Simone\'s feedback read: "The PM made decisions. Some of them were correct." The committee is uncertain whether this is positive.'}'`
 
   const finalPrompt = secretEnding
     ? `${prompt}

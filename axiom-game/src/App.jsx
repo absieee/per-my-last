@@ -13,7 +13,6 @@ import { CRISIS_SCENARIOS } from './data/crisisScenarios.js'
 import Atmosphere from './components/Layout/Atmosphere.jsx'
 import TitleScreen from './components/Game/TitleScreen.jsx'
 import IntroScreen from './components/Game/IntroScreen.jsx'
-import ControlsOverlay from './components/Game/ControlsOverlay.jsx'
 import PauseMenu from './components/Game/PauseMenu.jsx'
 import HUD from './components/Game/HUD.jsx'
 import PlayerComputer from './components/Game/PlayerComputer.jsx'
@@ -102,13 +101,22 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'game') return
     if (gameRef.current) return
+    const s = stateRef.current
+    if (s.completedDialogues.includes('petra_intro')) {
+      window.__petraVisited = true
+    }
     gameRef.current = createGame('phaser-root')
     window.dispatchEvent(new CustomEvent('phaser:fatigue_update', {
-      detail: { speedMultiplier: getPlayerSpeedMultiplier(stateRef.current.week) },
+      detail: { speedMultiplier: getPlayerSpeedMultiplier(s.week) },
     }))
     window.dispatchEvent(new CustomEvent('phaser:npc_state_update', {
-      detail: buildNpcWorldState(stateRef.current),
+      detail: buildNpcWorldState(s),
     }))
+    if (s.completedDialogues.includes('petra_intro')) {
+      queueMicrotask(() => {
+        window.dispatchEvent(new CustomEvent('phaser:reveal_characters'))
+      })
+    }
     return () => {
       gameRef.current?.destroy(true)
       gameRef.current = null
@@ -326,16 +334,35 @@ export default function App() {
     if (!state.completedDialogues.includes('petra_intro')) return 'SPEAK TO PETRA'
     if (state.week >= 2 && !state.completedScenarios.includes('scenario_1')) {
       if (!state.completedDialogues.includes('petra_q3_context')) return 'PETRA — WEEK TWO CONTEXT'
-      if (!state.completedDialogues.includes('petra_roadmap_prioritization')) return 'PETRA — ROADMAP (THURSDAY PREP)'
-      if (!week2Scenario1PrimersComplete(state)) return 'ALIGN WITH TEAM — BEFORE THE BRIEF'
       if (!state.deskRead?.q3StrategyBrief) return 'READ Q3 BRIEF — DESK [C]'
+      if (!state.completedDialogues.includes('petra_roadmap_prioritization')) return 'PETRA — ROADMAP (THURSDAY PREP)'
+      if (!week2Scenario1PrimersComplete(state)) return 'ALIGN WITH TEAM'
       if (!state.completedDialogues.includes('petra_preread')) return 'PETRA — BEFORE THE REVIEW'
       if (state.week === 2 && state.weekdayIndex !== 3) return 'WAIT FOR THURSDAY — PRODUCT ALIGNMENT REVIEW'
+    }
+    if (state.completedScenarios.includes('scenario_1') && !state.completedScenarios.includes('scenario_2')) {
+      if (!state.completedDialogues.includes('callum_filing_check')) return 'CALLUM — FILING DEADLINE'
+      if (!state.deskRead?.slta) return 'READ SLTA — DESK [C]'
+    }
+    if (state.completedScenarios.includes('scenario_2') && !state.completedScenarios.includes('scenario_3')) {
+      if (!state.completedDialogues.includes('marcus_journalist_contact')) return 'MARCUS — PRESS ENQUIRY'
+    }
+    if (state.completedScenarios.includes('scenario_3') && !state.completedScenarios.includes('scenario_4')) {
+      if (!state.completedDialogues.includes('simone_week6_unease')) return 'SIMONE — CHECK IN'
     }
     if (pendingScenario) return 'REVIEW PENDING SCENARIO'
     const teamIntros = ['callum_intro', 'simone_intro', 'marcus_intro']
     const unmet = teamIntros.filter(d => !state.completedDialogues.includes(d))
     if (unmet.length > 0) return 'MEET YOUR TEAM'
+    if (state.week >= 4 && state.week <= 6) {
+      const midgameBeats = [
+        'petra_week4_check', 'callum_week4_watch', 'simone_week4_anomaly',
+        'petra_week5_governance', 'marcus_week5_prelude', 'petra_week6_tighten',
+      ]
+      if (midgameBeats.some(id => !state.completedDialogues.includes(id))) {
+        return 'CHECK IN WITH YOUR STAKEHOLDERS'
+      }
+    }
     return 'DELIVER THE Q3 REVIEW'
   })()
 
@@ -343,8 +370,9 @@ export default function App() {
     if (petraVisited) {
       window.__petraVisited = true
       window.dispatchEvent(new CustomEvent('phaser:petra_visited'))
+      // Always reveal office NPCs when Petra intro is done (including save load — Phaser may mount after this effect on first paint).
+      window.dispatchEvent(new CustomEvent('phaser:reveal_characters'))
       if (!petraVisitedAtMount.current) {
-        window.dispatchEvent(new CustomEvent('phaser:reveal_characters'))
         setShowNewContacts(true)
       }
     } else {
@@ -465,10 +493,6 @@ export default function App() {
       {/* Phaser canvas */}
       <div id="phaser-root" style={{ position: 'fixed', inset: 0 }} />
 
-      {/* Controls overlay — shown once on first map load */}
-      {screen === 'game' && !state.hasSeenControls && (
-        <ControlsOverlay onDismiss={() => dispatch({ type: 'MARK_CONTROLS_SEEN' })} />
-      )}
 
       {/* Pause menu */}
       {gamePaused && (
@@ -488,8 +512,9 @@ export default function App() {
           }}
           style={{
             position: 'fixed',
-            bottom: 24,
-            right: 24,
+            bottom: 16,
+            left: '50%',
+            transform: 'translateX(-50%)',
             fontFamily: 'VT323, monospace',
             fontSize: '13px',
             letterSpacing: '3px',
@@ -590,6 +615,10 @@ export default function App() {
         <PlayerComputer
           cast={state.cast}
           deskRead={state.deskRead}
+          decisionLog={state.decisionLog}
+          discoveredClues={state.officeRumors.discoveredClues}
+          hiddenEndingUnlocked={state.officeRumors.hiddenEndingUnlocked}
+          completedDialogues={state.completedDialogues}
           onDismiss={handleComputerDismiss}
           onMarkDeskDocRead={(docId) => dispatch({ type: 'MARK_DESK_DOC_READ', docId })}
         />

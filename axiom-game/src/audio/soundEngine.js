@@ -147,6 +147,14 @@ export const SFX = {
     } catch (_) {}
   },
 
+  /** Player walked into a wall or solid partition (cooldown handled by caller). */
+  wallBump() {
+    try {
+      noiseClick(0.014, 0.055)
+      sine(120, 0.05, 0.07)
+    } catch (_) {}
+  },
+
   // Start corrupted elevator muzak loop
   startAmbient() {
     if (melodyRunning) return
